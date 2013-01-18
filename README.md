@@ -3,10 +3,11 @@ GROUP 13 - CPSC 219
 ==================
 
 Team Members:
-  Dylan Dobbyn
-  Daniel Contreras
-  Zsanette Rado
-  James Sullivan
+
+    Dylan Dobbyn
+    Daniel Contreras
+    Zsanette Rado
+    James Sullivan
 
 -----
 PROJECT INFORMATION
