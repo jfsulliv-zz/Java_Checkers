@@ -52,6 +52,39 @@ public class MainFrame extends JFrame {
 		btnSinglePlayer = new JButton("SinglePlayer");
 		btnSinglePlayer.setBounds(365, 210, 170, 55);
 		mainMenu.add(btnSinglePlayer);
+      
+      	btnSinglePlayer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				singlePlayerMultiPlayerMenu();
+				
+				backToMainMenu.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+						new NewMainFrame();
+					}
+
+				});
+
+				exit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+
+					}
+				});
+
+				statistics.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new StatisticsPanel();
+						
+					}
+				});
+				mainMenu.revalidate();
+				mainMenu.repaint();
+
+			}
+		});
+
 		
 		/*
 		 * Enables clicking and opens new frame.
@@ -111,6 +144,14 @@ public class MainFrame extends JFrame {
 		btnQuit = new JButton("Quit");
 		btnQuit.setBounds(365, 500, 170, 55);
 		mainMenu.add(btnQuit);
+      
+      		btnQuit.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+
+		});
 		/*
 		 * Enables clicking and quits the frame.
 		 */
