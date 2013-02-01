@@ -1,4 +1,7 @@
- import java.awt.*;
+import java.awt.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,12 +43,34 @@ public class MainFrame extends JFrame {
 		btnSinglePlayer = new JButton("SinglePlayer");
 		btnSinglePlayer.setBounds(365, 210, 170, 55);
 		mainMenu.add(btnSinglePlayer);
+		
+		btnSinglePlayer.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    
+		            setVisible(false);
+		            new MainFrame();
+		            
+		            mainMenu.revalidate();
+		            mainMenu.repaint();
+		    }
+		});
 	}
 
 	private void multiPlayerButton() {
 		btnMultiPlayer = new JButton("MultiPlayer");
 		btnMultiPlayer.setBounds(365, 300, 170, 55);
 		mainMenu.add(btnMultiPlayer);
+		
+		btnMultiPlayer.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        
+		        setVisible(false);
+		        new MainFrame();
+		        
+		        mainMenu.revalidate();
+		        mainMenu.repaint();
+		    }
+		});
 	}
 
 	private void scoreBoards() {
