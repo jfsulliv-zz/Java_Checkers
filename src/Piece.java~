@@ -1,0 +1,24 @@
+public class Piece {
+    public enum Colour {BLACK,RED};
+    
+    private boolean king = false;
+    private final Colour colour;
+    
+    public Piece(Colour aColour){
+        this.colour =  aColour;
+    }
+    
+    public void makeKing() {
+        king = true;    
+    }
+    
+    public boolean isKing() {
+        return king;    
+    }
+    
+    public String toString() {
+        return colour.toString() + " is King: " + king;
+    }
+    
+}
+
