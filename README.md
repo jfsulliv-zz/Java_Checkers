@@ -54,13 +54,13 @@ CODE FORMAT
 HOW-TO: GIT
 -----
 
-Pulling
-1. Create and sync a local folder with the Git repository (git clone https://github.com/JamesSullivan1/CPSC219_Team13_Project.git)
-2. Pull the most recent version of the repository (git pull)
+Pulling<p>
+    1. Create and sync a local folder with the Git repository (git clone https://github.com/JamesSullivan1/CPSC219_Team13_Project.git)<p>
+    2. Pull the most recent version of the repository (git pull) <p>
 
-Pushing
-1. Pull the most recent version of the repository (git pull)
-2. Make any changes to files, add new files, et cetera
-3. Enter the command (git add -A) to add all updated files to the local repository 
-4. Enter the command (git commit -m "YOUR MESSAGE HERE") to give the commit a brief description
-5. Enter the command (git push origin master) to push the local version to the global repository
+Pushing<p>
+    1. Pull the most recent version of the repository (git pull)<p>
+    2. Make any changes to files, add new files, et cetera<p>
+    3. Enter the command (git add -A) to add all updated files to the local repository<p>
+    4. Enter the command (git commit -m "YOUR MESSAGE HERE") to give the commit a brief description<p>
+    5. Enter the command (git push origin master) to push the local version to the global repository<p>
