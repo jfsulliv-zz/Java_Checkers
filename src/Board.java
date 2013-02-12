@@ -27,10 +27,10 @@ public class Board {
     return boardArray;
     }
     
-    public void movePiece(int startX, int startY, int endX, int endY){
-        if (boardArray[endX][endY] == 0){
-            boardArray[endX][endY] = boardArray[startX][startY];
-            boardArray[startX][startY] = 0;
+    public void movePiece(Location start, Location end){
+        if (boardArray[end.getX()][end.getY()] == 0){
+            boardArray[end.getX()][end.getY()] = boardArray[start.getX()][start.getY()];
+            boardArray[start.getX()][start.getY()] = 0;
         }
     }
       
