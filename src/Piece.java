@@ -17,7 +17,7 @@ public class Piece {
     }
     
     /**
-     *  Mutator method to King a piece.
+     *  Mutator method to King-a- a piece.
      *  <p> Post-Condition: Piece becomes a King.
      */
     public void makeKing() {
