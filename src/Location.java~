@@ -1,3 +1,9 @@
+/**
+ *  A Location Class. Holds X,Y Coordinates on the board.
+ *  @param xCoordinate the X-position
+ *  @param yCoordinate the Y-position
+ */
+
 public class Location {
     private final int xCoordinate;
     private final int yCoordinate;
@@ -13,10 +19,18 @@ public class Location {
         }
     }
     
+    /**
+     *  Accessor method for X-position.
+     *  @return X-Coordinate
+     */
     public int getX() {
         return this.xCoordinate;
     }
     
+    /**
+     *  Accessor method for Y-position.
+     *  @return Y-Coordinate
+     */
     public int getY() {
         return this.yCoordinate;
     }

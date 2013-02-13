@@ -3,11 +3,23 @@
  *  <p> King status determines whether the piece can move bidirectionally.
  *
  *  @param king Boolean of king status
- *  @param Colour enum of Colour (BLACK/RED)
+ *  @param Colour enum of Colour (BLACK(1)/RED(2))
+ *  @author James Sullivan
  */
 
 public class Piece {
-    public enum Colour {BLACK,RED};
+	/**
+	 * Enum for holding Piece Colour.
+	 * <p> BLACK = 1 <p> RED = 2
+	 */
+    public enum Colour {
+    	BLACK(1),RED(2);
+    	
+        public final int id;
+        Colour(int id){ this.id = id; }
+        
+        public int getID(){ return this.id; }
+    }
     
     private boolean king = false;
     private final Colour colour;
