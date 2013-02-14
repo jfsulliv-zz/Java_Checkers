@@ -8,24 +8,21 @@
  */
 
 public class Piece {
-	/**
-	 * Enum for holding Piece Colour.
-	 * <p> BLACK = 1 <p> RED = 2
-	 */
-    public enum Colour {
-    	BLACK(1),RED(2);
-    	
-        public final int id;
-        Colour(int id){ this.id = id; }
-        
-        public int getID(){ return this.id; }
-    }
+
     
     private boolean king = false;
-    private final Colour colour;
+    private Colour colour;
     
     public Piece(Colour aColour){
         this.colour =  aColour;
+    }
+    
+    public Piece(int aColour){
+    	if (aColour == 1){
+    		this.colour = Colour.BLACK;
+    	} else if (aColour == 2){
+    		this.colour = Colour.RED;
+    	}
     }
     
     /**

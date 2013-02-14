@@ -6,19 +6,15 @@
  * 
  */
 public class Player {
-
+	public static final int MAX_PIECES = 12;
+	Piece[] pieces = new Piece[MAX_PIECES];
 	/**
 	 * Each player owns 12 pieces.
 	 */
 
-	public Player(int colour) {
-		if (colour == Piece.RED){
-			Piece[] pieces = new Piece[12];
-		}
-		else if (colour == Piece.BLACK){
-			Piece[] pieces = new Piece[12];
+	public Player(Colour colour) {
+		for (int i = 0; i < MAX_PIECES; i++){
+			pieces[i] = new Piece(colour);
 		}
 	}
 }
-
-	
