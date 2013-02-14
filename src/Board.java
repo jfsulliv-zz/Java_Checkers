@@ -5,6 +5,8 @@
 public class Board {
     public static final int BOARD_ROWS = 8;
     public static final int BOARD_COLUMNS = 8;
+    public static final int BLACK = 1;
+    public static final int RED = 2;
     private int[][] boardArray = new int[8][8];
     
     /**
@@ -16,24 +18,24 @@ public class Board {
         *@author Dylan Dobbyn
         */
     public int[][] intializeBoard(){
-       for (int row = 0; row <= BOARD_ROWS - 1; row++){
-           for (int column = 0; column <= BOARD_COLUMNS - 1; column++){
-               if (row <=2) {
-                   if ((row == 1) && (column % 2 == 1)) {
-                        boardArray[row][column] = 1;
-                   }
-                   else if ((row != 1) && (column % 2 == 0)) {
-                       boardArray[row][column] = 1;
-                   }
-               }
-               if (row >= 5){
-                   if ((row == 6) && (column % 2 == 0)){
-                       boardArray[row][column] = 2;
-                   }
-                   else if ((row != 6) && (column % 2 == 1)){
-                       boardArray[row][column] = 2;
-                   }
-               }
+        for (int row = 0; row <= BOARD_ROWS - 1; row++){
+            for (int column = 0; column <= BOARD_COLUMNS - 1; column++){
+                if (row <=2) {
+                    if ((row == 1) && (column % 2 == 1)) {
+                        boardArray[row][column] = BLACK;
+                    }
+                    else if ((row != 1) && (column % 2 == 0)) {
+                        boardArray[row][column] = BLACK;
+                    }
+                }
+                if (row >= 5){
+                    if ((row == 6) && (column % 2 == 0)){
+                        boardArray[row][column] = RED;
+                    }
+                    else if ((row != 6) && (column % 2 == 1)){
+                        boardArray[row][column] = RED;
+                    }
+                }
             }
         }
     return boardArray;
