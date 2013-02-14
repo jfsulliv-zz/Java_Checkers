@@ -8,10 +8,9 @@
  */
 
 public class Piece {
-
     
     private boolean king = false;
-    private Colour colour;
+    public Colour colour;
     
     public Piece(Colour aColour){
         this.colour =  aColour;

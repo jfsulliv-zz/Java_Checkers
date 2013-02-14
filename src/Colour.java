@@ -1,8 +1,13 @@
-
-
+/**
+ * Enumerated type for Colour, used by various other Checkers components <p>
+ * BLACK = 1; RED = 2;
+ * 
+ * @author James Sullivan
+ *
+ */
 public enum Colour {
 	BLACK(1),RED(2);
-	public final int id;
+	private final int id;
 	
     Colour(int id){ this.id = id; }
     
@@ -15,7 +20,7 @@ public enum Colour {
     	
     	case 2:
     		return RED;
-    	}	
+    	}
     	return null;
     }	
 }
