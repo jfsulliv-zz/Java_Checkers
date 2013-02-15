@@ -1,3 +1,5 @@
+package model;
+
 /**
  *  A Location Class. Holds X,Y Coordinates on the board.
  *  @param xCoordinate the X-position
@@ -10,7 +12,7 @@ public class Location {
     private final int yCoordinate;
     
     public Location(int x,int y){
-        if (x > 0 && y > 0 && x <= 8 && y <= 8){
+        if (x >= 0 && y >= 0 && x <= 7 && y <= 7){
             this.xCoordinate = x;
             this.yCoordinate = y;
         } else {
