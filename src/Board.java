@@ -1,13 +1,8 @@
-/**
-    *Used to create and initialize a checkerboard to play checkers.
-    *@author Dylan Dobbyn.
-    */
+
 public class Board {
-    public static final int BOARD_ROWS = 8;
+	public static final int BOARD_ROWS = 8;
     public static final int BOARD_COLUMNS = 8;
-    public static final int BLACK = 1;
-    public static final int RED = 2;
-    private int[][] boardArray = new int[8][8];
+    private Piece[][] boardArray = new Piece[8][8];
     
     /**
         *Initializes the game board by creating an integer array to store the information of every square
@@ -17,23 +12,23 @@ public class Board {
         *square of the board. 
         *@author Dylan Dobbyn
         */
-    public int[][] intializeBoard(){
+    public Piece[][] initializeBoard(){
         for (int row = 0; row <= BOARD_ROWS - 1; row++){
             for (int column = 0; column <= BOARD_COLUMNS - 1; column++){
                 if (row <=2) {
                     if ((row == 1) && (column % 2 == 1)) {
-                        boardArray[row][column] = BLACK;
+                        boardArray[row][column] = new Piece(Colour.BLACK);
                     }
                     else if ((row != 1) && (column % 2 == 0)) {
-                        boardArray[row][column] = BLACK;
+                        boardArray[row][column] = new Piece(Colour.BLACK);
                     }
                 }
                 if (row >= 5){
                     if ((row == 6) && (column % 2 == 0)){
-                        boardArray[row][column] = RED;
+                        boardArray[row][column] = new Piece(Colour.RED);
                     }
                     else if ((row != 6) && (column % 2 == 1)){
-                        boardArray[row][column] = RED;
+                        boardArray[row][column] = new Piece(Colour.RED);
                     }
                 }
             }
@@ -48,9 +43,9 @@ public class Board {
         *@author Dylan Dobbyn
         */
     public void movePiece(Location start, Location end){
-        if (boardArray[end.getX()][end.getY()] == 0){
+        if (boardArray[end.getX()][end.getY()] == null){
             boardArray[end.getX()][end.getY()] = boardArray[start.getX()][start.getY()];
-            boardArray[start.getX()][start.getY()] = 0;
+            boardArray[start.getX()][start.getY()] = null;
         }
     }
     /**
@@ -62,7 +57,7 @@ public class Board {
         *of the board given. 
         *@author Dylan Dobbyn
         */
-    public int checkSquare(Location square){
+    public Piece checkSquare(Location square){
         int x = square.getX();
         int y = square.getY();
         return boardArray[x][y];
@@ -77,16 +72,21 @@ public class Board {
         for (int i = 0; i <= 7; i++){
             for (int j = 0; j<=7; j++){
                 if (j == 7){
-                    System.out.print(boardArray[i][j] +"\n");
+                	if (boardArray[i][j] == null){
+                		System.out.print(0 + "\n");
+                	} else {
+                    System.out.print((boardArray[i][j]).colour.toString() +"\n");
+                	}
                 }
                 else{
-                    System.out.print(boardArray[i][j] +" ");
+                	if (boardArray[i][j] == null){
+                		System.out.print(0 + " ");
+                	} else {
+                		System.out.print((boardArray[i][j]).colour.toString() +" ");
+                	}
+                    
                 }
             }
         }
     }
-    
 }
-                    
-                    
-            

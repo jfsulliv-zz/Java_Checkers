@@ -22,6 +22,16 @@ public enum Colour {
     		return RED;
     	}
     	return null;
-    }	
+    }
+    
+    @Override
+    public String toString(){
+    	switch(id) {
+    	case 1:
+    		return "B";
+    	case 2:
+    		return "R";
+    	} return null;
+    }
 }
 
