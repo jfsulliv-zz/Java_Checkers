@@ -1,37 +1,30 @@
 /**
  * Enumerated type for Colour, used by various other Checkers components <p>
- * BLACK = 1; RED = 2;
+ * BLACK("B") = 0; RED("R") = 1;
  * 
  * @author James Sullivan
  *
  */
 public enum Colour {
-	BLACK(1),RED(2);
-	private final int id;
+	BLACK("B"),RED("R");
+	private final String stringValue;
 	
-    Colour(int id){ this.id = id; }
+	
+	/**
+	 * Method to set the Colour instance using a given String value
+	 * @param stringValue
+	 */
+    Colour(String stringValue){ this.stringValue = stringValue; }
     
-    public int getID(){ return this.id; }
-    
-    public Colour fromID(int x) {
-    	switch(x) {
-    	case 1:
-    		return BLACK;
-    	
-    	case 2:
-    		return RED;
-    	}
-    	return null;
-    }
+    /**
+     * Returns the Ordinal value of the Colour
+     * @return Ordinal corresponding to a single enumeration
+     */
+    public int getOrdinal(){ return this.ordinal(); }
     
     @Override
     public String toString(){
-    	switch(id) {
-    	case 1:
-    		return "B";
-    	case 2:
-    		return "R";
-    	} return null;
+    	return this.stringValue;
     }
 }
 

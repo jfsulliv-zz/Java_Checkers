@@ -3,25 +3,37 @@
  *  <p> King status determines whether the piece can move bidirectionally.
  *
  *  @param king Boolean of king status
- *  @param Colour enum of Colour (BLACK(1)/RED(2))
+ *  @param Colour enum of colour (BLACK("B")/RED("R"))
  *  @author James Sullivan
  */
 
+
 public class Piece {
-    
     private boolean king = false;
-    public Colour colour;
+    private Colour colour;
     
+    
+    /**
+     * Constructor using a Colour enumeration
+     * @param aColour A Colour enumeration
+     */
     public Piece(Colour aColour){
         this.colour =  aColour;
     }
     
+    /**
+     *  Constructor using an integer parameter to set colour
+     * Pre-Condition: int aColour is 0(BLACK) or 1(RED)
+     */
     public Piece(int aColour){
-    	if (aColour == 1){
-    		this.colour = Colour.BLACK;
-    	} else if (aColour == 2){
-    		this.colour = Colour.RED;
+    	if (aColour == 0 || aColour == 1){
+    		this.colour = Colour.values()[aColour]; // Enum.values()[ordinal] will return the corresponding enumeration
     	}
+    	else {
+        	this.colour = null;
+        	System.out.print("Invalid colour");	
+    	}
+
     }
     
     /**
@@ -38,6 +50,14 @@ public class Piece {
      */
     public boolean isKing() {
         return king;    
+    }
+    
+    /**
+     * Accessor method to return the Piece's colour.
+     * @return Colour enumeration of the piece
+     */
+    public Colour getColour(){
+    	return this.colour;
     }
     
     public String toString() {
