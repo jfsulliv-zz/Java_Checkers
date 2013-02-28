@@ -1,0 +1,23 @@
+HOW TO USE PACKAGING SYSTEM
+-----
+
+All .java files are to be held in a package within the 'src' tree. For example, /src/main/someFile.java.
+
+Every file should contain a line that says 'package [insertPackageName];' on the first line, corresponding to whichever 
+folder it is held in.
+
+Classes in the same package can all access each other, however for classes to access other files you must do an import.
+
+'import somePackage.someClass;' or 'import somePackage.*;' if you want all of the classes in a package.
+
+
+Example: BoardTest.java
+package test;
+import main.*;
+
+
+
+
+A custom ANT build file was made to simplify compiling, however this requires the Apache Ant tools to use. Eclipse will take care of everything for you.
+
+If you must compile from the terminal, you will need the 'ant' package, then use 'ant compile' to automatically compile everything (make sure you are in the CPSC219_Team13_Project directory!). Get in touch with me if you need help with this.

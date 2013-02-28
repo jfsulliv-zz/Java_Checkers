@@ -1,8 +1,5 @@
 package test;
-import main.Board;
-import main.Colour;
-import main.Location;
-import main.Player;
+import main.*;
 
 
 public class BoardTest {

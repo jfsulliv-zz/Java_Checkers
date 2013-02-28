@@ -1,6 +1,5 @@
 package test;
-import main.Location;
-import main.Moves;
+import main.*;
 
 
 public class MovesTest {
