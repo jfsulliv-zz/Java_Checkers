@@ -1,3 +1,4 @@
+package main;
 /**
  * Enumerated type for Colour, used by various other Checkers components <p>
  * BLACK("B") = 0; RED("R") = 1;

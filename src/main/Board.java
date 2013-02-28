@@ -1,3 +1,4 @@
+package main;
 
 /**
  * A Board Class containing an 8x8 grid on which checkers can be played. <p>

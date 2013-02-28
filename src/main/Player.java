@@ -1,3 +1,4 @@
+package main;
 /**
  * This class represents our player which owns the pieces, can win, can loose,
  * and can quit.
@@ -7,7 +8,7 @@
  */
 public class Player {
 	public static final int MAX_PIECES = 12;
-	Piece[] pieces = new Piece[MAX_PIECES];
+	public Piece[] pieces = new Piece[MAX_PIECES];
 	private Colour playerColour;
 
 	/**

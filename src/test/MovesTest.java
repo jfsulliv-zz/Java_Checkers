@@ -1,3 +1,7 @@
+package test;
+import main.Location;
+import main.Moves;
+
 
 public class MovesTest {
 

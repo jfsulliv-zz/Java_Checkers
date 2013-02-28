@@ -1,3 +1,6 @@
+package test;
+import main.Piece;
+
 
 public class PieceTest{
     public static void main(String[] args){ 

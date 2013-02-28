@@ -1,3 +1,8 @@
+package test;
+import main.Colour;
+import main.Piece;
+import main.Player;
+
 public class PlayerTest {
 	public static void main(String[] args){
 		Player p1 = new Player(Colour.BLACK);

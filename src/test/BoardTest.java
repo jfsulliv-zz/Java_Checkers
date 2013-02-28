@@ -1,3 +1,9 @@
+package test;
+import main.Board;
+import main.Colour;
+import main.Location;
+import main.Player;
+
 
 public class BoardTest {
 	public static void main(String[] args) {
@@ -8,7 +14,7 @@ public class BoardTest {
 		board.initializeBoard();
 
 		Location l1 = new Location(2, 2);
-		Location l2 = new Location(3, 3);
+		Location l2 = new Location(3,3);
 		if (board.checkMove(player1, l1, l2) == true) {
 			board.movePiece(l1, l2);
 		}

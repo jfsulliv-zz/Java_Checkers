@@ -1,3 +1,4 @@
+package main;
 /**
  *  A Checkers Piece. Holds information on piece colour, and King status.
  *  <p> King status determines whether the piece can move bidirectionally.

@@ -1,3 +1,4 @@
+package main;
 /**
  *  A Location Class. Holds X,Y Coordinates on the board.
  *  @param xCoordinate the X-position
