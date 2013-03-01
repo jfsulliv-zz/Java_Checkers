@@ -51,20 +51,24 @@ public class Board {
      *@param end A Location object containing information on the square to move the piece to. 
      *@author Dylan Dobbyn
      */
-	public void movePiece(Location start, Location end) {
-		if (boardArray[end.getX()][end.getY()] == null) {
-			if (start.getX() - end.getX() == 2
-					|| start.getX() - end.getX() == -2) {
-				int jumpX = (start.getX() + end.getX()) / 2;
-				int jumpY = (start.getY() + end.getY()) / 2;
-				boardArray[jumpX][jumpY] = null;
+	public void movePiece(Player player, Location start, Location end) {
+		Location middle;
+		
+		if(checkMove(player,start,end) == false){ return; }
+		
+		if(deltaX(start,end) == 2){
+			int tempY = (end.getY() + start.getY()) / 2;
+			int tempX = (end.getX() + start.getX()) / 2;
+			middle = new Location(tempY,tempX);
+			
+			if(checkJump(player,start,middle,end) == false) { return; }
+			
+			else { 
+				boardArray[middle.getY()][middle.getX()] = null; 
 			}
-
-			boardArray[end.getX()][end.getY()] = boardArray[start.getX()][start.getY()];
-			boardArray[start.getX()][start.getY()] = null;
-
 		}
-
+		boardArray[end.getY()][end.getX()] = boardArray[start.getY()][start.getX()];
+		boardArray[start.getX()][start.getY()] = null;
 	}
 
 	/**
@@ -126,42 +130,28 @@ public class Board {
 	 * 
 	 * @return true or false
 	 */
-	public boolean checkJump(Player currentPlayer, Location start,
-			Location middle, Location end) {
-		boolean canJump = false;
+	public boolean checkJump(Player currentPlayer, Location start, Location middle, Location end) {
 
-		if (boardArray[start.getX()][start.getY()] == null) {
-			System.out.println("There was no piece here to begin with.");
+		if(boardArray[middle.getY()][middle.getX()] == null){
+			System.out.println("No piece to jump over.");
+			return false;
+		} else if(boardArray[middle.getY()][middle.getX()].getColour() == currentPlayer.getColour()){
+			System.out.println("You cannot jump your own chip.");
 			return false;
 		}
-		if (boardArray[end.getX()][end.getY()] != null) {
-			System.out.println("This location already contains a chip");
-			canJump = false;
-		} else if (currentPlayer.getColour() == Colour.BLACK) {
-			if ((boardArray[start.getX()][start.getY()]).getColour() == Colour.BLACK
-					&& end.getX() <= start.getX()) {
-				System.out.println("BLACK: This piece can only move down.");
-				canJump = false;
-			} else if (boardArray[middle.getX()][middle.getY()].getColour() != Colour.RED) {
-				System.out.println("BLACK: No red chip to jump over.");
-				canJump = false;
-			} else {
-				canJump = true;
+		
+		if(start.getX() + 1 == middle.getX()){
+			if (start.getX() + 2 != end.getX()){
+				System.out.println("You can only jump in a straight line.");
+				return false;
 			}
-
-		} else {
-			if (boardArray[start.getX()][start.getY()].getColour() == Colour.RED
-					&& end.getX() > start.getX()) {
-				System.out.println("RED: This piece can only move up.");
-				canJump = false;
-			} else if (boardArray[middle.getX()][middle.getY()].getColour() != Colour.BLACK) {
-				System.out.println("RED: No black chip to jump over.");
-				canJump = false;
-			} else {
-				canJump = true;
+		} else if (start.getX() - 1 == middle.getX()) {
+			if (start.getX() - 2 != end.getX()){
+				System.out.println("You can only jump in a straight line.");
+				return false;
 			}
 		}
-		return canJump;
+		return true;
 	}
 
 	/**
@@ -175,35 +165,28 @@ public class Board {
 	 * @return true or false.
 	 */
 	public boolean checkMove(Player currentPlayer, Location start, Location end) {
-		boolean canMove = false;
 
-		if (boardArray[start.getX()][start.getY()] == null) {
-			System.out.println("There was no piece here initially.");
+		if (boardArray[start.getY()][start.getX()] == null){
+			System.out.println("No piece on that starting position.");
 			return false;
-		}
-		if (boardArray[end.getX()][end.getY()] != null) {
-			System.out.println("This location already contains a chip");
+		} else if (boardArray[end.getY()][end.getX()] != null){
+			System.out.println("The end position is already taken.");
 			return false;
-		}
-		if (currentPlayer.getColour() == Colour.BLACK) {
-			if ((boardArray[start.getX()][start.getY()]).getColour() == Colour.BLACK
-					&& end.getX() <= start.getX()) {
-				System.out.println("BLACK: This piece can only move down.");
+		} else if (deltaX(start,end) != 1 && deltaX(start,end) != 2){
+			System.out.println("You cannot move that far.");
+			return false;
+		} else if (boardArray[start.getY()][start.getX()].getColour() != currentPlayer.getColour()) {
+			System.out.println("That is not your piece.");
+			return false;
+		} else if(boardArray[start.getY()][start.getX()].isKing() == false) {
+			if (end.getY() >= start.getY() && currentPlayer.getColour() == Colour.RED) {
+				System.out.println("That piece can only move up.");
 				return false;
-			} else {
-				canMove = true;
-			}
-		} else {
-			if (boardArray[start.getX()][start.getY()].getColour() == Colour.RED
-					&& end.getX() > start.getX()) {
-				System.out.println("RED: This piece can only move up.");
+			} else if (end.getY() <= start.getY() && currentPlayer.getColour() == Colour.BLACK) {
+				System.out.println("That piece can only move down.");
 				return false;
-			} else {
-				canMove = true;
 			}
-		}
-
-		return canMove;
+		} return true;
 	}
 
 	/**
@@ -233,5 +216,13 @@ public class Board {
 
 		return isLegal;
 	}
+	
 
+	/*
+	 * Private Accessor method to determine the distance between two X-Locations.
+	 * This is used across other methods in Board, and is simply a timesaver.
+	 */
+	private int deltaX(Location start, Location end){
+		return Math.abs((start.getX() - end.getX()));
+	}
 }

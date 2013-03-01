@@ -34,7 +34,7 @@ public class CheckersTester {
 		board.initializeBoard();
 		Location start = new Location(5, 5);
 		Location end = new Location(4, 4);
-		board.movePiece(start, end);
+		board.movePiece(player2,start, end);
 		if (board.checkMove(player2, end, start) == true) {
 			testPassed = false;
 			errors += String
@@ -69,7 +69,7 @@ public class CheckersTester {
 		board.initializeBoard();
 		Location start = new Location(2, 2);
 		Location end = new Location(3, 3);
-		board.movePiece(start, end);
+		board.movePiece(player1,start, end);
 		if (board.checkMove(player1, end, start) == true) {
 			testPassed = false;
 			errors += String
@@ -88,13 +88,13 @@ public class CheckersTester {
 		Location blackStart = new Location(2, 2);
 		Location blackEnd = new Location(3, 3);
 		if (board.checkMove(player1, blackStart, blackEnd) == true) {
-			board.movePiece(blackStart, blackEnd);
+			board.movePiece(player1,blackStart, blackEnd);
 		}
 		Location redStart = new Location(5, 5);
 		Location redEnd = new Location(4, 4);
 		Location blackJump = new Location(5,5);
 		if (board.checkMove(player2, redStart, redEnd) == true) {
-			board.movePiece(redStart, redEnd);
+			board.movePiece(player2,redStart, redEnd);
 		}
 		
 		if (board.checkJump(player1, blackEnd, redEnd, blackJump) == false) {
@@ -113,21 +113,21 @@ public class CheckersTester {
 		Location blackStart = new Location(2, 2);
 		Location blackEnd = new Location(3, 3);
 		if (board.checkMove(player1, blackStart, blackEnd) == true) {
-			board.movePiece(blackStart, blackEnd);
+			board.movePiece(player1,blackStart, blackEnd);
 		}
 		Location redStart = new Location(5, 5);
 		Location redEnd = new Location(4, 4);
 		Location blackJump = new Location(5,5);
 		if (board.checkMove(player2, redStart, redEnd) == true) {
-			board.movePiece(redStart, redEnd);
+			board.movePiece(player2,redStart, redEnd);
 		}
 		Location secondRedStart = new Location(6,6);
 		Location secondRedEnd = new Location(5,5);
 		if (board.checkMove(player2, secondRedStart, secondRedEnd) == true) {
-			board.movePiece(secondRedStart, secondRedEnd);
+			board.movePiece(player2,secondRedStart, secondRedEnd);
 		}
 		
-		if (board.checkJump(player1, blackEnd, redEnd, blackJump) == true) {
+		if (board.checkJump(player1, blackEnd, redEnd, blackJump) == false) {
 			testPassed = false;
 			errors += String
 					.format("test_black_piece_out_of_bound_jump failed: This jump shouldn't have" +
@@ -143,13 +143,13 @@ public class CheckersTester {
 		Location blackStart = new Location(2, 2);
 		Location blackEnd = new Location(3, 3);
 		if (board.checkMove(player1, blackStart, blackEnd) == true) {
-			board.movePiece(blackStart, blackEnd);
+			board.movePiece(player1,blackStart, blackEnd);
 		}
 		Location redStart = new Location(5, 5);
 		Location redEnd = new Location(4, 4);
 		Location redJump = new Location(2,2);
 		if (board.checkMove(player2, redStart, redEnd) == true) {
-			board.movePiece(redStart, redEnd);
+			board.movePiece(player2,redStart, redEnd);
 		}
 		
 		if (board.checkJump(player2, redEnd, blackEnd, redJump) == false) {
@@ -168,20 +168,20 @@ public class CheckersTester {
 		Location blackStart = new Location(2, 2);
 		Location blackEnd = new Location(3, 3);
 		if (board.checkMove(player1, blackStart, blackEnd) == true) {
-			board.movePiece(blackStart, blackEnd);
+			board.movePiece(player1,blackStart, blackEnd);
 		}
 		Location redStart = new Location(5, 5);
 		Location redEnd = new Location(4, 4);
 		Location redJump = new Location(2,2);
 		if (board.checkMove(player2, redStart, redEnd) == true) {
-			board.movePiece(redStart, redEnd);
+			board.movePiece(player2,redStart, redEnd);
 		}
 		Location secondBlackStart = new Location(1,1);
 		Location secondBlackEnd = new Location(2,2);
 		if (board.checkMove(player1, secondBlackStart, secondBlackEnd)) {
-			board.movePiece(secondBlackStart, secondBlackEnd);
+			board.movePiece(player1,secondBlackStart, secondBlackEnd);
 		}
-		if (board.checkJump(player2, redEnd, blackEnd, redJump) == true) {
+		if (board.checkJump(player2, redEnd, blackEnd, redJump) == false) {
 			testPassed = false;
 			errors += String
 					.format("test_red_piece_out_of_bound_jump failed: This jump shouldn't have" +
