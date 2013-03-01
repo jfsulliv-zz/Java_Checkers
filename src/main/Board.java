@@ -1,13 +1,18 @@
 package main;
 
 /**
- * A Board Class containing an 8x8 grid on which checkers can be played. <p>
+ * A Board Class containing an 8x8 grid on which checkers can be played.
+ * <p>
  * Each square is a member of a 2-dimensional Piece array that can hold a single
  * instance of a 'Piece' class.
- * @param boardArray A 2-dimensional Piece array of size 8x8
- * @param BOARD_ROWS : 8
- * @param BOARD_COLUMNS : 8
- *
+ * 
+ * @param boardArray
+ *            A 2-dimensional Piece array of size 8x8
+ * @param BOARD_ROWS
+ *            : 8
+ * @param BOARD_COLUMNS
+ *            : 8
+ * 
  */
 public class Board {
 	public static final int BOARD_ROWS = 8;
@@ -16,13 +21,15 @@ public class Board {
 	private Moves[] isLegal;
 
 	/**
-     *Initializes the game board by creating an integer array to store the information of every square
-     *on the board. Each square will contain a 0 for empty space, a 1 if it holds a piece for
-     *player 1 or a 2 if it holds a piece for player 2. 
-     *@return boardArray A 2D array holding information of what is currently on every 
-     *square of the board. 
-     *@author Dylan Dobbyn
-     */
+	 * Initializes the game board by creating an integer array to store the
+	 * information of every square on the board. Each square will contain a 0
+	 * for empty space, a 1 if it holds a piece for player 1 or a 2 if it holds
+	 * a piece for player 2.
+	 * 
+	 * @return boardArray A 2D array holding information of what is currently on
+	 *         every square of the board.
+	 * @author Dylan Dobbyn
+	 */
 	public void initializeBoard() {
 		for (int row = 0; row <= BOARD_ROWS - 1; row++) {
 			for (int column = 0; column <= BOARD_COLUMNS - 1; column++) {
@@ -45,41 +52,55 @@ public class Board {
 	}
 
 	/**
-     *Moves a piece that is on one square of the board to another square 
-     *of the board, positions given by Location objects.
-     *@param start A Location object containing the information of the starting square.
-     *@param end A Location object containing information on the square to move the piece to. 
-     *@author Dylan Dobbyn
-     */
+	 * Moves a piece that is on one square of the board to another square of the
+	 * board, positions given by Location objects. Will also remove any pieces
+	 * if applicable.
+	 * 
+	 * @param player
+	 *            the Player who owns the piece to be moved.
+	 * @param start
+	 *            A Location object containing the information of the starting
+	 *            square.
+	 * @param end
+	 *            A Location object containing information on the square to move
+	 *            the piece to.
+	 * @author Dylan Dobbyn
+	 */
 	public void movePiece(Player player, Location start, Location end) {
 		Location middle;
-		
-		if(checkMove(player,start,end) == false){ return; }
-		
-		if(deltaX(start,end) == 2){
+
+		if (checkMove(player, start, end) == false) {
+			return;
+		}
+
+		if (deltaX(start, end) == 2) {
 			int tempY = (end.getY() + start.getY()) / 2;
 			int tempX = (end.getX() + start.getX()) / 2;
-			middle = new Location(tempY,tempX);
-			
-			if(checkJump(player,start,middle,end) == false) { return; }
-			
-			else { 
-				boardArray[middle.getY()][middle.getX()] = null; 
+			middle = new Location(tempX, tempY);
+
+			if (checkJump(player, start, middle, end) == false) {
+				return;
+			}
+
+			else {
+				boardArray[middle.getY()][middle.getX()] = null;
 			}
 		}
-		boardArray[end.getY()][end.getX()] = boardArray[start.getY()][start.getX()];
-		boardArray[start.getX()][start.getY()] = null;
+		boardArray[end.getY()][end.getX()] = boardArray[start.getY()][start
+				.getX()];
+		boardArray[start.getY()][start.getX()] = null;
 	}
 
 	/**
-	 * Checks the board array to identify if there is a piece sitting on a
-	 * certain square of the board.
+	 * Checks the board array to identify the Piece object occupying a given
+	 * square.
 	 * 
 	 * @param square
-	 *            The Location object containing the board coordinates of the
-	 *            square to be checked.
-	 * @return boardArray[x][y] The integer belonging to the x and y coordinates
-	 *         of the board given.
+	 *            the Location on the board to be checked.
+	 * 
+	 * @return boardArray[x][y] The Piece object held on that particular Board
+	 *         coordinates- null if empty.
+	 * 
 	 * @author Dylan Dobbyn
 	 */
 	public Piece checkSquare(Location square) {
@@ -98,16 +119,16 @@ public class Board {
 		for (int i = 0; i <= 7; i++) {
 			for (int j = 0; j <= 7; j++) {
 				if (j == 7) {
-					if (boardArray[i][j] == null){
+					if (boardArray[i][j] == null) {
 						System.out.print(0 + "\n");
 					} else {
-						System.out.print((boardArray[i][j]).getColour() +"\n");
+						System.out.print((boardArray[i][j]).getColour() + "\n");
 					}
 				} else {
-					if (boardArray[i][j] == null){
+					if (boardArray[i][j] == null) {
 						System.out.print(0 + " ");
 					} else {
-						 System.out.print((boardArray[i][j]).getColour() +" ");
+						System.out.print((boardArray[i][j]).getColour() + " ");
 					}
 
 				}
@@ -117,36 +138,42 @@ public class Board {
 
 	/**
 	 * 
-	 * Accessor method that will check if the desired new location is a legal
-	 * location.
+	 * Accessor method that will check the legality of a jump move. Contains a
+	 * series of checks which are relevant to a piece being jumped.
 	 * 
-	 * @PreCond: The user must first choose a piece to jump and where to jump
-	 *           to.
+	 * @PreCond: The user selects a start, end, and jumped (middle) position.
 	 * @PostCond: Will return whether the jump is legal or not.
 	 * 
-	 * @param player
-	 *            , starting location, piece being jumped location, and ending
-	 *            location.
+	 * @param currentPlayer
+	 *            the Player who performs the jump
+	 * @param start
+	 *            the Starting Location of the piece
+	 * @param middle
+	 *            the Middle Location of the piece to be jumped over
+	 * @param end
+	 *            the End Location
 	 * 
-	 * @return true or false
+	 * @return true if the move is valid.
 	 */
-	public boolean checkJump(Player currentPlayer, Location start, Location middle, Location end) {
+	public boolean checkJump(Player currentPlayer, Location start,
+			Location middle, Location end) {
 
-		if(boardArray[middle.getY()][middle.getX()] == null){
+		if (boardArray[middle.getY()][middle.getX()] == null) {
 			System.out.println("No piece to jump over.");
 			return false;
-		} else if(boardArray[middle.getY()][middle.getX()].getColour() == currentPlayer.getColour()){
+		} else if (boardArray[middle.getY()][middle.getX()].getColour() == currentPlayer
+				.getColour()) {
 			System.out.println("You cannot jump your own chip.");
 			return false;
 		}
-		
-		if(start.getX() + 1 == middle.getX()){
-			if (start.getX() + 2 != end.getX()){
+
+		if (start.getX() + 1 == middle.getX()) {
+			if (start.getX() + 2 != end.getX()) {
 				System.out.println("You can only jump in a straight line.");
 				return false;
 			}
 		} else if (start.getX() - 1 == middle.getX()) {
-			if (start.getX() - 2 != end.getX()){
+			if (start.getX() - 2 != end.getX()) {
 				System.out.println("You can only jump in a straight line.");
 				return false;
 			}
@@ -155,38 +182,48 @@ public class Board {
 	}
 
 	/**
-	 * Accessor method that will check if the desired new location is a legal
-	 * location.
+	 * Accessor method that will check the general case legality of a move.
+	 * Ensures that all moves performed are legal.
 	 * 
-	 * @PreCond: The user must first choose a piece to move and where to move it
-	 *           to.
-	 * @PostCond: Will return whether the move is legal or not.
+	 * @PreCond: The user will select a starting and ending location.
+	 * @PostCond: The validity of the move will be returned.
 	 * 
-	 * @return true or false.
+	 * @param currentPlayer
+	 *            the Player owner of the moved Piece.
+	 * @param start
+	 *            the Starting Location.
+	 * @param end
+	 *            the Ending location.
+	 * 
+	 * @return true if the move is valid.
 	 */
 	public boolean checkMove(Player currentPlayer, Location start, Location end) {
 
-		if (boardArray[start.getY()][start.getX()] == null){
+		if (boardArray[start.getY()][start.getX()] == null) {
 			System.out.println("No piece on that starting position.");
 			return false;
-		} else if (boardArray[end.getY()][end.getX()] != null){
+		} else if (boardArray[end.getY()][end.getX()] != null) {
 			System.out.println("The end position is already taken.");
 			return false;
-		} else if (deltaX(start,end) != 1 && deltaX(start,end) != 2){
+		} else if (deltaX(start, end) != 1 && deltaX(start, end) != 2) {
 			System.out.println("You cannot move that far.");
 			return false;
-		} else if (boardArray[start.getY()][start.getX()].getColour() != currentPlayer.getColour()) {
+		} else if (boardArray[start.getY()][start.getX()].getColour() != currentPlayer
+				.getColour()) {
 			System.out.println("That is not your piece.");
 			return false;
-		} else if(boardArray[start.getY()][start.getX()].isKing() == false) {
-			if (end.getY() >= start.getY() && currentPlayer.getColour() == Colour.RED) {
+		} else if (boardArray[start.getY()][start.getX()].isKing() == false) {
+			if (end.getY() >= start.getY()
+					&& currentPlayer.getColour() == Colour.RED) {
 				System.out.println("That piece can only move up.");
 				return false;
-			} else if (end.getY() <= start.getY() && currentPlayer.getColour() == Colour.BLACK) {
+			} else if (end.getY() <= start.getY()
+					&& currentPlayer.getColour() == Colour.BLACK) {
 				System.out.println("That piece can only move down.");
 				return false;
 			}
-		} return true;
+		}
+		return true;
 	}
 
 	/**
@@ -199,10 +236,10 @@ public class Board {
 	 * @return
 	 */
 	public Moves[] isLegalMove(Player player) {
-		
+
 		return isLegal;
 	}
-	
+
 	/**
 	 * Mutator method that will store all the legal jumps for the current piece
 	 * in an array (Moves[])
@@ -216,13 +253,13 @@ public class Board {
 
 		return isLegal;
 	}
-	
 
 	/*
-	 * Private Accessor method to determine the distance between two X-Locations.
-	 * This is used across other methods in Board, and is simply a timesaver.
+	 * Private Accessor method to determine the distance between two
+	 * X-Locations. This is used across other methods in Board, and is simply a
+	 * timesaver.
 	 */
-	private int deltaX(Location start, Location end){
+	private int deltaX(Location start, Location end) {
 		return Math.abs((start.getX() - end.getX()));
 	}
 }

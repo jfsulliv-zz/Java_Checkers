@@ -1,4 +1,5 @@
 package main;
+
 /**
  * 
  * This class simply checks whether the desired move is a jump or not. This
