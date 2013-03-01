@@ -11,6 +11,7 @@ public class Player {
 	public static final int MAX_PIECES = 12;
 	public Piece[] pieces = new Piece[MAX_PIECES];
 	private Colour playerColour;
+	private int piecesLeft = MAX_PIECES;
 
 	/**
 	 * Constructor for creating a Player given a Colour enumeration
@@ -33,5 +34,17 @@ public class Player {
 	 */
 	public Colour getColour() {
 		return this.playerColour;
+	}
+	
+	public void losePiece(){
+		piecesLeft -= 1;
+	}
+	
+	public int piecesLeft(){
+		return piecesLeft;
+	}
+	
+	public String toString(){
+		return "Player: " + this.playerColour;
 	}
 }

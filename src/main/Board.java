@@ -19,6 +19,7 @@ public class Board {
 	public static final int BOARD_COLUMNS = 8;
 	private Piece[][] boardArray = new Piece[8][8];
 	private Moves[] isLegal;
+	private int turnComplete = 0;
 
 	/**
 	 * Initializes the game board by creating an integer array to store the
@@ -77,6 +78,13 @@ public class Board {
 		boardArray[square.getY()][square.getX()] = piece;
 	}
 	
+	public int turnComplete(){
+		return turnComplete;
+	}
+	
+	public void resetTurn(){
+		turnComplete = 0;
+	}
 	/**
 	 * Moves a piece that is on one square of the board to another square of the
 	 * board, positions given by Location objects. Will also remove any pieces
@@ -93,6 +101,7 @@ public class Board {
 	 * @author Dylan Dobbyn
 	 */
 	public void movePiece(Player player, Location start, Location end) {
+		turnComplete = 0;
 		Location middle;
 
 		if (checkMove(player, start, end) == false) {return;}
@@ -103,10 +112,18 @@ public class Board {
 			middle = new Location(tempX, tempY);
 
 			if (checkJump(player, start, middle, end) == false) {return; } 
-			else { setSquare(middle,null); }
+			else { 
+				setSquare(middle,null);
+				setSquare(end,checkSquare(start));
+				setSquare(start,null);
+				System.out.println("Piece at ("+end.toString()+") can continue to move.");
+				turnComplete = 1;
+			}
+		} else {
+			setSquare(end,checkSquare(start));
+			setSquare(start,null);
+			turnComplete = 2;
 		}
-		setSquare(end,checkSquare(start));
-		setSquare(start,null);
 	}
 
 	/**
