@@ -264,13 +264,13 @@ public class Board {
 			for (int j = 0; j <= 7; j++) {
 				if (j == 7) {
 					if (boardArray[i][j] == null) {
-						System.out.print(0 + "\n");
+						System.out.print("_" + "\n");
 					} else {
 						System.out.print((boardArray[i][j]).getColour() + "\n");
 					}
 				} else {
 					if (boardArray[i][j] == null) {
-						System.out.print(0 + " ");
+						System.out.print("_" + " ");
 					} else {
 						System.out.print((boardArray[i][j]).getColour() + " ");
 					}

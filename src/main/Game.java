@@ -21,7 +21,7 @@ public class Game {
 	
 	public void initialize(){
 		System.out.println("Welcome to Checkers!\n RED will play first.");
-		System.out.println("Enter locations when prompted in the form \"x,\"y.");
+		System.out.println("Enter locations when prompted in the form \"x,y\".");
 		System.out.println("The board is arranged with 0,0 at the Top-Left, 7,7 at the Bottom-Right.");
 		
 		blackPlayer = new Player(Colour.BLACK);
