@@ -50,47 +50,7 @@ public class Board {
 			}
 		}
 	}
-
-	/**
-	 * Moves a piece that is on one square of the board to another square of the
-	 * board, positions given by Location objects. Will also remove any pieces
-	 * if applicable.
-	 * 
-	 * @param player
-	 *            the Player who owns the piece to be moved.
-	 * @param start
-	 *            A Location object containing the information of the starting
-	 *            square.
-	 * @param end
-	 *            A Location object containing information on the square to move
-	 *            the piece to.
-	 * @author Dylan Dobbyn
-	 */
-	public void movePiece(Player player, Location start, Location end) {
-		Location middle;
-
-		if (checkMove(player, start, end) == false) {
-			return;
-		}
-
-		if (deltaX(start, end) == 2) {
-			int tempY = (end.getY() + start.getY()) / 2;
-			int tempX = (end.getX() + start.getX()) / 2;
-			middle = new Location(tempX, tempY);
-
-			if (checkJump(player, start, middle, end) == false) {
-				return;
-			}
-
-			else {
-				boardArray[middle.getY()][middle.getX()] = null;
-			}
-		}
-		boardArray[end.getY()][end.getX()] = boardArray[start.getY()][start
-				.getX()];
-		boardArray[start.getY()][start.getX()] = null;
-	}
-
+	
 	/**
 	 * Checks the board array to identify the Piece object occupying a given
 	 * square.
@@ -109,31 +69,44 @@ public class Board {
 		return boardArray[y][x];
 	}
 
+	/*
+	 * Private setter method to change the state of a position on the board.
+	 * Only used within Board's public methods to ensure encapsulation.
+	 */
+	private void setSquare(Location square, Piece piece) {
+		boardArray[square.getY()][square.getX()] = piece;
+	}
+	
 	/**
-	 * Prints the array to the screen. Used instead of a toString() method to
-	 * identify what information is being held in the board.
+	 * Moves a piece that is on one square of the board to another square of the
+	 * board, positions given by Location objects. Will also remove any pieces
+	 * if applicable.
 	 * 
+	 * @param player
+	 *            the Player who owns the piece to be moved.
+	 * @param start
+	 *            A Location object containing the information of the starting
+	 *            square.
+	 * @param end
+	 *            A Location object containing information on the square to move
+	 *            the piece to.
 	 * @author Dylan Dobbyn
 	 */
-	public void printArray() {
-		for (int i = 0; i <= 7; i++) {
-			for (int j = 0; j <= 7; j++) {
-				if (j == 7) {
-					if (boardArray[i][j] == null) {
-						System.out.print(0 + "\n");
-					} else {
-						System.out.print((boardArray[i][j]).getColour() + "\n");
-					}
-				} else {
-					if (boardArray[i][j] == null) {
-						System.out.print(0 + " ");
-					} else {
-						System.out.print((boardArray[i][j]).getColour() + " ");
-					}
+	public void movePiece(Player player, Location start, Location end) {
+		Location middle;
 
-				}
-			}
+		if (checkMove(player, start, end) == false) {return;}
+
+		if (deltaX(start, end) == 2) {
+			int tempY = (end.getY() + start.getY()) / 2;
+			int tempX = (end.getX() + start.getX()) / 2;
+			middle = new Location(tempX, tempY);
+
+			if (checkJump(player, start, middle, end) == false) {return; } 
+			else { setSquare(middle,null); }
 		}
+		setSquare(end,checkSquare(start));
+		setSquare(start,null);
 	}
 
 	/**
@@ -158,10 +131,10 @@ public class Board {
 	public boolean checkJump(Player currentPlayer, Location start,
 			Location middle, Location end) {
 
-		if (boardArray[middle.getY()][middle.getX()] == null) {
+		if (checkSquare(middle) == null) {
 			System.out.println("No piece to jump over.");
 			return false;
-		} else if (boardArray[middle.getY()][middle.getX()].getColour() == currentPlayer
+		} else if (checkSquare(middle).getColour() == currentPlayer
 				.getColour()) {
 			System.out.println("You cannot jump your own chip.");
 			return false;
@@ -199,20 +172,20 @@ public class Board {
 	 */
 	public boolean checkMove(Player currentPlayer, Location start, Location end) {
 
-		if (boardArray[start.getY()][start.getX()] == null) {
+		if (checkSquare(start) == null) {
 			System.out.println("No piece on that starting position.");
 			return false;
-		} else if (boardArray[end.getY()][end.getX()] != null) {
+		} else if (checkSquare(end) != null) {
 			System.out.println("The end position is already taken.");
 			return false;
 		} else if (deltaX(start, end) != 1 && deltaX(start, end) != 2) {
 			System.out.println("You cannot move that far.");
 			return false;
-		} else if (boardArray[start.getY()][start.getX()].getColour() != currentPlayer
+		} else if (checkSquare(start).getColour() != currentPlayer
 				.getColour()) {
 			System.out.println("That is not your piece.");
 			return false;
-		} else if (boardArray[start.getY()][start.getX()].isKing() == false) {
+		} else if (checkSquare(start).isKing() == false) {
 			if (end.getY() >= start.getY()
 					&& currentPlayer.getColour() == Colour.RED) {
 				System.out.println("That piece can only move up.");
@@ -261,5 +234,32 @@ public class Board {
 	 */
 	private int deltaX(Location start, Location end) {
 		return Math.abs((start.getX() - end.getX()));
+	}
+	
+	/**
+	 * Prints the array to the screen. Used instead of a toString() method to
+	 * identify what information is being held in the board.
+	 * 
+	 * @author Dylan Dobbyn
+	 */
+	public void printArray() {
+		for (int i = 0; i <= 7; i++) {
+			for (int j = 0; j <= 7; j++) {
+				if (j == 7) {
+					if (boardArray[i][j] == null) {
+						System.out.print(0 + "\n");
+					} else {
+						System.out.print((boardArray[i][j]).getColour() + "\n");
+					}
+				} else {
+					if (boardArray[i][j] == null) {
+						System.out.print(0 + " ");
+					} else {
+						System.out.print((boardArray[i][j]).getColour() + " ");
+					}
+
+				}
+			}
+		}
 	}
 }
