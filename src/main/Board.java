@@ -18,7 +18,6 @@ public class Board {
 	public static final int BOARD_ROWS = 8;
 	public static final int BOARD_COLUMNS = 8;
 	private Piece[][] boardArray = new Piece[8][8];
-	private Moves[] isLegal;
 	private int turnComplete = 0;
 
 	/**
@@ -65,8 +64,8 @@ public class Board {
 	 * @author Dylan Dobbyn
 	 */
 	public Piece checkSquare(Location square) {
-		int x = square.getX();
-		int y = square.getY();
+		if(!inBounds(square)){ return null; }
+		int x = square.getX(); int y = square.getY();
 		return boardArray[y][x];
 	}
 
@@ -75,6 +74,7 @@ public class Board {
 	 * Only used within Board's public methods to ensure encapsulation.
 	 */
 	private void setSquare(Location square, Piece piece) {
+		if(!inBounds(square)) { return; }
 		boardArray[square.getY()][square.getX()] = piece;
 	}
 	
@@ -85,6 +85,19 @@ public class Board {
 	public void resetTurn(){
 		turnComplete = 0;
 	}
+
+	private boolean inBounds(Location square){
+		if (square.getX() >= 0 && square.getX() < BOARD_ROWS && square.getY() >= 0 && square.getY() < BOARD_COLUMNS ){
+			return true;
+		} return false;
+	}
+
+	private boolean isJump(Location start, Location end){
+		if (deltaX(start,end) == 2 && deltaY(start,end) == 2){
+			return true;
+		} return false;
+	}
+
 	/**
 	 * Moves a piece that is on one square of the board to another square of the
 	 * board, positions given by Location objects. Will also remove any pieces
@@ -102,23 +115,23 @@ public class Board {
 	 */
 	public void movePiece(Player player, Location start, Location end) {
 		turnComplete = 0;
-		Location middle;
+		boolean isJump = isJump(start,end);
+		boolean silent = false;
 
-		if (checkMove(player, start, end) == false) {return;}
+		if (inBounds(end) == false) {
+			return; 
+		} else if (checkMove(player, start, end, isJump, silent) == false) {
+			return;
+		}
 
-		if (deltaX(start, end) == 2) {
+		if (isJump == true) {
 			int tempY = (end.getY() + start.getY()) / 2;
 			int tempX = (end.getX() + start.getX()) / 2;
-			middle = new Location(tempX, tempY);
-
-			if (checkJump(player, start, middle, end) == false) {return; } 
-			else { 
-				setSquare(middle,null);
-				setSquare(end,checkSquare(start));
-				setSquare(start,null);
-				System.out.println("Piece at ("+end.toString()+") can continue to move.");
-				turnComplete = 1;
-			}
+			Location middle = new Location(tempX, tempY);
+			setSquare(middle,null);
+			setSquare(end,checkSquare(start));
+			setSquare(start,null);
+			turnComplete = 1;
 		} else {
 			setSquare(end,checkSquare(start));
 			setSquare(start,null);
@@ -126,50 +139,6 @@ public class Board {
 		}
 	}
 
-	/**
-	 * 
-	 * Accessor method that will check the legality of a jump move. Contains a
-	 * series of checks which are relevant to a piece being jumped.
-	 * 
-	 * @PreCond: The user selects a start, end, and jumped (middle) position.
-	 * @PostCond: Will return whether the jump is legal or not.
-	 * 
-	 * @param currentPlayer
-	 *            the Player who performs the jump
-	 * @param start
-	 *            the Starting Location of the piece
-	 * @param middle
-	 *            the Middle Location of the piece to be jumped over
-	 * @param end
-	 *            the End Location
-	 * 
-	 * @return true if the move is valid.
-	 */
-	public boolean checkJump(Player currentPlayer, Location start,
-			Location middle, Location end) {
-
-		if (checkSquare(middle) == null) {
-			System.out.println("No piece to jump over.");
-			return false;
-		} else if (checkSquare(middle).getColour() == currentPlayer
-				.getColour()) {
-			System.out.println("You cannot jump your own chip.");
-			return false;
-		}
-
-		if (start.getX() + 1 == middle.getX()) {
-			if (start.getX() + 2 != end.getX()) {
-				System.out.println("You can only jump in a straight line.");
-				return false;
-			}
-		} else if (start.getX() - 1 == middle.getX()) {
-			if (start.getX() - 2 != end.getX()) {
-				System.out.println("You can only jump in a straight line.");
-				return false;
-			}
-		}
-		return true;
-	}
 
 	/**
 	 * Accessor method that will check the general case legality of a move.
@@ -187,61 +156,63 @@ public class Board {
 	 * 
 	 * @return true if the move is valid.
 	 */
-	public boolean checkMove(Player currentPlayer, Location start, Location end) {
+	public boolean checkMove(Player currentPlayer, Location start, Location end, Boolean isJump , Boolean silent) {
+		int maxDistance;
+		if (isJump(start,end)) {
+			maxDistance = 2;
+		} else {
+			maxDistance = 1;
+		}
 
 		if (checkSquare(start) == null) {
-			System.out.println("No piece on that starting position.");
+			if(!silent) {System.out.println("No piece on that starting position."); }
 			return false;
-		} else if (checkSquare(end) != null) {
-			System.out.println("The end position is already taken.");
+		} else if (checkSquare(start).getColour() != currentPlayer.getColour()) {
+			if(!silent) {System.out.println("That is not your piece.");}
 			return false;
-		} else if (deltaX(start, end) != 1 && deltaX(start, end) != 2) {
-			System.out.println("You cannot move that far.");
+		} else if (deltaX(start, end) != maxDistance && deltaY(start, end) != maxDistance) {
+			if(!silent) {System.out.println("You cannot move that far."); }
 			return false;
-		} else if (checkSquare(start).getColour() != currentPlayer
-				.getColour()) {
-			System.out.println("That is not your piece.");
-			return false;
-		} else if (checkSquare(start).isKing() == false) {
-			if (end.getY() >= start.getY()
-					&& currentPlayer.getColour() == Colour.RED) {
-				System.out.println("That piece can only move up.");
+		} else if (end.getY() >= start.getY() && currentPlayer.getColour() == Colour.RED) {
+				if(!silent) { System.out.println("That piece can only move up."); }
 				return false;
 			} else if (end.getY() <= start.getY()
 					&& currentPlayer.getColour() == Colour.BLACK) {
-				System.out.println("That piece can only move down.");
+				if(!silent) { System.out.println("That piece can only move down."); }
+				return false;
+		} else if (checkSquare(end) != null) {
+			if(!silent) { System.out.println("The end position is already taken."); }
+			return false;
+		}
+
+		if(isJump == false) { return true;} 
+		else { return checkJump(currentPlayer,start,end, silent); }
+
+	}
+
+	private boolean checkJump(Player currentPlayer, Location start, Location end, Boolean silent) {
+		int tempY = (end.getY() + start.getY()) / 2;
+		int tempX = (end.getX() + start.getX()) / 2;
+		Location middle = new Location(tempX, tempY);
+
+		if (checkSquare(middle) == null) {
+			if(!silent) { System.out.println("No piece to jump over."); }
+			return false;
+		} else if (checkSquare(middle).getColour() == currentPlayer.getColour()) {
+			if(!silent) { System.out.println("You cannot jump your own chip."); }
+			return false;
+		} else if (start.getX() + 1 == middle.getX()) {
+			if (start.getX() + 2 != end.getX()) {
+				if(!silent) { System.out.println("You can only jump in a straight line."); }
+				return false;
+			}
+		} else if (start.getX() - 1 == middle.getX()) {
+			if (start.getX() - 2 != end.getX()) {
+				if(!silent) { System.out.println("You can only jump in a straight line."); }
 				return false;
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Mutator method that will store all the legal moves for the current piece
-	 * in an array (Moves[])
-	 * 
-	 * @PreCond: The locations entered must be within bounds.
-	 * @PostCond: Will return an array of legalJumps.
-	 * 
-	 * @return
-	 */
-	public Moves[] isLegalMove(Player player) {
-
-		return isLegal;
-	}
-
-	/**
-	 * Mutator method that will store all the legal jumps for the current piece
-	 * in an array (Moves[])
-	 * 
-	 * @PreCond: The locations entered must be within bounds.
-	 * @PostCond: Will return an array of legalJumps.
-	 * 
-	 * @return isLegal jump
-	 */
-	public Moves[] isLegalJump(Player player, Location end) {
-
-		return isLegal;
 	}
 
 	/*
@@ -252,6 +223,10 @@ public class Board {
 	private int deltaX(Location start, Location end) {
 		return Math.abs((start.getX() - end.getX()));
 	}
+	private int deltaY(Location start, Location end) {
+		return Math.abs((start.getY() - end.getY()));
+	}
+
 	
 	/**
 	 * Prints the array to the screen. Used instead of a toString() method to
@@ -260,9 +235,22 @@ public class Board {
 	 * @author Dylan Dobbyn
 	 */
 	public void printArray() {
-		for (int i = 0; i <= 7; i++) {
-			for (int j = 0; j <= 7; j++) {
-				if (j == 7) {
+		for (int i = -1; i <= 7; i++) {
+			for (int j = -1; j <= 7; j++) {
+
+				if ( i == -1 && j == -1 ) {
+					System.out.print("    ");
+				} else if ( i == -1 ) {
+					if (j == 7) {
+						System.out.print(j + "\n\n");
+					} else {
+						System.out.print(j + " ");
+					}
+				} else if (j == -1 ) {
+					System.out.print(i + "   ");
+				} 
+
+				else if (j == 7) {
 					if (boardArray[i][j] == null) {
 						System.out.print("_" + "\n");
 					} else {
@@ -278,5 +266,60 @@ public class Board {
 				}
 			}
 		}
+		System.out.print("\n");
+	}
+
+	public Location[] emptyMoves(Player player, Location start){
+		boolean isJump = false;
+		boolean silent = true;
+		int numMoves = 0;
+		Location[] maxMoves = new Location[4];
+
+		for(int x = -1; x <= 1; x += 2) {
+			for(int y = -1; y <= 1; y += 2){
+				int tempX = start.getX() + x;
+				int tempY = start.getY() + y;
+				Location tempLoc = new Location(tempX,tempY);
+				if(inBounds(tempLoc) && checkMove(player,start,tempLoc,isJump, silent)) { 
+					maxMoves[numMoves] = tempLoc;
+					numMoves++;
+				}
+ 			}
+		}
+
+		if(numMoves == 0){ return null; }
+
+		Location[] legalMoves = new Location[numMoves];
+		for(int index = 0; index < numMoves; index++) {
+			legalMoves[index] = maxMoves[index];
+		}
+		return legalMoves;
+	}
+
+	public Location[] emptyJumps(Player player, Location start){
+		boolean isJump = true;
+		boolean silent = true;
+		int numMoves = 0;
+		Location[] maxJumps = new Location[4];
+
+		for(int x = -2; x <= 2; x += 4){
+			for(int y = -2; y <= 2; y += 4){
+				int tempX = start.getX() + x;
+				int tempY = start.getY() + y;
+				Location tempLoc = new Location(tempX,tempY);
+				if (inBounds(tempLoc) && checkMove(player,start,tempLoc,isJump, silent)){
+					maxJumps[numMoves] = tempLoc;
+					numMoves++;
+				}			
+			}
+		}
+
+		if( numMoves == 0) { return null; }
+
+		Location[] legalJumps = new Location[numMoves];
+		for(int index = 0; index < numMoves; index++){
+			legalJumps[index] = maxJumps[index];
+		}		
+		return legalJumps;
 	}
 }

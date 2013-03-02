@@ -39,15 +39,29 @@ public class Game {
 		
 		board.printArray();
 		
+		Location start = new Location(0,0);
+		Location end;
 		while(board.turnComplete() != 2){
-			System.out.println(aPlayer.toString()+", select the piece you wish to move.");
-			
-			Location start = takeInput();
+
+			boolean valid = false;
+			while(valid == false){
+				System.out.println(aPlayer.toString()+", select the piece you wish to move.");
+				start = takeInput();
+				if(board.checkSquare(start) == null) {
+					System.out.println("There is no piece there.");
+				} else if (board.checkSquare(start).getColour() != aPlayer.getColour()) {
+					System.out.println("That is not your piece.");
+				} else if(board.emptyMoves(aPlayer, start) == null && board.emptyJumps(aPlayer, start) == null){
+					System.out.println("That piece has no valid moves!");
+					valid = false;
+				} else { valid = true; }	
+			}
+
 			System.out.println("Now select the location to move to.");
-			Location end = takeInput();
+			end = takeInput();
 			board.movePiece(aPlayer,start,end);
 			
-			if(board.turnComplete() == 1){
+			if(board.turnComplete() == 1 && board.emptyJumps(aPlayer, end) != null){
 				start = end;
 				board.printArray();
 				while(board.turnComplete() != 2){
@@ -55,6 +69,8 @@ public class Game {
 					end = takeInput();
 					board.movePiece(aPlayer, start, end);
 				}
+			} else {
+				return;
 			}
 		}
 		board.printArray();
