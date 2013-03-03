@@ -254,13 +254,13 @@ public class Board {
 					if (boardArray[i][j] == null) {
 						System.out.print("_" + "\n");
 					} else {
-						System.out.print((boardArray[i][j]).getColour() + "\n");
+						System.out.print((boardArray[i][j]) + "\n");
 					}
 				} else {
 					if (boardArray[i][j] == null) {
 						System.out.print("_" + " ");
 					} else {
-						System.out.print((boardArray[i][j]).getColour() + " ");
+						System.out.print((boardArray[i][j]) + " ");
 					}
 
 				}

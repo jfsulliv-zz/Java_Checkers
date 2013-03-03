@@ -70,7 +70,11 @@ public class Piece {
 	}
 
 	public String toString() {
-		return colour.toString() + " is King: " + king;
+		if(king) {
+			return colour.toString();
+		} else {
+			return colour.toString().toLowerCase();
+		}
 	}
 
 }
