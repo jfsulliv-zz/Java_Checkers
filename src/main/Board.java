@@ -170,7 +170,7 @@ public class Board {
 		} else if (checkSquare(start).getColour() != currentPlayer.getColour()) {
 			if(!silent) {System.out.println("That is not your piece.");}
 			return false;
-		} else if (deltaX(start, end) != maxDistance && deltaY(start, end) != maxDistance) {
+		} else if (deltaX(start, end) != maxDistance || deltaY(start, end) != maxDistance) {
 			if(!silent) {System.out.println("You cannot move that far."); }
 			return false;
 		} else if (end.getY() >= start.getY() && currentPlayer.getColour() == Colour.RED) {

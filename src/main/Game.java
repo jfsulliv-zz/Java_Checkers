@@ -69,9 +69,8 @@ public class Game {
 					end = takeInput();
 					board.movePiece(aPlayer, start, end);
 				}
-			} else {
-				return;
 			}
+			
 		}
 		board.printArray();
 	}
