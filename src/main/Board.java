@@ -35,16 +35,16 @@ public class Board {
 			for (int column = 0; column <= BOARD_COLUMNS - 1; column++) {
 				if (row <= 2) {
 					if ((row == 1) && (column % 2 == 1)) {
-						boardArray[row][column] = new Piece(Colour.BLACK);
+						boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
 					} else if ((row != 1) && (column % 2 == 0)) {
-						boardArray[row][column] = new Piece(Colour.BLACK);
+						boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
 					}
 				}
 				if (row >= 5) {
 					if ((row == 6) && (column % 2 == 0)) {
-						boardArray[row][column] = new Piece(Colour.RED);
+						boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
 					} else if ((row != 6) && (column % 2 == 1)) {
-						boardArray[row][column] = new Piece(Colour.RED);
+						boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
 					}
 				}
 			}
@@ -69,6 +69,25 @@ public class Board {
 		return boardArray[y][x];
 	}
 
+	public Piece[] getPieces(Colour aColour) {
+		Piece[] tempPiece = new Piece[12];
+		int tempIndex = 0;
+		for(int i = 0; i < BOARD_ROWS; i++) {
+			for(int j = 0; j < BOARD_COLUMNS; j++){
+				if(boardArray[i][j] != null && boardArray[i][j].getColour() == aColour) {
+					tempPiece[tempIndex] = boardArray[i][j];
+					tempIndex++;
+				}
+			}
+		}
+		if (tempIndex == 0) { return null; }
+
+		Piece[] myPieces = new Piece[tempIndex];
+		for(int index = 0; index < tempIndex; index++){
+			myPieces[index] = tempPiece[index];
+		}
+		return myPieces;
+	}
 	/*
 	 * Private setter method to change the state of a position on the board.
 	 * Only used within Board's public methods to ensure encapsulation.
@@ -76,6 +95,9 @@ public class Board {
 	private void setSquare(Location square, Piece piece) {
 		if(!inBounds(square)) { return; }
 		boardArray[square.getY()][square.getX()] = piece;
+		if(piece != null){
+			piece.setLocation(square);
+		}
 	}
 	
 	public int turnComplete(){
@@ -138,7 +160,6 @@ public class Board {
 			turnComplete = 2;
 		}
 	}
-
 
 	/**
 	 * Accessor method that will check the general case legality of a move.

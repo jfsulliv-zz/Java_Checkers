@@ -10,7 +10,7 @@ public class GameLauncher {
 				game.turn(game.redPlayer);
 				turn += 1;
 			} else {
-				game.turn(game.blackPlayer);
+				game.AITurn(game.blackAIPlayer);
 				turn -= 1;
 			}
 		}

@@ -15,6 +15,7 @@ package main;
 public class Piece {
 	private boolean king = false;
 	private Colour colour;
+	private Location location;
 
 	/**
 	 * Constructor using a Colour enumeration
@@ -22,8 +23,9 @@ public class Piece {
 	 * @param aColour
 	 *            A Colour enumeration
 	 */
-	public Piece(Colour aColour) {
+	public Piece(Colour aColour, Location aLocation) {
 		this.colour = aColour;
+		this.location = aLocation;
 	}
 
 	/**
@@ -60,13 +62,20 @@ public class Piece {
 		return king;
 	}
 
+	public void setLocation(Location newLoc) {
+		this.location = newLoc;
+	}
+
+	public Location getLocation(){
+		return location;
+	}
 	/**
 	 * Accessor method to return the Piece's colour.
 	 * 
 	 * @return Colour enumeration of the piece
 	 */
 	public Colour getColour() {
-		return this.colour;
+		return colour;
 	}
 
 	public String toString() {

@@ -9,9 +9,11 @@ package main;
  */
 public class Player {
 	public static final int MAX_PIECES = 12;
-	public Piece[] pieces = new Piece[MAX_PIECES];
-	private Colour playerColour;
-	private int piecesLeft = MAX_PIECES;
+	public Piece[] myPieces;
+	protected Colour playerColour;
+	protected int piecesLeft = MAX_PIECES;
+	protected final boolean human;
+	protected Board board;
 
 	/**
 	 * Constructor for creating a Player given a Colour enumeration
@@ -19,12 +21,11 @@ public class Player {
 	 * @param aColour
 	 *            the Colour enumeration given
 	 */
-	public Player(Colour aColour) {
+	public Player(Colour aColour, boolean isHuman, Board board) {
 		this.playerColour = aColour;
+		this.human = isHuman;
+		this.board = board;
 
-		for (int i = 0; i < MAX_PIECES; i++) {
-			pieces[i] = new Piece(playerColour);
-		}
 	}
 
 	/**
@@ -35,6 +36,18 @@ public class Player {
 	public Colour getColour() {
 		return this.playerColour;
 	}
+
+	public void queryPieces() {
+		this.myPieces = board.getPieces(this.playerColour);
+	}
+
+	public Piece[] getPieces() {
+		return this.myPieces;
+	}
+
+	public void movePiece(Location start, Location end) {
+		board.movePiece(this,start,end);
+	}
 	
 	public void losePiece(){
 		piecesLeft -= 1;
@@ -42,6 +55,10 @@ public class Player {
 	
 	public int piecesLeft(){
 		return piecesLeft;
+	}
+
+	public boolean isHuman(){
+		return human;
 	}
 	
 	public String toString(){

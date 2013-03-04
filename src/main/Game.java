@@ -1,16 +1,17 @@
 package main;
-import java.util.Scanner;
+
 /*
  * Skeleton of the main Game logic- NOT complete!
- * ToDo: Check to see if there are available moves, end turn if not.
  * Author: James
  */
 public class Game {
 	static Game instance;
-	Player blackPlayer;
-	Player redPlayer;
+	HumanPlayer blackPlayer;
+	AIPlayer blackAIPlayer;
+	HumanPlayer redPlayer;
+	AIPlayer redAIPlayer;
 	Board board = new Board();
-	Scanner scanner = new Scanner(System.in);
+
 	
 	public static Game getInstance(){
 		if(instance == null){
@@ -20,16 +21,17 @@ public class Game {
 	}
 	
 	public void initialize(){
+		board.initializeBoard();
 		System.out.println("Welcome to Checkers!\n RED will play first.");
 		System.out.println("Enter locations when prompted in the form \"x,y\".");
-		System.out.println("The board is arranged with 0,0 at the Top-Left, 7,7 at the Bottom-Right.");
-		
-		blackPlayer = new Player(Colour.BLACK);
-		redPlayer = new Player(Colour.RED);
-		board.initializeBoard();
+		System.out.println("The board is arranged with 0,0 at the Top-Left," + 
+			 " 7,7 at the Bottom-Right.");
+
+		blackAIPlayer = new AIPlayer(Colour.BLACK,board);
+		redPlayer = new HumanPlayer(Colour.RED,board);
 	}
 	
-	public void turn(Player aPlayer){
+	public void turn(HumanPlayer aPlayer){
 		board.resetTurn();
 		if(aPlayer.piecesLeft() == 0){
 			gameOver(aPlayer);
@@ -43,31 +45,18 @@ public class Game {
 		Location end;
 		while(board.turnComplete() != 2){
 
-			boolean valid = false;
-			while(valid == false){
-				System.out.println(aPlayer.toString()+", select the piece you wish to move.");
-				start = takeInput();
-				if(board.checkSquare(start) == null) {
-					System.out.println("There is no piece there.");
-				} else if (board.checkSquare(start).getColour() != aPlayer.getColour()) {
-					System.out.println("That is not your piece.");
-				} else if(board.emptyMoves(aPlayer, start) == null && board.emptyJumps(aPlayer, start) == null){
-					System.out.println("That piece has no valid moves!");
-					valid = false;
-				} else { valid = true; }	
-			}
+			start = aPlayer.takeInput(true);
+			end = aPlayer.takeInput(false);
 
-			System.out.println("Now select the location to move to.");
-			end = takeInput();
-			board.movePiece(aPlayer,start,end);
+			aPlayer.movePiece(start,end);
 			
 			if(board.turnComplete() == 1 && board.emptyJumps(aPlayer, end) != null){
 				start = end;
 				board.printArray();
 				while(board.turnComplete() != 2){
-					System.out.println("Select the next location to move to.");
-					end = takeInput();
-					board.movePiece(aPlayer, start, end);
+					System.out.println("You took a piece and can continue to move!");
+					end = aPlayer.takeInput(false);
+					aPlayer.movePiece(start, end);
 				}
 			}
 			
@@ -75,28 +64,41 @@ public class Game {
 		board.printArray();
 	}
 	
-	public Location takeInput(){
-		boolean valid = false;
-		int tempX = 0;
-		int tempY = 0;
-		while(valid == false){
-			try {
-				String in = scanner.nextLine();
-				tempX = Integer.parseInt(in.substring(0,in.indexOf(",")));
-				tempY = Integer.parseInt(in.substring(in.indexOf(",") + 1));
-				valid = true;
-			} catch(IndexOutOfBoundsException e) {
-				System.out.print("Invalid entry- try again.");
-			} catch(NumberFormatException e) {
-				System.out.print("Invalid entry- try again.");
-			}
+	public void AITurn(AIPlayer aPlayer){
+		board.resetTurn();
+		if(aPlayer.piecesLeft() == 0){
+			gameOver(aPlayer);
 		}
-		Location loc = new Location(tempX, tempY);
-		return loc;
+		
+		System.out.println("Turn: "+aPlayer.toString());
+		
+		board.printArray();
+		
+		Location start = new Location(0,0);
+		Location end;
+		while(board.turnComplete() != 2){
+
+			start = aPlayer.randomStart();
+			end = aPlayer.randomEnd(start);
+
+			aPlayer.movePiece(start,end);
+			
+			if(board.turnComplete() == 1 && board.emptyJumps(aPlayer, end) != null){
+				start = end;
+				board.printArray();
+				while(board.turnComplete() != 2){
+					end = aPlayer.randomEnd(start);
+					aPlayer.movePiece(start, end);
+				}
+			}
+			
+		}
+		board.printArray();
 	}
-	
+
 	public void gameOver(Player aPlayer){
-		System.out.println(aPlayer.toString()+" no longer has any pieces to move! They lose.");
+		System.out.println(aPlayer.toString()+" no longer has any pieces to move!"
+			+ " They lose.");
 		System.exit(0);
 	}
 }

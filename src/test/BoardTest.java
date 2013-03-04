@@ -4,11 +4,11 @@ import main.*;
 
 public class BoardTest {
 	public static void main(String[] args) {
-		Player player1 = new Player(Colour.BLACK);
-		Player player2 = new Player(Colour.RED);
-
 		Board board = new Board();
 		board.initializeBoard();
+		
+		HumanPlayer player1 = new HumanPlayer(Colour.BLACK, board);
+		AIPlayer player2 = new AIPlayer(Colour.RED, board);
 
 		Location l1 = new Location(2,2);
 		Location l2 = new Location(3,3);
