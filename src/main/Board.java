@@ -69,6 +69,11 @@ public class Board {
 		return boardArray[y][x];
 	}
 
+	/**
+	 * Acessor Method to find all of the Pieces of a given Colour and return them in an Array.
+	 * @param aColour The colour of the Pieces to be searched for.
+	 * @return An array containing all of the Pieces of the given Colour.
+	 */
 	public Piece[] getPieces(Colour aColour) {
 		Piece[] tempPiece = new Piece[12];
 		int tempIndex = 0;
@@ -88,6 +93,7 @@ public class Board {
 		}
 		return myPieces;
 	}
+	
 	/*
 	 * Private setter method to change the state of a position on the board.
 	 * Only used within Board's public methods to ensure encapsulation.
@@ -100,24 +106,34 @@ public class Board {
 		}
 	}
 	
-	public int turnComplete(){
-		return turnComplete;
-	}
+	/**
+	 * Accessor method to return the state of turn completion
+	 * @return An integer turnComplete denoting the status of the current turn (0-2)
+	 */
+	public int turnComplete(){ return turnComplete; }
 	
-	public void resetTurn(){
-		turnComplete = 0;
-	}
+	/**
+	 * Mutator method to return the state of turn completion to 0.
+	 */
+	public void resetTurn(){ turnComplete = 0; }
 	
-	public void endTurn(){
-		turnComplete = 2;
-	}
+	/**
+	 * Mutator method to set the state of turn completion to 2, ending the turn.
+	 */
+	public void endTurn(){ turnComplete = 2; }
 
+	/*
+	 * Private Accessor to check if a given Location is in the Board's boundaries.
+	 */
 	private boolean inBounds(Location square){
 		if (square.getX() >= 0 && square.getX() < BOARD_ROWS && square.getY() >= 0 && square.getY() < BOARD_COLUMNS ){
 			return true;
 		} return false;
 	}
 
+	/*
+	 * Private Accessor to check if a movement from Location A to B would be considered a jump.
+	 */
 	private boolean isJump(Location start, Location end){
 		if (deltaX(start,end) == 2 && deltaY(start,end) == 2){
 			return true;
@@ -216,6 +232,11 @@ public class Board {
 
 	}
 
+	/*
+	 * Private Accessor method that contains some more checks applicable to a piece that is jumping.
+	 * Set to Private access for encapsulation- will only be called within 
+	 * the CheckMove() method as needed.
+	 */
 	private boolean checkJump(Player currentPlayer, Location start, Location end, Boolean silent) {
 		int tempY = (end.getY() + start.getY()) / 2;
 		int tempX = (end.getX() + start.getX()) / 2;
@@ -242,9 +263,9 @@ public class Board {
 	}
 
 	/*
-	 * Private Accessor method to determine the distance between two
-	 * X-Locations. This is used across other methods in Board, and is simply a
-	 * timesaver.
+	 * Private Accessor methods to determine the distance between two
+	 * X or Y Locations. This is used across other methods in Board, 
+	 * and is simply a timesaver.
 	 */
 	private int deltaX(Location start, Location end) {
 		return Math.abs((start.getX() - end.getX()));
@@ -295,6 +316,12 @@ public class Board {
 		System.out.print("\n");
 	}
 
+	/**
+	 * Accessor Method to return an array of all of the empty movements from a given location.
+	 * @param player The Player who owns the Piece to be moved.
+	 * @param start The Location the Piece starts in.
+	 * @return An array that contains any and all movements a piece could legally make.
+	 */
 	public Location[] emptyMoves(Player player, Location start){
 		boolean isJump = false;
 		boolean silent = true;
@@ -313,8 +340,6 @@ public class Board {
  			}
 		}
 
-		if(numMoves == 0){ return null; }
-
 		Location[] legalMoves = new Location[numMoves];
 		for(int index = 0; index < numMoves; index++) {
 			legalMoves[index] = maxMoves[index];
@@ -322,6 +347,12 @@ public class Board {
 		return legalMoves;
 	}
 
+	/**
+	 * Accessor Method to return an array of all of the empty jumps from a given location.
+	 * @param player The Player who owns the Piece to be moved.
+	 * @param start The Location the Piece starts in.
+	 * @return An array that contains any and all jumps a piece could legally make.
+	 */
 	public Location[] emptyJumps(Player player, Location start){
 		boolean isJump = true;
 		boolean silent = true;
@@ -339,8 +370,6 @@ public class Board {
 				}			
 			}
 		}
-
-		if( numMoves == 0) { return null; }
 
 		Location[] legalJumps = new Location[numMoves];
 		for(int index = 0; index < numMoves; index++){
