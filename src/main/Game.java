@@ -33,7 +33,8 @@ public class Game {
 	
 	public void turn(HumanPlayer aPlayer){
 		board.resetTurn();
-		if(aPlayer.piecesLeft() == 0){
+		aPlayer.queryPieces();
+		if(aPlayer.piecesLeft() == 0 || canMove(aPlayer) == false){
 			gameOver(aPlayer);
 		}
 		
@@ -68,7 +69,7 @@ public class Game {
 	public void AITurn(AIPlayer aPlayer){
 		board.resetTurn();
 		aPlayer.queryPieces();
-		if(aPlayer.piecesLeft() == 0){
+		if(aPlayer.piecesLeft() == 0 || canMove(aPlayer) == false){
 			gameOver(aPlayer);
 		}
 		
@@ -101,6 +102,16 @@ public class Game {
 		board.printArray();
 	}
 
+	public boolean canMove(Player aPlayer) {
+		for (int i = 0; i < aPlayer.myPieces.length; i++) {
+			if (board.emptyMoves(aPlayer, aPlayer.myPieces[i].getLocation()) != null 
+					|| board.emptyJumps(aPlayer, aPlayer.myPieces[i].getLocation())  != null){
+				return true;
+			} 
+		}
+		return false;
+	}
+	
 	public void gameOver(Player aPlayer){
 		System.out.println(aPlayer.toString()+" no longer has any pieces to move!"
 			+ " They lose.");
