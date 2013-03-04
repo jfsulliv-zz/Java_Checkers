@@ -15,7 +15,9 @@ public class AIPlayer extends Player {
 		int tempIndex2 = 0;
 		for(int i = 0; i < myPieces.length; i++){
 			Location tempLoc = myPieces[i].getLocation();
-			if (board.emptyJumps(this,tempLoc) != null) {
+			if (board.emptyJumps(this,tempLoc) == null && board.emptyMoves(this, tempLoc) == null) {
+				continue;
+			} if (board.emptyJumps(this,tempLoc) != null) {
 				preferredLocs[tempIndex1] = tempLoc;
 				tempIndex1++;
 			} else if (board.emptyMoves(this,tempLoc) != null) {

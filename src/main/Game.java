@@ -41,17 +41,19 @@ public class Game {
 		board.printArray();
 		System.out.println("Turn: "+aPlayer.toString());
 		
-		Location start;
-		Location end;
+		Location start = new Location(0,0);
+		Location end = new Location(0,0);
 		while(board.turnComplete() != 2){
+			
+			while(board.turnComplete() == 0) {
+				start = aPlayer.takeInput(true);
+				end = aPlayer.takeInput(false);
 
-			start = aPlayer.takeInput(true);
-			end = aPlayer.takeInput(false);
-
-			aPlayer.movePiece(start,end);
+				aPlayer.movePiece(start,end);
+			}
 			
 			if(board.turnComplete() == 1 && board.emptyJumps(aPlayer, end) != null){
-				Location tempStart = new Location(start.getX(),start.getY());
+				Location tempStart = new Location(end.getX(),end.getY());
 				start = tempStart;
 				board.printArray();
 				while(board.turnComplete() != 2){
@@ -78,13 +80,15 @@ public class Game {
 		board.printArray();
 		
 		Location start = new Location(0,0);
-		Location end;
+		Location end = new Location(0,0);
 		while(board.turnComplete() != 2){
 
-			start = aPlayer.randomStart();
-			end = aPlayer.randomEnd(start);
+			while(board.turnComplete() == 0){
+				start = aPlayer.randomStart();
+				end = aPlayer.randomEnd(start);
+				aPlayer.movePiece(start,end);				
+			}
 
-			aPlayer.movePiece(start,end);
 			
 			if(board.turnComplete() == 1 && board.emptyJumps(aPlayer, end) != null){
 				Location tempStart = new Location(end.getX(),end.getY());

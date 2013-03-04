@@ -224,7 +224,7 @@ public class Board {
 		if (checkSquare(middle) == null) {
 			if(!silent) { System.out.println("No piece to jump over."); }
 			return false;
-		} else if (checkSquare(middle).getColour() == currentPlayer.getColour()) {
+		} else if (checkSquare(middle).getColour() == checkSquare(start).getColour()) {
 			if(!silent) { System.out.println("You cannot jump your own chip."); }
 			return false;
 		} else if (start.getX() + 1 == middle.getX()) {
@@ -306,7 +306,7 @@ public class Board {
 				int tempX = start.getX() + x;
 				int tempY = start.getY() + y;
 				Location tempLoc = new Location(tempX,tempY);
-				if(inBounds(tempLoc) && checkMove(player,start,tempLoc,isJump, silent)) { 
+				if(inBounds(tempLoc) == true && checkMove(player,start,tempLoc,isJump, silent) == true) { 
 					maxMoves[numMoves] = tempLoc;
 					numMoves++;
 				}
@@ -333,7 +333,7 @@ public class Board {
 				int tempX = start.getX() + x;
 				int tempY = start.getY() + y;
 				Location tempLoc = new Location(tempX,tempY);
-				if (inBounds(tempLoc) && checkMove(player,start,tempLoc,isJump, silent)){
+				if (inBounds(tempLoc) == true && checkMove(player,start,tempLoc,isJump, silent) == true){
 					maxJumps[numMoves] = tempLoc;
 					numMoves++;
 				}			
