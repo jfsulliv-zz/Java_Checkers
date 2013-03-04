@@ -13,7 +13,7 @@ package main;
  */
 
 public class Piece {
-	private boolean king = false;
+	private boolean king;
 	private Colour colour;
 	private Location location;
 
@@ -33,6 +33,7 @@ public class Piece {
 	 * aColour is 0(BLACK) or 1(RED)
 	 */
 	public Piece(int aColour) {
+		this.king = false;
 		if (aColour == 0 || aColour == 1) {
 			this.colour = Colour.values()[aColour]; // Enum.values()[ordinal]
 													// will return the
@@ -64,6 +65,11 @@ public class Piece {
 
 	public void setLocation(Location newLoc) {
 		this.location = newLoc;
+		if(newLoc.getY() == 0 && this.colour == Colour.RED){
+			makeKing();
+		} else if(newLoc.getY() == 7 && this.colour == Colour.BLACK){
+			makeKing();
+		}
 	}
 
 	public Location getLocation(){

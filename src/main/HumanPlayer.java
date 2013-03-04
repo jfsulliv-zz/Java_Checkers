@@ -9,7 +9,6 @@ public class HumanPlayer extends Player {
 	}
 
 	public Location takeInput(boolean pieceSelection){
-		queryPieces();
 		if(pieceSelection){
 			System.out.print("Please select the piece to move: ");
 		} else {
@@ -32,8 +31,11 @@ public class HumanPlayer extends Player {
 
 		Location loc = new Location(tempX, tempY);
 
-		if(pieceSelection) {
-	 		if(board.checkSquare(loc).getColour() != this.playerColour) {
+		if(pieceSelection == true) {
+			if(board.checkSquare(loc) == null) {
+				System.out.println("There is no piece there.");
+				takeInput(pieceSelection);
+			} else if(board.checkSquare(loc).getColour() != this.playerColour) {
 				System.out.println("That is not your piece to move.");
 				takeInput(pieceSelection);
 			} else if(board.emptyMoves(this,loc) == null 

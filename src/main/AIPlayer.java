@@ -9,7 +9,6 @@ public class AIPlayer extends Player {
 	}
 
 	public Location randomStart(){
-		queryPieces();
 		Location[] preferredLocs = new Location[12];
 		int tempIndex1 = 0;
 		Location[] otherLocs = new Location[12];

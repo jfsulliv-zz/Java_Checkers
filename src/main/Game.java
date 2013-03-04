@@ -37,11 +37,10 @@ public class Game {
 			gameOver(aPlayer);
 		}
 		
+		board.printArray();
 		System.out.println("Turn: "+aPlayer.toString());
 		
-		board.printArray();
-		
-		Location start = new Location(0,0);
+		Location start;
 		Location end;
 		while(board.turnComplete() != 2){
 
@@ -51,21 +50,24 @@ public class Game {
 			aPlayer.movePiece(start,end);
 			
 			if(board.turnComplete() == 1 && board.emptyJumps(aPlayer, end) != null){
-				start = end;
+				Location tempStart = new Location(start.getX(),start.getY());
+				start = tempStart;
 				board.printArray();
 				while(board.turnComplete() != 2){
 					System.out.println("You took a piece and can continue to move!");
 					end = aPlayer.takeInput(false);
 					aPlayer.movePiece(start, end);
 				}
+			} else {
+				board.endTurn();
 			}
-			
 		}
 		board.printArray();
 	}
 	
 	public void AITurn(AIPlayer aPlayer){
 		board.resetTurn();
+		aPlayer.queryPieces();
 		if(aPlayer.piecesLeft() == 0){
 			gameOver(aPlayer);
 		}
@@ -84,12 +86,15 @@ public class Game {
 			aPlayer.movePiece(start,end);
 			
 			if(board.turnComplete() == 1 && board.emptyJumps(aPlayer, end) != null){
-				start = end;
+				Location tempStart = new Location(end.getX(),end.getY());
+				start = tempStart;
 				board.printArray();
 				while(board.turnComplete() != 2){
 					end = aPlayer.randomEnd(start);
 					aPlayer.movePiece(start, end);
 				}
+			} else {
+				board.endTurn();
 			}
 			
 		}

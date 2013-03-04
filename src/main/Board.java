@@ -107,6 +107,10 @@ public class Board {
 	public void resetTurn(){
 		turnComplete = 0;
 	}
+	
+	public void endTurn(){
+		turnComplete = 2;
+	}
 
 	private boolean inBounds(Location square){
 		if (square.getX() >= 0 && square.getX() < BOARD_ROWS && square.getY() >= 0 && square.getY() < BOARD_COLUMNS ){
@@ -188,23 +192,24 @@ public class Board {
 		if (checkSquare(start) == null) {
 			if(!silent) {System.out.println("No piece on that starting position."); }
 			return false;
+		} else if (checkSquare(end) != null) {
+			if(!silent) { System.out.println("The end position is already taken."); }
+			return false;
 		} else if (checkSquare(start).getColour() != currentPlayer.getColour()) {
 			if(!silent) {System.out.println("That is not your piece.");}
 			return false;
 		} else if (deltaX(start, end) != maxDistance || deltaY(start, end) != maxDistance) {
 			if(!silent) {System.out.println("You cannot move that far."); }
 			return false;
-		} else if (end.getY() >= start.getY() && currentPlayer.getColour() == Colour.RED) {
+		} else if (checkSquare(start).isKing() == false) {
+			if (end.getY() >= start.getY() && currentPlayer.getColour() == Colour.RED) {
 				if(!silent) { System.out.println("That piece can only move up."); }
 				return false;
-			} else if (end.getY() <= start.getY()
-					&& currentPlayer.getColour() == Colour.BLACK) {
+			} else if (end.getY() <= start.getY() && currentPlayer.getColour() == Colour.BLACK) {
 				if(!silent) { System.out.println("That piece can only move down."); }
 				return false;
-		} else if (checkSquare(end) != null) {
-			if(!silent) { System.out.println("The end position is already taken."); }
-			return false;
-		}
+			} 
+		} 
 
 		if(isJump == false) { return true;} 
 		else { return checkJump(currentPlayer,start,end, silent); }
