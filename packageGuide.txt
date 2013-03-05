@@ -18,4 +18,16 @@ import main.*;
 
 
 
-Eclipse will automatically take care of putting everything in the right place. However if you want to manually compile or run from the terminal, you will need to do some more advanced commands- get in touch if this is the case.
+COMPILING AND RUNNING
+-----
+
+Compile all .class files into the classes/ directory (this is outside the src/ directory!).
+
+As an example, from the terminal to compile all the files in main/ to this folder:
+
+From the folder containing src: javac -d classes/ src/main/*.java
+(This compiles all files in src/main into the folder classes/)
+
+To run a file, go to the src/ directory and run:
+
+java -cp ../classes/ main/someFile.java
