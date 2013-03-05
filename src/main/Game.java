@@ -17,6 +17,7 @@ public class Game {
 	AIPlayer blackAIPlayer, redAIPlayer;
 	Board board = new Board();
 	private int mode;
+	private boolean gameOver;
 	Scanner input = new Scanner(System.in);
 	
 	
@@ -86,6 +87,7 @@ public class Game {
 		aPlayer.queryPieces();
 		if(aPlayer.myPieces.length == 0 || canMove(aPlayer) == false){
 			gameOver(aPlayer);
+			return;
 		}
 		
 		board.printArray();
@@ -120,11 +122,12 @@ public class Game {
 	 * the same piece, as long as they can continue to jump other pieces.
 	 * @param aPlayer The AI Player whose turn it is.
 	 */
-	public void AITurn(AIPlayer aPlayer){
+	public void turn(AIPlayer aPlayer){
 		board.resetTurn();
 		aPlayer.queryPieces();
 		if(aPlayer.myPieces.length == 0 || canMove(aPlayer) == false){
 			gameOver(aPlayer);
+			return;
 		}
 
 		board.printArray();
@@ -172,6 +175,10 @@ public class Game {
 	private void gameOver(Player aPlayer){
 		System.out.println(aPlayer.toString()+" no longer has any pieces to move!"
 			+ " They lose.");
-		System.exit(0);
+		gameOver = true;
+	}
+	
+	public boolean gameOver(){
+		return gameOver;
 	}
 }
