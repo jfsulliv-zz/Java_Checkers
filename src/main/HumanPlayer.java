@@ -7,7 +7,7 @@ import java.util.Scanner;
  *
  */
 public class HumanPlayer extends Player {
-	Scanner scanner = new Scanner(System.in);
+	private Scanner scanner = new Scanner(System.in);
 
 	/**
 	 * Constructor method to call the Player Super's constructor given some parameters.
