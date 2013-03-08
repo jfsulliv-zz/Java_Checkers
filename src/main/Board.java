@@ -197,7 +197,7 @@ public class Board {
 	 * 
 	 * @return true if the move is valid.
 	 */
-	public boolean checkMove(Player currentPlayer, Location start, Location end, Boolean isJump , Boolean silent) {
+	private boolean checkMove(Player currentPlayer, Location start, Location end, Boolean isJump , Boolean silent) {
 		int maxDistance;
 		if (isJump(start,end)) {
 			maxDistance = 2;
