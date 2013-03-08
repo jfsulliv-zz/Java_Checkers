@@ -6,7 +6,7 @@ Team Members:
     <ul>
         <li>Dylan Dobbyn</li>
         <li>Daniel Contreras</li>
-        <li>Zsanette Rado</li>
+        <li>Zsanett Rado</li>
         <li>James Sullivan (Lead)</li>
     </ul>
 
