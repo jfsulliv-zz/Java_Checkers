@@ -2,5 +2,6 @@
 *.project
 *.sublime-workspace
 *.class
+*~
 /bin
 /bin
