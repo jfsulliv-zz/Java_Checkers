@@ -60,7 +60,10 @@ public class Game {
 			try { 
 				String selection = input.nextLine();
 				mode = Integer.parseInt(selection);
-				assert(mode == 1 || mode == 2);
+				if(mode != 1 && mode != 2) {
+					System.out.println("Invalid entry- Setting to 1-player.");
+					mode = 1;
+				}
 				valid = true;
 			} catch(IndexOutOfBoundsException e) {
 				System.out.print("Invalid entry- try again. ");
