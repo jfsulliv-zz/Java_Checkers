@@ -3,7 +3,6 @@ Group 13 Project - CPSC 219
 =======
 
 Team Members:
-
     <ul>
         <li>Dylan Dobbyn</li>
         <li>Daniel Contreras</li>
