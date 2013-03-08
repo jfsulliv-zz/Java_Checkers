@@ -51,6 +51,15 @@ public class Board {
 		}
 	}
 	
+	public void resetBoard() {
+		for (int row = 0; row <= BOARD_ROWS - 1; row++){
+			for (int column = 0; column <= BOARD_COLUMNS - 1; column++){
+				boardArray[row][column] = null;
+			}
+		}
+		initializeBoard();
+	}
+	
 	/**
 	 * Checks the board array to identify the Piece object occupying a given
 	 * square.
@@ -197,7 +206,7 @@ public class Board {
 	 * 
 	 * @return true if the move is valid.
 	 */
-	private boolean checkMove(Player currentPlayer, Location start, Location end, Boolean isJump , Boolean silent) {
+	public boolean checkMove(Player currentPlayer, Location start, Location end, Boolean isJump , Boolean silent) {
 		int maxDistance;
 		if (isJump(start,end)) {
 			maxDistance = 2;
@@ -209,7 +218,7 @@ public class Board {
 			if(!silent) {System.out.println("No piece on that starting position."); }
 			return false;
 		} else if (checkSquare(end) != null) {
-			if(!silent) { System.out.println("The end position is already taken."); }
+			if(silent == false) { System.out.println("The end position is already taken."); }
 			return false;
 		} else if (checkSquare(start).getColour() != currentPlayer.getColour()) {
 			if(!silent) {System.out.println("That is not your piece.");}
@@ -237,7 +246,7 @@ public class Board {
 	 * Set to Private access for encapsulation- will only be called within 
 	 * the CheckMove() method as needed.
 	 */
-	private boolean checkJump(Player currentPlayer, Location start, Location end, Boolean silent) {
+	public boolean checkJump(Player currentPlayer, Location start, Location end, Boolean silent) {
 		int tempY = (end.getY() + start.getY()) / 2;
 		int tempX = (end.getX() + start.getX()) / 2;
 		Location middle = new Location(tempX, tempY);

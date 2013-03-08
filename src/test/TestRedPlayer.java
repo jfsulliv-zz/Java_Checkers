@@ -9,9 +9,13 @@ public class TestRedPlayer {
 
 	private String errors = " ";
 	private Board board = new Board();
-	private HumanPlayer player1 = new HumanPlayer(Colour.RED, board);
-	private HumanPlayer player2 = new HumanPlayer(Colour.BLACK, board);
+	private HumanPlayer playerRed = new HumanPlayer(Colour.RED, board);
+	private HumanPlayer playerBlack = new HumanPlayer(Colour.BLACK, board);
 
+	private void setup() {
+		board.resetBoard();
+	}
+	
 	private boolean red_moves_too_far_up() {
 		boolean testPassed = true;
 		board.initializeBoard();
@@ -142,7 +146,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	public static void main(String[] args) {
+	public void run() {
 		boolean testsPassed = true;
 		TestRedPlayer test = new TestRedPlayer();
 
