@@ -10,8 +10,8 @@ public class TestRedPlayer {
 	private static boolean SILENT = true;
 	private String errors = " ";
 	private Board board = new Board();
-	private HumanPlayer playerRed = new HumanPlayer(Colour.RED, board);
-	private HumanPlayer playerBlack = new HumanPlayer(Colour.BLACK, board);
+	private HumanPlayer redPlayer = new HumanPlayer(Colour.RED, board);
+	private HumanPlayer blackPlayer = new HumanPlayer(Colour.BLACK, board);
 
 	private void setup() {
 		board.resetBoard();
@@ -20,9 +20,9 @@ public class TestRedPlayer {
 	private boolean red_moves_too_far_up() {
 		setup();
 		Location start = new Location(1,5);
-		Location end = new Location(3,3);
+		Location end = new Location(2,3);
 		boolean testPassed = true;
-		if (board.checkMove(playerRed, start, end, false, SILENT ) {
+		if (board.checkMove(redPlayer, start, end, false, SILENT )) {
 			testPassed = false;
 			errors += String
 					.format("red_moves_too_far_up failed: Red should not be able to move "
@@ -35,12 +35,12 @@ public class TestRedPlayer {
 		setup();
 		Location blackStart = new Location( 0,2);
 		Location blackMiddle = new Location(1,3);
-		Location blackEnd = new Location(2,4)
+		Location blackEnd = new Location(2,4);
 		Location redStart = new Location(1,5);
 		blackPlayer.movePiece(blackStart,blackMiddle);
 		blackPlayer.movePiece(blackMiddle, blackEnd);
 		boolean testPassed = true;
-		if (board.checkMove(playerRed, redStart, blackEnd, false, SILENT) {
+		if (board.checkMove(redPlayer, redStart, blackEnd, false, SILENT)) {
 			testPassed = false;
 			errors += String
 					.format("red_moves_to_a_space_occupied_by_black failed: Red "
@@ -54,7 +54,7 @@ public class TestRedPlayer {
 		Location redStart = new Location(2,6);
 		Location redEnd = new Location(3,5);
 		boolean testPassed = true;
-		if (board.checkMove(playerRed, redStart, redEnd, false, SILENT) {
+		if (board.checkMove(redPlayer, redStart, redEnd, false, SILENT)) {
 			testPassed = false;
 			errors += String
 					.format("red_moves_to_a_space_occupied_by_red failed: Red should"
@@ -66,9 +66,9 @@ public class TestRedPlayer {
 	private boolean red_moves_up() {
 		setup();
 		Location start = new Location(1,5);
-		Location start = new Location(2,4);
+		Location end = new Location(2,4);
 		boolean testPassed = true;
-		if (!board.checkMove(playerRed, start, end, false, SILENT) {
+		if (!board.checkMove(redPlayer, start, end, false, SILENT)) {
 			testPassed = false;
 			errors += String
 					.format("red_moves_up failed: Red should be able to "
@@ -82,7 +82,7 @@ public class TestRedPlayer {
 		Location start = new Location(1,5);
 		Location end = new Location(2,4);
 		boolean testPassed = true;
-		if (board.checkMove(playerRed,end,start, false, SILENT) {
+		if (board.checkMove(redPlayer,end,start, false, SILENT)) {
 			testPassed = false;
 			errors += String.format("red_moves_down failed: Red should not be"
 					+ " able to move down.\n");
@@ -100,7 +100,7 @@ public class TestRedPlayer {
 		blackPlayer.movePiece(blackStart,blackMiddle);
 		blackPlayer.movePiece(blackMiddle, blackEnd);
 		boolean testPassed = true;
-		if (!board.checkMove(playerRed, redStart, redEnd, true, SILENT) {
+		if (!board.checkMove(redPlayer, redStart, redEnd, true, SILENT)) {
 			testPassed = false;
 			errors += String
 					.format("red_jumps_a_black_piece_to_an_empty_space failed: Red"
@@ -116,10 +116,10 @@ public class TestRedPlayer {
 		Location redStart = new Location(1,5);
 		Location redMiddle= new Location(0,4);
 		Location redEnd = new Location(2,2);
-		blackPlayer.movePiece(blackStart,blackEnd);
+		blackPlayer.movePiece(blackStart,blackMiddle);
 		redPlayer.movePiece(redStart, redMiddle);
 		boolean testPassed = true;
-		if (board.checkMove(playerRed, redMiddle, redEnd, true, SILENT) {
+		if (board.checkMove(redPlayer, redMiddle, redEnd, true, SILENT)) {
 			testPassed = false;
 			errors += String
 					.format("red_jumps_a_black_piece_to_an_occupied_space failed: Red"
@@ -137,7 +137,7 @@ public class TestRedPlayer {
 		Location otherRedStart = new Location(3,5);
 		Location otherRedEnd = new Location(1,3);
 		redPlayer.movePiece(redStart,redEnd);
-		if (board.checkMove(playerRed, otherRedStart, otherRedEnd, true, SILENT) {
+		if (board.checkMove(redPlayer, otherRedStart, otherRedEnd, true, SILENT)) {
 			testPassed = false;
 			errors += String
 					.format("red_jumps_a_friendly_piece failed: Red should not"
@@ -151,7 +151,7 @@ public class TestRedPlayer {
 		Location start = new Location(1,5);
 		Location end = new Location(3,3);
 		boolean testPassed = true;
-		if (board.checkMove(playerRed, start, end, true, SILENT) {
+		if (board.checkMove(redPlayer, start, end, true, SILENT)) {
 			testPassed = false;
 			errors += String
 					.format("red_jumps_an_empty_space failed: Red should not be"
@@ -173,7 +173,7 @@ public class TestRedPlayer {
 		blackPlayer.movePiece(blackMiddle, blackEnd);
 		blackPlayer.movePiece(otherBlackStart, otherBlackEnd);
 		boolean testPassed = true;
-		if (board.checkMove(playerRed, redStart,redEnd, true, SILENT) {
+		if (board.checkMove(redPlayer, redStart,redEnd, true, SILENT)) {
 			testPassed = false;
 			errors += String.format("red_jumps_too_far failed: Red should not"
 					+ " be able to jump more than 2 rows. \n");
@@ -184,9 +184,9 @@ public class TestRedPlayer {
 	private boolean red_attempts_moving_black_piece() {
 		setup();
 		Location start = new Location(2,2);
-		Location start = new Location(3,3);
+		Location end = new Location(3,3);
 		boolean testPassed = true;
-		if (board.checkMove(playerRed, redstart, redEnd, false, SILENT) {
+		if (board.checkMove(redPlayer, start, end, false, SILENT)) {
 			testPassed = false;
 			errors += String.format("red_attempts_moving_black_piece failed: "
 					+ "Red should not be able to move a black piece. \n");
@@ -211,9 +211,9 @@ public class TestRedPlayer {
 		testsPassed &= test.red_attempts_moving_black_piece();
 		
 		if (testsPassed) {
-			System.out.println("All tests passed");
+			System.out.println("All tests on Red Pieces passed\n\n");
 		} else {
-			System.out.println(test.errors);
+			System.out.println(test.errors + "\n\n");
 		}
 	}
 
