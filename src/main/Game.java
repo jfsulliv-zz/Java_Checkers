@@ -12,14 +12,17 @@ import java.util.Scanner;
  *
  */
 public class Game {
-	static Game instance;
-	HumanPlayer blackPlayer, redPlayer; 
-	AIPlayer blackAIPlayer, redAIPlayer;
-	Board board = new Board();
+	public static Game instance;
+	public HumanPlayer blackPlayer, redPlayer; 
+	public AIPlayer blackAIPlayer, redAIPlayer;
+	private Board board = new Board();
 	private int mode;
 	private boolean gameOver;
-	Scanner input = new Scanner(System.in);
+	private Scanner input = new Scanner(System.in);
 	
+	private Game() {
+		
+	}
 	
 	/**
 	 * Accessor Method to return the Singleton instance of the game, or call the constructor if it does not exist.

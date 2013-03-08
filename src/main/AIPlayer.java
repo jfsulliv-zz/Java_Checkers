@@ -9,7 +9,7 @@ import java.util.Random;
  *
  */
 public class AIPlayer extends Player {
-	Random generator = new Random();
+	private Random generator = new Random();
 
 	/**
 	 * Constructor method to call the Player Super's constructor given some parameters.
