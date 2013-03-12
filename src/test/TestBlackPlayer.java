@@ -10,7 +10,7 @@ import main.*;
 public class TestBlackPlayer {
 
 	private String errors = " ";
-	private Board board = new Board();
+	private Board board = Board.getInstance();
 	private HumanPlayer playerRed = new HumanPlayer(Colour.RED, board);
 	private HumanPlayer playerBlack = new HumanPlayer(Colour.BLACK, board);
 	private static boolean SILENT = true;
@@ -24,7 +24,8 @@ public class TestBlackPlayer {
 		boolean testPassed = true;
 		Location start = new Location(0,2);
 		Location end = new Location(2,3);
-		if(board.checkMove(playerBlack, start, end, false, SILENT)) {
+		Move move = new Move(playerBlack,start,end,SILENT);
+		if(move.isValid()) {
 			testPassed = false;
 			errors += String
 					.format("black_moves_too_far_down failed: Black should not"
@@ -38,7 +39,8 @@ public class TestBlackPlayer {
 		boolean testPassed = true;
 		Location start = new Location(1,1);
 		Location end = new Location(2,2);
-		if(board.checkMove(playerBlack, start, end, false, SILENT)){
+		Move move = new Move(playerBlack,start,end,SILENT);
+		if(move.isValid()) {
 			testPassed = false;
 			errors += String
 					.format("black_moves_to_a_space_occupied_by_black failed: "
@@ -56,7 +58,8 @@ public class TestBlackPlayer {
 		Location end = new Location(1,3);
 		playerRed.movePiece(redStart,redMid);
 		playerRed.movePiece(redMid,end);
-		if(board.checkMove(playerBlack, blackStart, end, false, SILENT)) {
+		Move move = new Move(playerBlack,blackStart,end,SILENT);
+		if(move.isValid()) {
 			testPassed = false;
 			errors += String
 					.format("black_moves_to_a_space_occupied_by_red failed: Black"
@@ -71,7 +74,8 @@ public class TestBlackPlayer {
 		Location start = new Location(2,2);
 		Location end = new Location(3,3);
 		playerBlack.movePiece(start,end);
-		if(board.checkMove(playerBlack, end, start , false, SILENT)) {
+		Move move = new Move(playerBlack,start,end,SILENT);
+		if(move.isValid()) {
 			testPassed = false;
 			errors += String.format("black_moves_up failed: Black should not"
 					+ " be able to move up. \n");
@@ -84,7 +88,8 @@ public class TestBlackPlayer {
 		boolean testPassed = true;
 		Location start = new Location(6,2);
 		Location end = new Location(5,3);
-		if(!board.checkMove(playerBlack, start, end, false, SILENT)) {
+		Move move = new Move(playerBlack,start,end,SILENT);
+		if(!move.isValid()) {
 			testPassed = false;
 			errors += String.format("black_moves_down failed: Black should be"
 					+ " able to move down. \n");
@@ -101,7 +106,8 @@ public class TestBlackPlayer {
 		Location redEnd = new Location(2,4);
 		playerBlack.movePiece(blackStart,blackEnd);
 		playerRed.movePiece(redStart,redEnd);
-		if(!board.checkMove(playerBlack, blackEnd, redStart, true, SILENT)){
+		Move move = new Move(playerBlack,blackEnd,redStart,SILENT);
+		if(!move.isValid()) {
 			testPassed = false;
 			errors += String
 					.format("black_jumps_a_red_piece_to_an_empty_space failed: "
@@ -121,7 +127,8 @@ public class TestBlackPlayer {
 		Location red1End = new Location(2,4);
 		playerRed.movePiece(red1Start,red1End);
 		playerBlack.movePiece(blackStart,blackMid);
-		if(board.checkMove(playerBlack, blackMid, blackEnd, true, SILENT)) {
+		Move move = new Move(playerBlack,blackMid,blackEnd,SILENT);
+		if(move.isValid()) {
 			testPassed = false;
 			errors += String
 					.format("black_jumps_a_red_piece_to_an_occupied_space failed: "
@@ -136,7 +143,8 @@ public class TestBlackPlayer {
 		boolean testPassed = true;
 		Location start = new Location(1,1);
 		Location end = new Location(3,3);
-		if(board.checkMove(playerBlack, start, end, true, SILENT)) {
+		Move move = new Move(playerBlack,start,end,SILENT);
+		if(move.isValid()) {
 			testPassed = false;
 			errors += String
 					.format("black_jumps_a_friendly_piece failed: Black should "
@@ -154,7 +162,8 @@ public class TestBlackPlayer {
 		Location redEnd = new Location(3,3);
 		playerRed.movePiece(redStart,redMid);
 		playerRed.movePiece(redMid,redEnd);
-		if(board.checkMove(playerBlack, blackStart, redStart, true, SILENT)) {
+		Move move = new Move(playerBlack,blackStart,redStart,SILENT);
+		if(move.isValid()) {
 			testPassed = false;
 			errors += String.format("black_jumps_too_far failed: Black"
 					+ " should not be able to jump greater than 2 rows. \n");
@@ -167,7 +176,8 @@ public class TestBlackPlayer {
 		boolean testPassed = true;
 		Location redStart = new Location(1,5);
 		Location redEnd = new Location(2,4);
-		if(board.checkMove(playerBlack, redStart, redEnd, true, SILENT)) {
+		Move move = new Move(playerBlack,redStart,redEnd,SILENT);
+		if(move.isValid()) {
 			testPassed = false;
 			errors += String
 					.format("black_attempts_moving_black_piece failed: "

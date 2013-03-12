@@ -25,13 +25,45 @@ public class HumanPlayer extends Player {
 	 * @param pieceSelection whether the Player is selecting its Piece to move or not.
 	 * @return Location of a Random Piece that can be moved.
 	 */
-	public Location takeInput(boolean pieceSelection){
-		if(pieceSelection){
-			System.out.print("Please select the piece to move: ");
-		} else {
-			System.out.print("Enter a location to move to: ");
+	public Location selectStart(){
+		System.out.print("Please select the Piece to move: ");
+		Location start = takeInput();
+		
+		Piece tempPiece = board.checkSquare(start);
+		if(tempPiece == null) {
+			System.out.println("There is no piece there.");
+			start = selectStart();
+		} else if(tempPiece.getColour() != this.playerColour) {
+			System.out.println("That is not your piece to move.");
+			start = selectStart();
+		} else if(tempPiece.emptyMoves(this).length == 0 
+				&& tempPiece.emptyJumps(this).length == 0) {
+			System.out.println("That piece has no available moves.");
+			start = selectStart();
 		}
-
+		return start;			
+	}
+	
+	
+	public Location selectEnd(Location start) {
+		boolean silent = false;
+		System.out.print("Enter a location to move to: ");
+		Location end = takeInput();
+		
+		Move move = new Move(this,start,end,silent);
+		if (move.isValid() == false){
+			if(board.turnComplete() == 0){
+				start = selectStart();
+				selectEnd(start);
+			} else {
+				System.out.print("Invalid location. ");
+				selectEnd(start);
+			}
+		} return end;
+	}
+	
+	
+	public Location takeInput(){
 		int tempX = 0;
 		int tempY = 0;
 		try {
@@ -40,27 +72,12 @@ public class HumanPlayer extends Player {
 			tempY = Integer.parseInt(in.substring(in.indexOf(",") + 1));
 		} catch(IndexOutOfBoundsException e) {
 			System.out.print("Invalid entry- try again. ");
-			takeInput(pieceSelection);
+			takeInput();
 		} catch(NumberFormatException e) {
 			System.out.print("Invalid entry- try again. ");
-			takeInput(pieceSelection);
+			takeInput();
 		}
-
 		Location loc = new Location(tempX, tempY);
-
-		if(pieceSelection == true) {
-			if(board.checkSquare(loc) == null) {
-				System.out.println("There is no piece there.");
-				takeInput(pieceSelection);
-			} else if(board.checkSquare(loc).getColour() != this.playerColour) {
-				System.out.println("That is not your piece to move.");
-				takeInput(pieceSelection);
-			} else if(board.emptyMoves(this,loc) == null 
-				&& board.emptyJumps(this,loc) == null) {
-				System.out.println("That piece has no available moves.");
-				takeInput(pieceSelection);
-			}
-		}
-		return loc;			
+		return loc;
 	}
 }

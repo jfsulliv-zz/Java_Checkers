@@ -11,8 +11,10 @@ package main;
  */
 
 public class Location {
-	private final int xCoordinate;
-	private final int yCoordinate;
+	public static final int ROWS = Board.BOARD_ROWS;
+	public static final int COLUMNS = Board.BOARD_COLUMNS;
+	private int xCoordinate;
+	private int yCoordinate;
 
 	/**
 	 * Constructor from integer x,y coordinates
@@ -20,8 +22,8 @@ public class Location {
 	 * Pre-Condition: 0 <= x < 8; 0 <= y < 8
 	 */
 	public Location(int x, int y) {
-		this.xCoordinate = x;
-		this.yCoordinate = y;
+		xCoordinate = x;
+		yCoordinate = y;
 	}
 
 	/**
@@ -29,17 +31,19 @@ public class Location {
 	 * 
 	 * @return X-Coordinate
 	 */
-	public int getX() {
-		return this.xCoordinate;
-	}
+	public int getX() { return this.xCoordinate; }
 
 	/**
 	 * Accessor method for Y-position.
 	 * 
 	 * @return Y-Coordinate
 	 */
-	public int getY() {
-		return this.yCoordinate;
+	public int getY() { return this.yCoordinate; }
+	
+	public boolean inBounds() {
+		if (xCoordinate >= 0 && xCoordinate < ROWS && yCoordinate >= 0 && yCoordinate < COLUMNS) {
+			return true;
+		} return false;
 	}
 
 	public String toString() {

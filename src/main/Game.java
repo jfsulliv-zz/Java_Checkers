@@ -15,7 +15,7 @@ public class Game {
 	public static Game instance;
 	public HumanPlayer blackPlayer, redPlayer; 
 	public AIPlayer blackAIPlayer, redAIPlayer;
-	private Board board = new Board();
+	private Board board = Board.getInstance();
 	private int mode;
 	private boolean gameOver;
 	private Scanner input = new Scanner(System.in);
@@ -80,6 +80,8 @@ public class Game {
 				blackPlayer = new HumanPlayer(Colour.BLACK,board);
 				redPlayer = new HumanPlayer(Colour.RED,board);
 		}
+		
+		board.printArray();
 	}
 	
 	/**
@@ -88,7 +90,7 @@ public class Game {
 	 * the same piece, as long as they can continue to jump other pieces.
 	 * @param aPlayer The Human Player who's turn it is.
 	 */
-	public void turn(HumanPlayer aPlayer){
+	public void turn(Player aPlayer){
 		board.resetTurn();
 		aPlayer.queryPieces();
 		if(aPlayer.myPieces.length == 0 || canMove(aPlayer) == false){
@@ -96,79 +98,36 @@ public class Game {
 			return;
 		}
 		
-		board.printArray();
 		System.out.println("Turn: "+aPlayer.toString());
 		
 		Location start = new Location(0,0);
 		Location end = new Location(0,0);
-		while(board.turnComplete() != 2){
 			
-			while(board.turnComplete() == 0) {
-				start = aPlayer.takeInput(true);
-				end = aPlayer.takeInput(false);
-				aPlayer.movePiece(start,end);
-			}
-			
-			board.printArray();
-			start = end;
-			while(board.turnComplete() == 1 && board.emptyJumps(aPlayer, start).length > 0){
-				System.out.println("You took a piece and can continue to move!");
-				end = aPlayer.takeInput(false);
-				aPlayer.movePiece(start, end);
-				board.printArray();
-				start = end;
-			}
-			board.endTurn();
+		while(board.turnComplete() == 0) {
+			start = aPlayer.selectStart();
+			end = aPlayer.selectEnd(start);
+			aPlayer.movePiece(start,end);
 		}
-	}
-	
-	/**
-	 * Method to run a single turn for an AI Player.
-	 * <p>A player can move a single Piece in a turn. If they jump a piece, they can continue to move
-	 * the same piece, as long as they can continue to jump other pieces.
-	 * @param aPlayer The AI Player whose turn it is.
-	 */
-	public void turn(AIPlayer aPlayer){
-		board.resetTurn();
-		aPlayer.queryPieces();
-		if(aPlayer.myPieces.length == 0 || canMove(aPlayer) == false){
-			gameOver(aPlayer);
-			return;
-		}
-
-		board.printArray();
-		System.out.println("Turn: "+aPlayer.toString());
 		
-		Location start = new Location(0,0);
-		Location end = new Location(0,0);
-		while(board.turnComplete() != 2){
-
-			while(board.turnComplete() == 0){
-				start = aPlayer.randomStart();
-				end = aPlayer.randomEnd(start);
-				aPlayer.movePiece(start,end);				
-			}
-
+		board.printArray();
+		start = end;
+		while(board.turnComplete() == 1 && board.checkSquare(start).emptyJumps(aPlayer).length > 0){
+			System.out.println("You took a piece and can continue to move!");
+			end = aPlayer.selectEnd(start);
+			aPlayer.movePiece(start, end);
 			board.printArray();
 			start = end;
-			while(board.turnComplete() == 1 && board.emptyJumps(aPlayer, start).length > 0){
-				end = aPlayer.randomEnd(start);
-				board.printArray();
-				aPlayer.movePiece(start, end);
-				start = end;
-			}
-			board.endTurn();
 		}
+		board.endTurn();
 	}
-
 	
 	/*
 	 * Accessor method to determine if a Player has any valid moves on the board.
 	 */
 	private boolean canMove(Player aPlayer) {
 		for (int i = 0; i < aPlayer.myPieces.length; i++) {
-			if (board.emptyMoves(aPlayer, aPlayer.myPieces[i].getLocation()).length > 0 
-					|| board.emptyJumps(aPlayer, aPlayer.myPieces[i].getLocation()).length > 0){
+			if (aPlayer.myPieces[i].emptyMoves(aPlayer).length > 0 
+					|| aPlayer. myPieces[i].emptyJumps(aPlayer).length > 0){
 				return true;
 			} 
 		}

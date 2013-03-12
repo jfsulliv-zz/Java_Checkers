@@ -15,11 +15,20 @@ package main;
  * 
  */
 public class Board {
+	public static Board instance;
 	public static final int BOARD_ROWS = 8;
 	public static final int BOARD_COLUMNS = 8;
 	private Piece[][] boardArray = new Piece[8][8];
 	private int turnComplete = 0;
 
+	
+	public static Board getInstance(){
+		if(instance == null){
+			instance = new Board();
+		}
+		return instance;
+	}
+	
 	/**
 	 * Initializes the game board by creating an integer array to store the
 	 * information of every square on the board. Each square will contain a 0
@@ -73,9 +82,8 @@ public class Board {
 	 * @author Dylan Dobbyn
 	 */
 	public Piece checkSquare(Location square) {
-		if(!inBounds(square)){ return null; }
-		int x = square.getX(); int y = square.getY();
-		return boardArray[y][x];
+		if(!square.inBounds()){ return null; }
+		return boardArray[square.getY()][square.getX()];
 	}
 
 	/**
@@ -108,7 +116,7 @@ public class Board {
 	 * Only used within Board's public methods to ensure encapsulation.
 	 */
 	private void setSquare(Location square, Piece piece) {
-		if(!inBounds(square)) { return; }
+		if(!square.inBounds()) { return; }
 		boardArray[square.getY()][square.getX()] = piece;
 		if(piece != null){
 			piece.setLocation(square);
@@ -121,33 +129,10 @@ public class Board {
 	 */
 	public int turnComplete(){ return turnComplete; }
 	
-	/**
-	 * Mutator method to return the state of turn completion to 0.
-	 */
 	public void resetTurn(){ turnComplete = 0; }
-	
-	/**
-	 * Mutator method to set the state of turn completion to 2, ending the turn.
-	 */
+	public void continueTurn(){ turnComplete = 1; }
 	public void endTurn(){ turnComplete = 2; }
 
-	/*
-	 * Private Accessor to check if a given Location is in the Board's boundaries.
-	 */
-	private boolean inBounds(Location square){
-		if (square.getX() >= 0 && square.getX() < BOARD_ROWS && square.getY() >= 0 && square.getY() < BOARD_COLUMNS ){
-			return true;
-		} return false;
-	}
-
-	/*
-	 * Private Accessor to check if a movement from Location A to B would be considered a jump.
-	 */
-	private boolean isJump(Location start, Location end){
-		if (deltaX(start,end) == 2 && deltaY(start,end) == 2){
-			return true;
-		} return false;
-	}
 
 	/**
 	 * Moves a piece that is on one square of the board to another square of the
@@ -164,122 +149,33 @@ public class Board {
 	 *            the piece to.
 	 * @author Dylan Dobbyn
 	 */
-	public void movePiece(Player player, Location start, Location end) {
-		turnComplete = 0;
-		boolean isJump = isJump(start,end);
-		boolean silent = false;
-
-		if (inBounds(end) == false) {
-			return; 
-		} else if (checkMove(player, start, end, isJump, silent) == false) {
-			return;
-		}
-
-		if (isJump == true) {
+	public void movePiece(Player player, Move aMove) {
+		resetTurn();
+		Location start = aMove.getStart();
+		Location end = aMove.getEnd();
+		
+		if (aMove.isJump(start,end)) {
 			int tempY = (end.getY() + start.getY()) / 2;
 			int tempX = (end.getX() + start.getX()) / 2;
 			Location middle = new Location(tempX, tempY);
 			setSquare(middle,null);
-			setSquare(end,checkSquare(start));
-			setSquare(start,null);
-			turnComplete = 1;
+			continueTurn();
 		} else {
-			setSquare(end,checkSquare(start));
-			setSquare(start,null);
-			turnComplete = 2;
+			endTurn();
 		}
-	}
-
-	/**
-	 * Accessor method that will check the general case legality of a move.
-	 * Ensures that all moves performed are legal.
-	 * 
-	 * @PreCond: The user will select a starting and ending location.
-	 * @PostCond: The validity of the move will be returned.
-	 * 
-	 * @param currentPlayer
-	 *            the Player owner of the moved Piece.
-	 * @param start
-	 *            the Starting Location.
-	 * @param end
-	 *            the Ending location.
-	 * 
-	 * @return true if the move is valid.
-	 */
-	public boolean checkMove(Player currentPlayer, Location start, Location end, Boolean isJump , Boolean silent) {
-		int maxDistance;
-		if (isJump(start,end)) {
-			maxDistance = 2;
-		} else {
-			maxDistance = 1;
-		}
-
-		if (checkSquare(start) == null) {
-			if(!silent) {System.out.println("No piece on that starting position."); }
-			return false;
-		} else if (checkSquare(end) != null) {
-			if(silent == false) { System.out.println("The end position is already taken."); }
-			return false;
-		} else if (checkSquare(start).getColour() != currentPlayer.getColour()) {
-			if(!silent) {System.out.println("That is not your piece.");}
-			return false;
-		} else if (deltaX(start, end) != maxDistance || deltaY(start, end) != maxDistance) {
-			if(!silent) {System.out.println("You cannot move that far."); }
-			return false;
-		} else if (checkSquare(start).isKing() == false) {
-			if (end.getY() >= start.getY() && currentPlayer.getColour() == Colour.RED) {
-				if(!silent) { System.out.println("That piece can only move up."); }
-				return false;
-			} else if (end.getY() <= start.getY() && currentPlayer.getColour() == Colour.BLACK) {
-				if(!silent) { System.out.println("That piece can only move down."); }
-				return false;
-			} 
-		} 
-
-		if(isJump == false) { return true;} 
-		else { return checkJump(currentPlayer,start,end, silent); }
-
+		setSquare(end,checkSquare(start));
+		setSquare(start,null);
 	}
 
 	/*
-	 * Private Accessor method that contains some more checks applicable to a piece that is jumping.
-	 * Set to Private access for encapsulation- will only be called within 
-	 * the CheckMove() method as needed.
-	 */
-	public boolean checkJump(Player currentPlayer, Location start, Location end, Boolean silent) {
-		int tempY = (end.getY() + start.getY()) / 2;
-		int tempX = (end.getX() + start.getX()) / 2;
-		Location middle = new Location(tempX, tempY);
-
-		if (checkSquare(middle) == null) {
-			if(!silent) { System.out.println("No piece to jump over."); }
-			return false;
-		} else if (checkSquare(middle).getColour() == checkSquare(start).getColour()) {
-			if(!silent) { System.out.println("You cannot jump your own chip."); }
-			return false;
-		} else if (start.getX() + 1 == middle.getX()) {
-			if (start.getX() + 2 != end.getX()) {
-				if(!silent) { System.out.println("You can only jump in a straight line."); }
-				return false;
-			}
-		} else if (start.getX() - 1 == middle.getX()) {
-			if (start.getX() - 2 != end.getX()) {
-				if(!silent) { System.out.println("You can only jump in a straight line."); }
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/*
-	 * Private Accessor methods to determine the distance between two
-	 * X or Y Locations. This is used across other methods in Board, 
+	 * Accessor methods to determine the distance between two
+	 * X or Y Locations. This is used across other methods and classes, 
 	 * and is simply a timesaver.
 	 */
-	private int deltaX(Location start, Location end) {
+	public int deltaX(Location start, Location end) {
 		return Math.abs((start.getX() - end.getX()));
 	}
-	private int deltaY(Location start, Location end) {
+	public int deltaY(Location start, Location end) {
 		return Math.abs((start.getY() - end.getY()));
 	}
 
@@ -323,67 +219,5 @@ public class Board {
 			}
 		}
 		System.out.print("\n");
-	}
-
-	/**
-	 * Accessor Method to return an array of all of the empty movements from a given location.
-	 * @param player The Player who owns the Piece to be moved.
-	 * @param start The Location the Piece starts in.
-	 * @return An array that contains any and all movements a piece could legally make.
-	 */
-	public Location[] emptyMoves(Player player, Location start){
-		boolean isJump = false;
-		boolean silent = true;
-		int numMoves = 0;
-		Location[] maxMoves = new Location[4];
-
-		for(int x = -1; x <= 1; x += 2) {
-			for(int y = -1; y <= 1; y += 2){
-				int tempX = start.getX() + x;
-				int tempY = start.getY() + y;
-				Location tempLoc = new Location(tempX,tempY);
-				if(inBounds(tempLoc) == true && checkMove(player,start,tempLoc,isJump, silent) == true) { 
-					maxMoves[numMoves] = tempLoc;
-					numMoves++;
-				}
- 			}
-		}
-
-		Location[] legalMoves = new Location[numMoves];
-		for(int index = 0; index < numMoves; index++) {
-			legalMoves[index] = maxMoves[index];
-		}
-		return legalMoves;
-	}
-
-	/**
-	 * Accessor Method to return an array of all of the empty jumps from a given location.
-	 * @param player The Player who owns the Piece to be moved.
-	 * @param start The Location the Piece starts in.
-	 * @return An array that contains any and all jumps a piece could legally make.
-	 */
-	public Location[] emptyJumps(Player player, Location start){
-		boolean isJump = true;
-		boolean silent = true;
-		int numMoves = 0;
-		Location[] maxJumps = new Location[4];
-
-		for(int x = -2; x <= 2; x += 4){
-			for(int y = -2; y <= 2; y += 4){
-				int tempX = start.getX() + x;
-				int tempY = start.getY() + y;
-				Location tempLoc = new Location(tempX,tempY);
-				if (inBounds(tempLoc) == true && checkMove(player,start,tempLoc,isJump, silent) == true){
-					maxJumps[numMoves] = tempLoc;
-					numMoves++;
-				}			
-			}
-		}
-
-		Location[] legalJumps = new Location[numMoves];
-		for(int index = 0; index < numMoves; index++){
-			legalJumps[index] = maxJumps[index];
-		}		
-		return legalJumps;
 	}
 }

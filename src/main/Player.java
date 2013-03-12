@@ -11,11 +11,11 @@ package main;
  * @author Zsanett
  * 
  */
-public class Player {
+public abstract class Player {
 	public Piece[] myPieces;
-	protected Colour playerColour;
+	protected final Colour playerColour;
 	protected final boolean human;
-	protected Board board;
+	protected Board board = Board.getInstance();
 
 	/**
 	 * Constructor for creating a Player given a Colour enumeration, its Human status, and the Board instance.
@@ -26,8 +26,7 @@ public class Player {
 	public Player(Colour aColour, boolean isHuman, Board board) {
 		this.playerColour = aColour;
 		this.human = isHuman;
-		this.board = board;
-
+		queryPieces();
 	}
 
 	/**
@@ -60,7 +59,14 @@ public class Player {
 	 * @param end - The ending location
 	 */
 	public void movePiece(Location start, Location end) {
-		board.movePiece(this,start,end);
+		Boolean silent = false;
+		Move move = new Move(this,start,end,silent);
+		if (!end.inBounds()) {
+			return; 
+		} else if (move.isValid() == false) {
+			return;
+		}
+		board.movePiece(this,move);
 	}
 
 	/**
@@ -70,6 +76,9 @@ public class Player {
 	public boolean isHuman(){
 		return human;
 	}
+	
+	public abstract Location selectStart();
+	public abstract Location selectEnd(Location start);
 	
 	public String toString(){
 		return "Player: " + this.playerColour;

@@ -26,19 +26,20 @@ public class AIPlayer extends Player {
 	 * <p>The AIPlayer will seek out any jumps it can perform and prefer those.
 	 * @return Location of a Random Piece that can be moved.
 	 */
-	public Location randomStart(){
+	public Location selectStart(){
 		Location[] preferredLocs = new Location[12];
 		int tempIndex1 = 0;
 		Location[] otherLocs = new Location[12];
 		int tempIndex2 = 0;
 		for(int i = 0; i < myPieces.length; i++){
+			
 			Location tempLoc = myPieces[i].getLocation();
-			if (board.emptyJumps(this,tempLoc).length == 0 && board.emptyMoves(this, tempLoc).length == 0) {
-				continue;
-			} if (board.emptyJumps(this,tempLoc).length > 0) {
+			Piece tempPiece = board.checkSquare(tempLoc);
+			if (tempPiece.emptyJumps(this).length > 0) {
+				System.out.println("HI");
 				preferredLocs[tempIndex1] = tempLoc;
 				tempIndex1++;
-			} else if (board.emptyMoves(this,tempLoc).length > 0) {
+			} else if (tempPiece.emptyMoves(this).length > 0) {
 				otherLocs[tempIndex2] = tempLoc;
 				tempIndex2++;
 			}
@@ -64,9 +65,10 @@ public class AIPlayer extends Player {
 	 * @param start The starting location of a Piece that has some valid moves.
 	 * @return Location of a random movement for the piece.
 	 */
-	public Location randomEnd(Location start){
-		Location[] allJumps = board.emptyJumps(this,start);
-		Location[] allMoves = board.emptyMoves(this,start);
+	public Location selectEnd(Location start){
+		Piece tempPiece = board.checkSquare(start);
+		Location[] allJumps = tempPiece.emptyJumps(this);
+		Location[] allMoves = tempPiece.emptyMoves(this);
 		
 		if(allJumps.length > 0){
 			int randomIndex = generator.nextInt(allJumps.length);
