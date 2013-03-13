@@ -44,6 +44,7 @@ public class Game {
 	private void play() {
 		int turn = 1;
 		while(!gameOver) {
+			board.resetTurn();
 			switch(turn) {
 			case 0: turn(blackPlayer);
 						turn +=1;
@@ -108,7 +109,6 @@ public class Game {
 	 * the same piece, as long as they can continue to jump other pieces.
 	 */
 	private void turn(Player aPlayer){
-		board.resetTurn();
 		aPlayer.queryPieces();
 		if(aPlayer.myPieces.length == 0 || canMove(aPlayer) == false){
 			gameOver(aPlayer);
@@ -138,7 +138,6 @@ public class Game {
 			board.printArray();
 			start = end;
 		}
-		board.endTurn();
 	}
 	
 

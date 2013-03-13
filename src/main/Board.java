@@ -129,8 +129,8 @@ public class Board {
 	public int turnComplete(){ return turnComplete; }
 	
 	public void resetTurn(){ turnComplete = 0; }
-	public void continueTurn(){ turnComplete = 1; }
-	public void endTurn(){ turnComplete = 2; }
+	private void continueTurn(){ turnComplete = 1; }
+	private void endTurn(){ turnComplete = 2; }
 
 
 	/**
@@ -150,6 +150,7 @@ public class Board {
 	 */
 	public void movePiece(Player player, Move aMove) {
 		resetTurn();
+		if (aMove.isValid() == false) {return;}
 		Location start = aMove.getStart();
 		Location end = aMove.getEnd();
 		
