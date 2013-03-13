@@ -1,14 +1,12 @@
 package main;
 
 /**
- * A Checkers Piece. Holds information on piece colour, and King status.
+ * A Checkers Piece. Holds information on piece colour, location, and King status.
+ * <p>
+ * Additionally holds methods to determine all available movements a Piece could make.
  * <p>
  * King status determines whether the piece can move bidirectionally.
  * 
- * @param king
- *            Boolean of king status
- * @param Colour
- *            enum of colour (BLACK("B")/RED("R"))
  * @author James Sullivan
  */
 
@@ -45,22 +43,33 @@ public class Piece {
 
 	}
 
-	/**
-	 * Mutator method to King-a- a piece.
-	 * <p>
-	 * Post-Condition: Piece becomes a King.
+	/*
+	 * Private Mutator method to King a piece.
 	 */
-	public void makeKing() { king = true; }
-/**
+	private void makeKing() { king = true; }
+	
+	/**
 	 * Accessor method to see King status.
 	 * 
 	 * @return true if the piece is a King.
 	 */
 	public boolean isKing() { return king; }
 
+	/**
+	 * Accessor method to determine Piece location.
+	 * @return Location of the Piece
+	 */
 	public Location getLocation(){ return location; }
 	
+	/**
+	 * Mutator method to change the Piece's location. Piece becomes a King if necessary.
+	 * @param newLoc The new location of the Piece.
+	 */
 	public void setLocation(Location newLoc) {
+		if(newLoc.inBounds() == false) {
+			return;
+		}
+		
 		this.location = newLoc;
 		if(newLoc.getY() == 0 && this.colour == Colour.RED){
 			makeKing();
@@ -71,7 +80,6 @@ public class Piece {
 
 	/**
 	 * Accessor method to return the Piece's colour.
-	 * 
 	 * @return Colour enumeration of the piece
 	 */
 	public Colour getColour() {
@@ -79,7 +87,7 @@ public class Piece {
 	}
 	
 	/**
-	 * Accessor Method to return an array of all of the empty movements available to the Piece.
+	 * Accessor Method to return a Location array of all of the empty movements available to the Piece.
 	 * @param player The Player who owns the Piece to be moved.
 	 * @param start The Location the Piece starts in.
 	 * @return An array that contains any and all movements a piece could legally make.
@@ -89,28 +97,28 @@ public class Piece {
 		int numMoves = 0;
 		Location[] maxMoves = new Location[4];
 
-		for(int x = -1; x <= 1; x += 2) {
-			for(int y = -1; y <= 1; y += 2){
+		for(int x = -1; x <= 1; x += 2) {		// Check all squares of distance +/-1 
+			for(int y = -1; y <= 1; y += 2){	// located diagonally from the Piece
 				int tempX = location.getX() + x;
 				int tempY = location.getY() + y;
 				Location tempLoc = new Location(tempX,tempY);
 				Move move = new Move(owner,location,tempLoc,silent);
 				if(tempLoc.inBounds() && move.isValid()) { 
-					maxMoves[numMoves] = tempLoc;
+					maxMoves[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
 					numMoves++;
 				}
  			}
 		}
 
 		Location[] legalMoves = new Location[numMoves];
-		for(int index = 0; index < numMoves; index++) {
-			legalMoves[index] = maxMoves[index];
+		for(int index = 0; index < numMoves; index++) {	// A new array of correct length is generated
+			legalMoves[index] = maxMoves[index];		// and returned
 		}
 		return legalMoves;
 	}	
 	
 	/**
-	 * Accessor Method to return an array of all of the empty jumps from a given location.
+	 * Accessor Method to return a Location array of all of the empty jumps from a given location.
 	 * @param player The Player who owns the Piece to be moved.
 	 * @param start The Location the Piece starts in.
 	 * @return An array that contains any and all jumps a piece could legally make.
@@ -120,22 +128,22 @@ public class Piece {
 		int numMoves = 0;
 		Location[] maxJumps = new Location[4];
 
-		for(int x = -2; x <= 2; x += 4){
-			for(int y = -2; y <= 2; y += 4){
+		for(int x = -2; x <= 2; x += 4){		// Check all squares of distance +/- 2
+			for(int y = -2; y <= 2; y += 4){	// located diagonally from the Piece
 				int tempX = location.getX() + x;
 				int tempY = location.getY() + y;
 				Location tempLoc = new Location(tempX,tempY);
 				Move move = new Move(owner,location,tempLoc,silent);
 				if (tempLoc.inBounds() && move.isValid()){
-					maxJumps[numMoves] = tempLoc;
+					maxJumps[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
 					numMoves++;
 				}
 			}
 		}
 
 		Location[] legalJumps = new Location[numMoves];
-		for(int index = 0; index < numMoves; index++){
-			legalJumps[index] = maxJumps[index];
+		for(int index = 0; index < numMoves; index++){	// A new array of correct Length is generated
+			legalJumps[index] = maxJumps[index];		// and returned
 		}		
 		return legalJumps;
 	}

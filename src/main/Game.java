@@ -13,9 +13,8 @@ import java.util.Scanner;
  */
 public class Game {
 	public static Game instance;
-	public HumanPlayer blackPlayer, redPlayer; 
-	public AIPlayer blackAIPlayer, redAIPlayer;
 	private Board board = Board.getInstance();
+	private Player blackPlayer, redPlayer;
 	private int mode;
 	private boolean gameOver;
 	private Scanner input = new Scanner(System.in);
@@ -74,11 +73,15 @@ public class Game {
 		
 		switch(mode) {
 			case 1:
-				blackAIPlayer = new AIPlayer(Colour.BLACK,board);
-				redPlayer = new HumanPlayer(Colour.RED,board);
-			case 2:
+				System.out.println("Playing against an AI Player.");
+				blackPlayer = new AIPlayer(Colour.BLACK,board);
+				redPlayer = new HumanPlayer(Colour.RED,board); 
+				break;
+			case 2: 
+				System.out.println("Red will move first.");
 				blackPlayer = new HumanPlayer(Colour.BLACK,board);
-				redPlayer = new HumanPlayer(Colour.RED,board);
+				redPlayer = new HumanPlayer(Colour.RED,board); 
+				break;
 		}
 		
 		board.printArray();
@@ -90,7 +93,7 @@ public class Game {
 	 * the same piece, as long as they can continue to jump other pieces.
 	 * @param aPlayer The Human Player who's turn it is.
 	 */
-	public void turn(Player aPlayer){
+	private void turn(Player aPlayer){
 		board.resetTurn();
 		aPlayer.queryPieces();
 		if(aPlayer.myPieces.length == 0 || canMove(aPlayer) == false){
@@ -119,6 +122,13 @@ public class Game {
 			start = end;
 		}
 		board.endTurn();
+	}
+	
+	public void nextTurn(Colour aColour) {
+		switch(aColour) {
+		case BLACK: turn(blackPlayer);
+		case RED: turn(redPlayer);
+		}
 	}
 	
 	/*

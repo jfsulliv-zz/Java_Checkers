@@ -22,22 +22,21 @@ public class AIPlayer extends Player {
 
 	
 	/**
-	 * Accessor Method to return a valid, random Piece for the AIPlayer to move on the Board.
+	 * Accessor Method to return a random, usable Piece's Location for the AIPlayer to move on the Board.
 	 * <p>The AIPlayer will seek out any jumps it can perform and prefer those.
 	 * @return Location of a Random Piece that can be moved.
 	 */
 	public Location selectStart(){
-		Location[] preferredLocs = new Location[12];
+		Location[] preferredLocs = new Location[12]; // Starting locations that have 'preferred' locations to move to
 		int tempIndex1 = 0;
-		Location[] otherLocs = new Location[12];
+		Location[] otherLocs = new Location[12]; // All other starting Locations available
 		int tempIndex2 = 0;
 		for(int i = 0; i < myPieces.length; i++){
 			
 			Location tempLoc = myPieces[i].getLocation();
 			Piece tempPiece = board.checkSquare(tempLoc);
 			if (tempPiece.emptyJumps(this).length > 0) {
-				System.out.println("HI");
-				preferredLocs[tempIndex1] = tempLoc;
+				preferredLocs[tempIndex1] = tempLoc; // If a Piece can jump, its location is Preferred
 				tempIndex1++;
 			} else if (tempPiece.emptyMoves(this).length > 0) {
 				otherLocs[tempIndex2] = tempLoc;
@@ -53,8 +52,7 @@ public class AIPlayer extends Player {
 			int randomIndex = generator.nextInt(tempIndex2);
 			System.out.println("Computer selects Piece at " + otherLocs[randomIndex]);
 			return otherLocs[randomIndex];
-		}
-
+		} 
 		return null;
 	}
 
@@ -67,8 +65,8 @@ public class AIPlayer extends Player {
 	 */
 	public Location selectEnd(Location start){
 		Piece tempPiece = board.checkSquare(start);
-		Location[] allJumps = tempPiece.emptyJumps(this);
-		Location[] allMoves = tempPiece.emptyMoves(this);
+		Location[] allJumps = tempPiece.emptyJumps(this);  // Arrays containing possible movements and jumps
+		Location[] allMoves = tempPiece.emptyMoves(this);  // for a given Location.
 		
 		if(allJumps.length > 0){
 			int randomIndex = generator.nextInt(allJumps.length);

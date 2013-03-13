@@ -19,16 +19,17 @@ public class HumanPlayer extends Player {
 	}
 
 	/**
-	 * Accessor Method to take user input and return a valid Location on the board.
-	 * <p>This method handles both selection of a Piece and selection of where to move it. Extra
-	 * checks apply if the Player is selecting a Piece to move.
-	 * @param pieceSelection whether the Player is selecting its Piece to move or not.
+	 * Accessor Method to determine, validate and return  a starting Piece for a Player to move.
+	 * 
 	 * @return Location of a Random Piece that can be moved.
 	 */
 	public Location selectStart(){
 		System.out.print("Please select the Piece to move: ");
 		Location start = takeInput();
 		
+		
+		// Recursion is used while invalid input is given. Only when the input is correct
+		// will a Location be returned.
 		Piece tempPiece = board.checkSquare(start);
 		if(tempPiece == null) {
 			System.out.println("There is no piece there.");
@@ -44,26 +45,38 @@ public class HumanPlayer extends Player {
 		return start;			
 	}
 	
-	
+	/** 
+	 * Accessor Method to determine, validate and return an end location for the Player to move.
+	 * 
+	 * @param Start Location
+	 * @return End Location
+	 */
 	public Location selectEnd(Location start) {
 		boolean silent = false;
 		System.out.print("Enter a location to move to: ");
 		Location end = takeInput();
 		
+		// Again recursion is used to protect from invalid input, the function will
+		// call itself (or the selectStart() method) until valid input is given.
 		Move move = new Move(this,start,end,silent);
 		if (move.isValid() == false){
 			if(board.turnComplete() == 0){
-				start = selectStart();
+				start = selectStart();	// The player will have the opportunity to reselect the Start position.
 				selectEnd(start);
 			} else {
-				System.out.print("Invalid location. ");
-				selectEnd(start);
+				System.out.print("Invalid location. ");	// The player cannot select a new Starting piece 
+				selectEnd(start);						// (was performing a second jump).
 			}
 		} return end;
 	}
 	
-	
-	public Location takeInput(){
+	/*
+	 * Private method to take String input and check for validity.
+	 * If the string is valid, it will be converted to a usable Location.
+	 * 
+	 * Correct format: "int,int"
+	 */
+	private Location takeInput(){
 		int tempX = 0;
 		int tempY = 0;
 		try {

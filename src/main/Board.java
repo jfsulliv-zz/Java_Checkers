@@ -97,15 +97,14 @@ public class Board {
 		for(int i = 0; i < BOARD_ROWS; i++) {
 			for(int j = 0; j < BOARD_COLUMNS; j++){
 				if(boardArray[i][j] != null && boardArray[i][j].getColour() == aColour) {
-					tempPiece[tempIndex] = boardArray[i][j];
+					tempPiece[tempIndex] = boardArray[i][j];	// A temporary array is filled with all of the correctly coloured Pieces
 					tempIndex++;
 				}
 			}
 		}
-		if (tempIndex == 0) { return null; }
 
 		Piece[] myPieces = new Piece[tempIndex];
-		for(int index = 0; index < tempIndex; index++){
+		for(int index = 0; index < tempIndex; index++){	// An array of correct size is then generated and returned.
 			myPieces[index] = tempPiece[index];
 		}
 		return myPieces;

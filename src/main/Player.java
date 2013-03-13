@@ -12,7 +12,7 @@ package main;
  * 
  */
 public abstract class Player {
-	public Piece[] myPieces;
+	protected Piece[] myPieces;
 	protected final Colour playerColour;
 	protected final boolean human;
 	protected Board board = Board.getInstance();
@@ -61,7 +61,7 @@ public abstract class Player {
 	public void movePiece(Location start, Location end) {
 		Boolean silent = false;
 		Move move = new Move(this,start,end,silent);
-		if (!end.inBounds()) {
+		if (end.inBounds() == false) {
 			return; 
 		} else if (move.isValid() == false) {
 			return;

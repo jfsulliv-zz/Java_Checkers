@@ -9,8 +9,7 @@ package main;
 public class Move {
 	private boolean valid;
 	private Board board = Board.getInstance();
-	private Location start;
-	private Location end;
+	private Location start, end;
 	private Player owner;
 	
 	/**
@@ -59,6 +58,7 @@ public class Move {
 			return true;
 		} return false;
 	}
+	
 	/**
 	 * Accessor method that will check the general case legality of a move.
 	 * Ensures that all moves performed are legal.
@@ -80,7 +80,7 @@ public class Move {
 		} else {
 			maxDistance = 1;
 		}
-
+		
 		if (board.checkSquare(start) == null) {
 			if(!silent) {System.out.println("No piece on that starting position."); }
 			return false;
@@ -103,12 +103,12 @@ public class Move {
 			} 
 		} 
 		if(isJump(start,end) == false) { return true; } 
-		else { return validJump(silent); }
+		else { return validJump(silent); } // A series of checks pertaining to Jumps will be made
 
 	}
 
 	/**
-	 * Accessor method that contains some more checks applicable to a piece that is jumping.
+	 * Accessor method that contains checks applicable to a piece that is jumping.
 	 * @param silent Whether the checks should be done silently or not.
 	 * @return true if the movement is a legal jump.
 	 */
@@ -137,12 +137,10 @@ public class Move {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
 	public String toString(){
 		if(start != null && end != null){
-			return (start.toString()+"to "+end.toString()+": "+valid);
+			return (start.toString()+"to "+end.toString()+". Valid: "+valid);
 		}
 		return("Invalid");
 	}

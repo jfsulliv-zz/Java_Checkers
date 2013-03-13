@@ -40,6 +40,10 @@ public class Location {
 	 */
 	public int getY() { return this.yCoordinate; }
 	
+	/**
+	 * Accessor method to determine if a Location is in boundaries of the Board.
+	 * @return True if the Location is within the board's bounds.
+	 */
 	public boolean inBounds() {
 		if (xCoordinate >= 0 && xCoordinate < ROWS && yCoordinate >= 0 && yCoordinate < COLUMNS) {
 			return true;
