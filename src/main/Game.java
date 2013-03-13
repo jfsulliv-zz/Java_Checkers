@@ -19,8 +19,11 @@ public class Game {
 	private boolean gameOver;
 	private Scanner input = new Scanner(System.in);
 	
+	/*
+	 * Private default constructor that calls the initialize() method.
+	 */
 	private Game() {
-		
+		initialize();
 	}
 	
 	/**
@@ -33,19 +36,30 @@ public class Game {
 		}
 		return instance;
 	}
-	
-	/**
-	 * Accessor Method to return the Player Mode of the game.
-	 * @return Integer Player Mode (Corresponds to number of Human Players).
+
+	/*
+	 * Private method that will call the turn(Player aPlayer) method until the gameOver is true.
+	 * Alternates between the Black and the Red player.
 	 */
-	public Integer getMode(){
-		return mode;
+	private void play() {
+		int turn = 1;
+		while(!gameOver) {
+			switch(turn) {
+			case 0: turn(blackPlayer);
+						turn +=1;
+						break;
+			case 1: turn(redPlayer);
+						turn -=1;
+						break;
+			}
+		}
 	}
 	
-	/**
-	 * Mutator method to initialize the game, including the Board's initialization and setting up the Players.
+	/*
+	 * Method to initialize the game, including the Board's initialization and setting up the Players.
+	 * The Private play() method is called at the end, which will begin the game. The game will continue until a player loses.
 	 */
-	public void initialize(){
+	private void initialize(){
 		board.initializeBoard();
 		System.out.println("Welcome to Checkers!\n RED will play first.");
 		System.out.println("Enter locations when prompted in the form \"x,y\".");
@@ -85,13 +99,13 @@ public class Game {
 		}
 		
 		board.printArray();
+		play();	// play() will continue to run until one player or the other loses.
 	}
 	
-	/**
+	/*
 	 * Method to run a single Turn for a Human Player.
-	 * <p>A player can move a single Piece in a turn. If they jump a piece, they can continue to move
+	 * A player can move a single Piece in a turn. If they jump a piece, they can continue to move
 	 * the same piece, as long as they can continue to jump other pieces.
-	 * @param aPlayer The Human Player who's turn it is.
 	 */
 	private void turn(Player aPlayer){
 		board.resetTurn();
@@ -100,20 +114,23 @@ public class Game {
 			gameOver(aPlayer);
 			return;
 		}
-		
 		System.out.println("Turn: "+aPlayer.toString());
 		
 		Location start = new Location(0,0);
 		Location end = new Location(0,0);
 			
+		// This segment is called until a valid movement has been made by the Player.
 		while(board.turnComplete() == 0) {
 			start = aPlayer.selectStart();
 			end = aPlayer.selectEnd(start);
 			aPlayer.movePiece(start,end);
 		}
-		
 		board.printArray();
+		
 		start = end;
+		
+		// The following section pertains to a continuing turn- if a player jumps a piece,
+		// they can proceed to make another jump if it is possible.
 		while(board.turnComplete() == 1 && board.checkSquare(start).emptyJumps(aPlayer).length > 0){
 			System.out.println("You took a piece and can continue to move!");
 			end = aPlayer.selectEnd(start);
@@ -124,12 +141,7 @@ public class Game {
 		board.endTurn();
 	}
 	
-	public void nextTurn(Colour aColour) {
-		switch(aColour) {
-		case BLACK: turn(blackPlayer);
-		case RED: turn(redPlayer);
-		}
-	}
+
 	
 	/*
 	 * Accessor method to determine if a Player has any valid moves on the board.
@@ -153,6 +165,10 @@ public class Game {
 		gameOver = true;
 	}
 	
+	/**
+	 * Returns true if the game has been ended, ie if a player can no longer move.
+	 * @return True if the game is over.
+	 */
 	public boolean gameOver(){
 		return gameOver;
 	}

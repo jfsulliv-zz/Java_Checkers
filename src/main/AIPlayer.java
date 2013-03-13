@@ -28,31 +28,44 @@ public class AIPlayer extends Player {
 	 */
 	public Location selectStart(){
 		Location[] preferredLocs = new Location[12]; // Starting locations that have 'preferred' locations to move to
-		int tempIndex1 = 0;
+		int numPreferredMoves = 0;
 		Location[] otherLocs = new Location[12]; // All other starting Locations available
-		int tempIndex2 = 0;
+		int numOtherMoves = 0;
+		
 		for(int i = 0; i < myPieces.length; i++){
-			
 			Location tempLoc = myPieces[i].getLocation();
 			Piece tempPiece = board.checkSquare(tempLoc);
+			
+			// If a Piece can jump, its location is Preferred
 			if (tempPiece.emptyJumps(this).length > 0) {
-				preferredLocs[tempIndex1] = tempLoc; // If a Piece can jump, its location is Preferred
-				tempIndex1++;
-			} else if (tempPiece.emptyMoves(this).length > 0) {
-				otherLocs[tempIndex2] = tempLoc;
-				tempIndex2++;
+				preferredLocs[numPreferredMoves] = tempLoc; 
+				numPreferredMoves++;
+			} 
+			// If a Piece can be Kinged, its location is Preferred
+			else if ((tempPiece.getLocation().getY() == 1 && this.playerColour == Colour.BLACK) 
+					|| (tempPiece.getLocation().getY() == 6 && this.playerColour == Colour.RED)) {
+				if(tempPiece.emptyMoves(this).length > 0 && !tempPiece.isKing()) {
+					preferredLocs[numPreferredMoves] = tempLoc; 
+				}
+			}
+			// Otherwise its location is added to the otherLocs array.
+			else if (tempPiece.emptyMoves(this).length > 0) {
+				otherLocs[numOtherMoves] = tempLoc;
+				numOtherMoves++;	
 			}
 		}
 
-		if(tempIndex1 > 0){
-			int randomIndex = generator.nextInt(tempIndex1);
+		// A random Location will be selected from the arrays- PreferredLocs will be checked first.
+		if(numPreferredMoves > 0){
+			int randomIndex = generator.nextInt(numPreferredMoves);
 			System.out.println("Computer selects Piece at " + preferredLocs[randomIndex]);
 			return preferredLocs[randomIndex];
-		} else if (tempIndex2 > 0) {
-			int randomIndex = generator.nextInt(tempIndex2);
+		} else if (numOtherMoves > 0) {
+			int randomIndex = generator.nextInt(numOtherMoves);
 			System.out.println("Computer selects Piece at " + otherLocs[randomIndex]);
 			return otherLocs[randomIndex];
 		} 
+		System.out.println("No valid pieces can be moved.");
 		return null;
 	}
 
@@ -68,16 +81,24 @@ public class AIPlayer extends Player {
 		Location[] allJumps = tempPiece.emptyJumps(this);  // Arrays containing possible movements and jumps
 		Location[] allMoves = tempPiece.emptyMoves(this);  // for a given Location.
 		
+		// If a jump can be made, that will first be selected.
 		if(allJumps.length > 0){
 			int randomIndex = generator.nextInt(allJumps.length);
 			System.out.println("Computer moves to " + allJumps[randomIndex]);
 			return allJumps[randomIndex];
-		} else if (allMoves.length > 0) {
+		}
+		// Otherwise a random move will be selected. If a Piece can be kinged by a Move, that will be selected first.
+		else if (allMoves.length > 0) {
+			for (int i = 0; i < allMoves.length; i++){
+				if ((allMoves[i].getY() == 7 && this.playerColour == Colour.RED) 
+				|| (allMoves[i].getY() == 0 && this.playerColour == Colour.BLACK)) {
+					return allMoves[i];
+				}
+			}
 			int randomIndex = generator.nextInt(allMoves.length);
 			System.out.println("Computer moves to " + allMoves[randomIndex]);
 			return allMoves[randomIndex];
-		} else {
-			return null;
 		}
+		return null;
 	}
 }
