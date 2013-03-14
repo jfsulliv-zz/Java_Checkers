@@ -15,17 +15,17 @@ public class MainFrameLauncher {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				runGUI();
+				runGUI(); // Runs the GUI
 			}
 
 		});
 	}
 
 	public static void runGUI() {
-		MainFrame frame = new MainFrame();
-		FrameSwitcher controller = new FrameSwitcher(frame);
-		frame.start();
-		frame.SwitchFrames(controller);
+		MainFrame frame = new MainFrame(); // Create an instance of the MainFrame
+		FrameSwitcher controller = new FrameSwitcher(frame); // Create an instance of the FrameSwitcher
+		frame.start(); // Start the frame
+		frame.SwitchFrames(controller); // Set the controller
 	}
 
 }
