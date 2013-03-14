@@ -1,5 +1,7 @@
 package GUIcontroller;
 
-public class FrameSwitcher {
+import GUI.Listener;
+
+public class FrameSwitcher extends Listener {
 
 }
