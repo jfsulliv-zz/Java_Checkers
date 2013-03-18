@@ -6,12 +6,11 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 
-	private JPanel gamePanel = new JPanel();
 	private JButton btnQuit;
 	private ImageIcon quitButton, rollOverQuitButton;
 	
-	public JPanel gamePanel() {
-		gamePanel.setLayout(null);
+	public GamePanel() {
+		setLayout(null);
 		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages\\GamePanelBackground.jpg").getImage());
 		
 		quitButton = new ImageIcon("GUIImages\\gamePanelQuitButton.png");
@@ -23,10 +22,9 @@ public class GamePanel extends JPanel {
 		btnQuit.setFocusPainted(false);
 		btnQuit.setBounds(385, 480, 145, 105);
 		btnQuit.setRolloverIcon(rollOverQuitButton);
-		gamePanel.add(btnQuit);
 		
-		gamePanel.add(background);
+		add(btnQuit);
+		add(background);
 		
-		return gamePanel;
 	}
 }
