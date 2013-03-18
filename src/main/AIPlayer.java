@@ -27,6 +27,7 @@ public class AIPlayer extends Player {
 	 * @return Location of a Random Piece that can be moved.
 	 */
 	public Location selectStart(){
+		updatePieces();
 		Location[] preferredLocs = new Location[12]; // Starting locations that have 'preferred' locations to move to
 		int numPreferredMoves = 0;
 		Location[] otherLocs = new Location[12]; // All other starting Locations available
@@ -35,23 +36,23 @@ public class AIPlayer extends Player {
 		for(int i = 0; i < myPieces.length; i++){
 			Location tempLoc = myPieces[i].getLocation();
 			Piece tempPiece = board.checkSquare(tempLoc);
-			
 			// If a Piece can jump, its location is added to the Preferred array
 			if (tempPiece.emptyJumps(this).length > 0) {
 				preferredLocs[numPreferredMoves] = tempLoc; 
 				numPreferredMoves++;
 			} 
 			// If a Piece can be Kinged, its location is added to the Preferred array
-			else if ((tempPiece.getLocation().getY() == 1 && this.playerColour == Colour.BLACK) 
-					|| (tempPiece.getLocation().getY() == 6 && this.playerColour == Colour.RED)) {
+			else if ((tempPiece.getLocation().getY() == 6 && this.playerColour == Colour.BLACK) 
+					|| (tempPiece.getLocation().getY() == 1 && this.playerColour == Colour.RED)) {
 				if(tempPiece.emptyMoves(this).length > 0 && !tempPiece.isKing()) {
 					preferredLocs[numPreferredMoves] = tempLoc; 
+					numPreferredMoves++;
 				}
 			}
 			// All other pieces' locations will be added to the Other array
 			else if (tempPiece.emptyMoves(this).length > 0) {
 				otherLocs[numOtherMoves] = tempLoc;
-				numOtherMoves++;	
+				numOtherMoves++;
 			}
 		}
 
@@ -91,8 +92,8 @@ public class AIPlayer extends Player {
 		// Otherwise a random move will be selected. If a Piece can be Kinged, that will be selected first.
 		else if (allMoves.length > 0) {
 			for (int i = 0; i < allMoves.length; i++){
-				if ((allMoves[i].getY() == 7 && this.playerColour == Colour.RED) 
-				|| (allMoves[i].getY() == 0 && this.playerColour == Colour.BLACK)) {
+				if ((allMoves[i].getY() == 0 && this.playerColour == Colour.RED) 
+				|| (allMoves[i].getY() == 7 && this.playerColour == Colour.BLACK)) {
 					return allMoves[i];
 				}
 			}
