@@ -1,28 +1,50 @@
 package GUIcontroller;
 
+import java.awt.event.ActionListener;
 
-import java.awt.event.ActionEvent; //
+import javax.swing.JPanel;
+import javax.swing.event.EventListenerList;
 
 import GUI.GamePanel;
-import GUI.Listener;
 import GUI.MainFrame;
-import GUI.PanelListener; //
+import GUI.MainMenu;
+import GUI.PanelListener;
 import GUI.ScorePanel;
 
-public class FrameSwitcher extends Listener {
-	
-	private GamePanel gamePanel;
-	private ScorePanel scorePanel;
-	
+public class FrameSwitcher implements PanelListener {
+
+	private JPanel mainMenu = new MainMenu();
+	private JPanel gamePanel = new GamePanel();
+	private JPanel scorePanel = new ScorePanel();
+
+	public EventListenerList actionListenerList = new EventListenerList();
+
+	public FrameSwitcher() {
+		
+	}
 	public FrameSwitcher(MainFrame frame) {
 
 	}
 
-	public void addActionListner(PanelListener listener) {
-		
+	public void gamePanel() {
+		System.out.println("GamePanel Event: Recieved");
+
 	}
-	protected void fireActionPerformed(ActionEvent event) {
-		
+
+	public void mainMenu() {
+		System.out.println("MainMenu Event: Recieved");
 	}
-	
+
+	public void scoreBoard() {
+		System.out.println("ScoreBoard Event: Recieved");
+	}
+
+	public void addActionListener(ActionListener actionListener) {
+		actionListenerList.add(ActionListener.class, actionListener);
+	}
+
+	public void removeActionListener(ActionListener actionListener) {
+		actionListenerList.remove(ActionListener.class, actionListener);
+	}
+
 }
