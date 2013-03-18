@@ -93,7 +93,7 @@ public class Piece {
 	 * @return An array that contains any and all movements a piece could legally make.
 	 */
 	public Location[] emptyMoves(Player owner){
-		boolean silent = true;
+		boolean silentMovementChecks = true;
 		int numMoves = 0;
 		Location[] maxMoves = new Location[4];
 
@@ -102,7 +102,7 @@ public class Piece {
 				int tempX = location.getX() + x;
 				int tempY = location.getY() + y;
 				Location tempLoc = new Location(tempX,tempY);
-				Move move = new Move(owner,location,tempLoc,silent);
+				Move move = new Move(owner,location,tempLoc,silentMovementChecks);
 				if(tempLoc.inBounds() && move.isValid()) { 
 					maxMoves[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
 					numMoves++;
@@ -124,7 +124,7 @@ public class Piece {
 	 * @return An array that contains any and all jumps a piece could legally make.
 	 */
 	public Location[] emptyJumps(Player owner){
-		boolean silent = true;
+		boolean silentMovementChecks = true;
 		int numMoves = 0;
 		Location[] maxJumps = new Location[4];
 
@@ -133,7 +133,7 @@ public class Piece {
 				int tempX = location.getX() + x;
 				int tempY = location.getY() + y;
 				Location tempLoc = new Location(tempX,tempY);
-				Move move = new Move(owner,location,tempLoc,silent);
+				Move move = new Move(owner,location,tempLoc,silentMovementChecks);
 				if (tempLoc.inBounds() && move.isValid()){
 					maxJumps[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
 					numMoves++;

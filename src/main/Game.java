@@ -2,12 +2,8 @@ package main;
 import java.util.Scanner;
 
 /**
- * A singleton of the Game.
+ * A singleton of the Checkers game.
  * 
- * @param instance The single Game instance
- * @param blackPlayer A Human, Black Player @param redPlayer A Human, Red Player
- * @param blackAIPlayer An AI, Black Player @param redAIPlayer An AI, Red Player
- * @param mode The Player Mode of the game, Integer (1,2)
  * @author james
  *
  */
@@ -24,6 +20,7 @@ public class Game {
 	 */
 	private Game() {
 		initialize();
+		play();
 	}
 	
 	/**
@@ -61,14 +58,13 @@ public class Game {
 	 * The Private play() method is called at the end, which will begin the game. The game will continue until a player loses.
 	 */
 	private void initialize(){
-		board.initializeBoard();
 		System.out.println("Welcome to Checkers!\n RED will play first.");
 		System.out.println("Enter locations when prompted in the form \"x,y\".");
 		System.out.println("The board is arranged with 0,0 at the Top-Left," + 
 			 " 7,7 at the Bottom-Right.");
 		
-		boolean valid = false;
-		while(!valid){
+		boolean validUserInput = false;
+		while(!validUserInput){
 			System.out.println("Do you want to play 1 or 2 player?");
 			
 			try { 
@@ -78,7 +74,7 @@ public class Game {
 					System.out.println("Invalid entry- Setting to 1-player.");
 					mode = 1;
 				}
-				valid = true;
+				validUserInput = true;
 			} catch(IndexOutOfBoundsException e) {
 				System.out.print("Invalid entry- try again. ");
 			} catch(NumberFormatException e) {
@@ -100,7 +96,6 @@ public class Game {
 		}
 		
 		board.printArray();
-		play();	// play() will continue to run until one player or the other loses.
 	}
 	
 	/*
@@ -109,15 +104,15 @@ public class Game {
 	 * the same piece, as long as they can continue to jump other pieces.
 	 */
 	private void turn(Player aPlayer){
-		aPlayer.queryPieces();
+		aPlayer.updatePieces();
 		if(aPlayer.myPieces.length == 0 || canMove(aPlayer) == false){
 			gameOver(aPlayer);
 			return;
 		}
 		System.out.println("Turn: "+aPlayer.toString());
 		
-		Location start = new Location(0,0);
-		Location end = new Location(0,0);
+		Location start = null;
+		Location end = null;
 			
 		// This segment is called until a valid movement has been made by the Player.
 		while(board.turnComplete() == 0) {
@@ -165,8 +160,7 @@ public class Game {
 	}
 	
 	/**
-	 * Returns true if the game has been ended, ie if a player can no longer move.
-	 * @return True if the game is over.
+	 * @return True if the game is over (ie, A player can no longer move.)
 	 */
 	public boolean gameOver(){
 		return gameOver;
