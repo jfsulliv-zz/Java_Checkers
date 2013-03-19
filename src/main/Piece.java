@@ -25,7 +25,7 @@ public class Piece {
 	public Piece(Colour aColour, Location aLocation) {
 		this.colour = aColour;
 		this.location = aLocation;
-		}
+		
 	}
 
 	/*
