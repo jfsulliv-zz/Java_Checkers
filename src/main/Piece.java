@@ -12,6 +12,7 @@ package main;
 
 public class Piece {
 	private boolean king;
+	private Player owner;
 	private Colour colour;
 	private Location location;
 
@@ -24,23 +25,7 @@ public class Piece {
 	public Piece(Colour aColour, Location aLocation) {
 		this.colour = aColour;
 		this.location = aLocation;
-	}
-
-	/**
-	 * Constructor using an integer parameter to set colour Pre-Condition: int
-	 * aColour is 0(BLACK) or 1(RED)
-	 */
-	public Piece(int aColour) {
-		this.king = false;
-		if (aColour == 0 || aColour == 1) {
-			this.colour = Colour.values()[aColour]; // Enum.values()[ordinal]
-													// will return the
-													// corresponding enumeration
-		} else {
-			this.colour = null;
-			System.out.print("Invalid colour");
 		}
-
 	}
 
 	/*
