@@ -1,10 +1,12 @@
 package GUI;
 
+import javax.swing.JPanel;
+
 public interface PanelListener {
 
-	public void gamePanel();
+	public JPanel gamePanel();
 	
-	public void mainMenu();
+	public JPanel mainMenu();
 	
-	public void scoreBoard();
+	public JPanel scoreBoard();
 }

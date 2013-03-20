@@ -3,9 +3,10 @@ package mainFrameLauncher;
 
 import javax.swing.SwingUtilities;
 
+import controller.FrameSwitcher;
+
 
 import GUI.MainFrame;
-import GUIcontroller.FrameSwitcher;
 
 
 public class MainFrameLauncher {

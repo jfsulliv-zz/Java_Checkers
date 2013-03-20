@@ -5,11 +5,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import GUIcontroller.FrameSwitcher;
 
 /**
  * 
@@ -18,21 +17,22 @@ import GUIcontroller.FrameSwitcher;
  * 
  * 
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements ActionListener {
 
-	private PanelListener panelListener;
 	private JFrame mainContainer = new JFrame("Frog Checkers");
-	private JPanel gamePanel = new GamePanel();
-	private JPanel scorePanel = new ScorePanel();
-	private JPanel mainMenu = new MainMenu();
-	
+	private PanelListener panelListener;
+	private JPanel mainMenu;
+	private static JButton btnSinglePlayer, btnMultiPlayer, btnScoreBoards,
+	btnQuit;
+	private ImagePanel background;
+	private ImageIcon singlePlayerButton, rollOverSinglePlayerButton,
+	multiPlayerButton, scoreBoardButton, rollOverScoreBoardButton,
+	rollOverMultiPlayerButton, quitButton, rollOverQuitButton;
 
 	public void start() {
-		mainContainer(mainMenu);
-		// mainContainer(gamePanel);
-		// mainContainer(scorePanel);
+		mainContainer(mainMenu());
 	}
-	
+
 	private JFrame mainContainer(JPanel frame) {
 		mainContainer.getContentPane().add(frame);
 		mainContainer.pack();
@@ -47,17 +47,106 @@ public class MainFrame extends JFrame {
 
 		return mainContainer;
 	}
+	
+	private JPanel mainMenu() {
+		mainMenu = new JPanel();
+		mainMenu.setLayout(null);
+		
+		background = new ImagePanel(new ImageIcon(
+				"GUIImages\\newBackground.png").getImage());
+		
+		
+		singlePlayerButton = new ImageIcon("GUIImages\\singlePlayerButton.png");
+		rollOverSinglePlayerButton = new ImageIcon(
+				"GUIImages\\rollOverSinlgePlayerButton.png");
+		btnSinglePlayer = new JButton(singlePlayerButton);
+		btnSinglePlayer.setOpaque(false);
+		btnSinglePlayer.setContentAreaFilled(false);
+		btnSinglePlayer.setBorderPainted(false);
+		btnSinglePlayer.setFocusPainted(false);
+		btnSinglePlayer.setBounds(320, 25, 275, 130);
+		btnSinglePlayer.setRolloverIcon(rollOverSinglePlayerButton);
+		btnSinglePlayer.addActionListener(this);
+		mainMenu.add(btnSinglePlayer);
+		
+		multiPlayerButton = new ImageIcon("GUIImages\\multiPlayerButton.png");
+		rollOverMultiPlayerButton = new ImageIcon(
+				"GUIImages\\rollOverMultiPlayerButton.png");
+		btnMultiPlayer = new JButton(multiPlayerButton);
+		btnMultiPlayer.setOpaque(false);
+		btnMultiPlayer.setContentAreaFilled(false);
+		btnMultiPlayer.setBorderPainted(false);
+		btnMultiPlayer.setFocusPainted(false);
+		btnMultiPlayer.setBounds(320, 170, 275, 130);
+		btnMultiPlayer.setRolloverIcon(rollOverMultiPlayerButton);
+		btnMultiPlayer.addActionListener(this);
+		mainMenu.add(btnMultiPlayer);
 
-	public void switchTo(JPanel frame) {
-		mainContainer.getContentPane().removeAll();
-		mainContainer.invalidate();
-		mainContainer(frame);
-		mainContainer.validate();
-		mainContainer.repaint();
+		scoreBoardButton = new ImageIcon("GUIImages\\scoreBoardButton.png");
+		rollOverScoreBoardButton = new ImageIcon(
+				"GUIImages\\rollOverScoreBoardButton.png");
+		btnScoreBoards = new JButton(scoreBoardButton);
+		btnScoreBoards.setOpaque(false);
+		btnScoreBoards.setContentAreaFilled(false);
+		btnScoreBoards.setBorderPainted(false);
+		btnScoreBoards.setFocusPainted(false);
+		btnScoreBoards.setBounds(13, 380, 225, 73);
+		btnScoreBoards.setRolloverIcon(rollOverScoreBoardButton);
+		btnScoreBoards.addActionListener(this);
+		mainMenu.add(btnScoreBoards);
+
+		quitButton = new ImageIcon("GUIImages\\quitButton.png");
+		rollOverQuitButton = new ImageIcon("GUIImages\\rollOverQuitButton.png");
+		btnQuit = new JButton(quitButton);
+		btnQuit.setOpaque(false);
+		btnQuit.setContentAreaFilled(false);
+		btnQuit.setBorderPainted(false);
+		btnQuit.setFocusPainted(false);
+		btnQuit.setBounds(45, 460, 120, 85);
+		btnQuit.setRolloverIcon(rollOverQuitButton);
+		btnQuit.addActionListener(this);
+		mainMenu.add(btnQuit);
+		
+		mainMenu.add(background);
+		
+		return mainMenu;
 	}
 
 	public void SwitchFrames(PanelListener panelListener) {
 		this.panelListener = panelListener;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton source = (JButton)e.getSource();
+		
+		if (source == btnSinglePlayer) {
+			if (panelListener != null) {
+				mainContainer.getContentPane().removeAll();
+				mainContainer.invalidate();
+				mainContainer(panelListener.gamePanel());
+				mainContainer.validate();
+				mainContainer.repaint();
+			}
+		} else if (source == btnMultiPlayer) {
+			if (panelListener != null) {
+				mainContainer.getContentPane().removeAll();
+				mainContainer.invalidate();
+				mainContainer(panelListener.gamePanel());
+				mainContainer.validate();
+				mainContainer.repaint();
+			}
+		} else if (source == btnScoreBoards) {
+			if (panelListener != null) {
+				mainContainer.getContentPane().removeAll();
+				mainContainer.invalidate();
+				mainContainer(panelListener.scoreBoard());
+				mainContainer.validate();
+				mainContainer.repaint();
+			}
+		} else {
+			System.exit(0);
+		}
 	}
 
 }

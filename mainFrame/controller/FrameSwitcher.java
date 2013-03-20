@@ -1,4 +1,4 @@
-package GUIcontroller;
+package controller;
 
 import java.awt.event.ActionListener;
 
@@ -20,23 +20,26 @@ public class FrameSwitcher implements PanelListener {
 	public EventListenerList actionListenerList = new EventListenerList();
 
 	public FrameSwitcher() {
-		
+
 	}
+
 	public FrameSwitcher(MainFrame frame) {
 
 	}
 
-	public void gamePanel() {
+	public JPanel gamePanel() {
 		System.out.println("GamePanel Event: Recieved");
-
+		return gamePanel;
 	}
 
-	public void mainMenu() {
+	public JPanel mainMenu() {
 		System.out.println("MainMenu Event: Recieved");
+		return mainMenu;
 	}
 
-	public void scoreBoard() {
+	public JPanel scoreBoard() {
 		System.out.println("ScoreBoard Event: Recieved");
+		return scorePanel;
 	}
 
 	public void addActionListener(ActionListener actionListener) {
