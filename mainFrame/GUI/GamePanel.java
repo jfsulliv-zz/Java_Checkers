@@ -3,11 +3,15 @@ package GUI;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import main.Location;
 
 public class GamePanel extends JPanel {
 
 	private JButton btnQuit;
 	private ImageIcon quitButton, rollOverQuitButton;
+    private MouseHandler mouseHandler;
+    private Location topLeftBoard = new Location(285, 145);
+    private static final int SQUARE_LENGTH = 44;
 	
 	public GamePanel() {
 		setLayout(null);
@@ -22,7 +26,8 @@ public class GamePanel extends JPanel {
 		btnQuit.setFocusPainted(false);
 		btnQuit.setBounds(385, 480, 145, 105);
 		btnQuit.setRolloverIcon(rollOverQuitButton);
-		
+        
+        mouseHandler = new MouseHandler(this, topLeftBoard, SQUARE_LENGTH);	
 		add(btnQuit);
 		add(background);
 		
