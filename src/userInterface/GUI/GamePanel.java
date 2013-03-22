@@ -10,7 +10,8 @@ public class GamePanel extends JPanel {
 	private JButton btnQuit;
 	private ImageIcon quitButton, rollOverQuitButton;
     private MouseHandler mouseHandler;
-    private Location topLeftBoard = new Location(285, 145);
+    private int topLeftX = 285;
+    private int topLeftY = 145;
     private static final int SQUARE_LENGTH = 44;
 	
 	public GamePanel() {
@@ -27,7 +28,7 @@ public class GamePanel extends JPanel {
 		btnQuit.setBounds(385, 480, 145, 105);
 		btnQuit.setRolloverIcon(rollOverQuitButton);
         
-        mouseHandler = new MouseHandler(this, topLeftBoard, SQUARE_LENGTH);	
+        mouseHandler = new MouseHandler(this, topLeftX, topLeftY, SQUARE_LENGTH);	
 		add(btnQuit);
 		add(background);
 		

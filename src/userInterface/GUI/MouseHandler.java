@@ -29,12 +29,12 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
     private boolean inBound;
     private Cursor cursorShape;
     
-    public MouseHandler(Component aComponent, Location topLeft, int squareLength){
+    public MouseHandler(Component aComponent, int topLeftX, int topLeftY , int squareLength){
         this.topLeft = topLeft;
         this.squareLength = squareLength;
         this.component = aComponent;
-        leftBound = topLeft.getX();
-        upperBound = topLeft.getY();
+        leftBound = topLeftX;
+        upperBound = topLeftY;
         rightBound = 8*squareLength + leftBound;
         lowerBound = 8*squareLength + upperBound;
         
@@ -93,7 +93,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
         System.out.println(e.getX() +" " +e.getY());
                  
         }
-    public Location getLocation(){return new Location(xBoardCoord, yBoardCoord);} 
+    public Location getLocation() throws main.OutOfBoundsException {
+    	return new Location(xBoardCoord, yBoardCoord);
+    } 
     
     public int getClickNumber(){return clickNumber;}
     
