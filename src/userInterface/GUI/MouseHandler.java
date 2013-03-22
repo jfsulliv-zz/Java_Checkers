@@ -13,6 +13,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import main.Location;
 
+
+/**
+    *MouseHandler class to take input fromt the gui.
+    *Uses mouse listeners to identify the board piece selected.
+    *@author Dylan
+    */
+    
 public class MouseHandler implements MouseListener, MouseMotionListener{
     private int squareLength;
     private int leftBound;
@@ -20,6 +27,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
     private int upperBound;
     private int lowerBound;
     private Location topLeft;
+    private Location start;
+    private Location end;
     private Component component;
     private int clickNumber = 0;
     private int xCoord;
@@ -29,7 +38,18 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
     private boolean inBound;
     private Cursor cursorShape;
     
+<<<<<<< HEAD:src/userInterface/GUI/MouseHandler.java
     public MouseHandler(Component aComponent, int topLeftX, int topLeftY , int squareLength){
+=======
+    /**
+        *Constructor used to add the mouse handler to the panel with the proper bounds.
+        *@param aComponent A component to add mouseHandler to. 
+        *@param topLeft The top left coordinate of the board. 
+        *@param squareLength The length of a single square on the board. 
+        *@author Dylan
+        */
+    public MouseHandler(Component aComponent, Location topLeft, int squareLength){
+>>>>>>> Updated MouseHandlers and partial GUI implemented:mainFrame/GUI/MouseHandler.java
         this.topLeft = topLeft;
         this.squareLength = squareLength;
         this.component = aComponent;
@@ -58,6 +78,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
     public void mouseDragged(MouseEvent e) {
        
     }
+    /**
+        *MouseMoved listens for mouse movement and changes the cursor when it moves
+        *within bounds of the board. 
+        *@param e The mouse event listened for. 
+        */
     public void mouseMoved(MouseEvent e) {
         
         if (e.getX() > leftBound && e.getX() < rightBound && e.getY() > upperBound && e.getY() < lowerBound){
@@ -75,10 +100,18 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
     public void mouseExited(MouseEvent e) {
 
     }
-
+    /** 
+        *Listens for mouse clicks on the screen.
+        *Sets the start and end locations for moving pieces
+        *and resets them when the turn is over. 
+        *@param e The mouse event listened for.
+        *@author Dylan
+        */
     public void mouseClicked(MouseEvent e) {
-        xBoardCoord = 0;
-        yBoardCoord = 0;
+        if (clickNumber == 0){
+            start = new Location(0,0);
+            end = new Location(0,0);
+            }
         if (inBound){
             xBoardCoord = (int)Math.floor((e.getX() - leftBound) / squareLength);
             yBoardCoord = (int)Math.floor((e.getY() - upperBound) / squareLength);
@@ -86,31 +119,28 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
             yCoord = e.getY(); 
             clickNumber++;
             }
-        if (clickNumber == 2){
-            clickNumber = 0;
+        if (clickNumber == 1){
+            start = new Location(xBoardCoord, yBoardCoord);
             }
-        System.out.println("xBoardCoord: " +xBoardCoord +" yBoardCoord: " +yBoardCoord);
-        System.out.println(e.getX() +" " +e.getY());
+        else if (clickNumber == 2){
+            end = new Location(xBoardCoord, yBoardCoord);
+            clickNumber = 0;
+            System.out.println(start.toString() +"    " +end.toString());
+            }
+        xBoardCoord = 0;
+        yBoardCoord = 0;
                  
         }
+<<<<<<< HEAD:src/userInterface/GUI/MouseHandler.java
     public Location getLocation() throws main.OutOfBoundsException {
     	return new Location(xBoardCoord, yBoardCoord);
     } 
+=======
+    public Location getStart(){return start;} 
+    public Location getEnd(){return end;}
+>>>>>>> Updated MouseHandlers and partial GUI implemented:mainFrame/GUI/MouseHandler.java
     
     public int getClickNumber(){return clickNumber;}
-    
-    // public void highLightSquare(Graphics canvas, Location boardCoord){
-        // if (clickNumber == 1){
-            // canvas.setColor(Color.BLUE);
-            // canvas.drawRect(boardCoord.getX() * squareLength + leftBound, 
-                // boardCoord.getY() * squareLength + upperBound, squareLength, squareLenght);
-            // }
-        // else{
-            
-            // }
-        // repaint();
-        // }
-           
-
+    public void setClickNumber(int number){clickNumber = number;}
     }           
             
