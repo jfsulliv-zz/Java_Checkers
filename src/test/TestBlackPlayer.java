@@ -1,7 +1,6 @@
 package test;
 
 import main.*;
-
 /**
  * Tester class to perform a series of test cases on the Black Player's movements.
  * Tests a wide variety of posible legal and illegal movements.
@@ -19,7 +18,7 @@ public class TestBlackPlayer {
 		board.resetBoard();
 	}
 
-	private boolean black_moves_too_far_down() {
+	private boolean black_moves_too_far_down() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location start = new Location(0,2);
@@ -34,7 +33,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_moves_to_a_space_occupied_by_black() {
+	private boolean black_moves_to_a_space_occupied_by_black() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location start = new Location(1,1);
@@ -49,7 +48,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_moves_to_a_space_occupied_by_red() {
+	private boolean black_moves_to_a_space_occupied_by_red() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location blackStart = new Location(2,2);
@@ -68,7 +67,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_moves_up() {
+	private boolean black_moves_up() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location start = new Location(2,2);
@@ -83,7 +82,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_moves_down() {
+	private boolean black_moves_down() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location start = new Location(6,2);
@@ -97,7 +96,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_jumps_a_red_piece_to_an_empty_space() {
+	private boolean black_jumps_a_red_piece_to_an_empty_space() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location blackStart = new Location(2,2);
@@ -117,7 +116,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_jumps_a_red_piece_to_an_occupied_space() {
+	private boolean black_jumps_a_red_piece_to_an_occupied_space() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location blackStart = new Location(2,2);
@@ -138,7 +137,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_jumps_a_friendly_piece() {
+	private boolean black_jumps_a_friendly_piece() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location start = new Location(1,1);
@@ -153,7 +152,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_jumps_too_far() {
+	private boolean black_jumps_too_far() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location blackStart = new Location(4,2);
@@ -171,7 +170,7 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	private boolean black_attempts_moving_black_piece() {
+	private boolean black_attempts_moving_black_piece() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location redStart = new Location(1,5);
@@ -186,21 +185,25 @@ public class TestBlackPlayer {
 		return testPassed;
 	}
 
-	public void run() {
+	public void run() throws OutOfBoundsException {
 		boolean testsPassed = true;
 		TestBlackPlayer test = new TestBlackPlayer();
 		
-		testsPassed &= test.black_moves_too_far_down();
-		testsPassed &= test.black_moves_to_a_space_occupied_by_black();
-		testsPassed &= test.black_moves_to_a_space_occupied_by_red();
-		testsPassed &= test.black_moves_up();
-		testsPassed &= test.black_moves_down();
-		testsPassed &= test.black_jumps_a_red_piece_to_an_empty_space();
-		testsPassed &= test.black_jumps_a_red_piece_to_an_occupied_space();
-		testsPassed &= test.black_jumps_a_friendly_piece();
-		testsPassed &= test.black_jumps_too_far();
-		testsPassed &= test.black_attempts_moving_black_piece();
-		
+		try {
+			testsPassed &= test.black_moves_too_far_down();
+			testsPassed &= test.black_moves_to_a_space_occupied_by_black();
+			testsPassed &= test.black_moves_to_a_space_occupied_by_red();
+			testsPassed &= test.black_moves_up();
+			testsPassed &= test.black_moves_down();
+			testsPassed &= test.black_jumps_a_red_piece_to_an_empty_space();
+			testsPassed &= test.black_jumps_a_red_piece_to_an_occupied_space();
+			testsPassed &= test.black_jumps_a_friendly_piece();
+			testsPassed &= test.black_jumps_too_far();
+			testsPassed &= test.black_attempts_moving_black_piece();
+		} catch (OutOfBoundsException oobe){
+			System.out.println("There was an error in the tested Locations!");
+			testsPassed = false;
+		}
 		if (testsPassed) {
 			System.out.println("All tests on Black pieces passed\n\n");
 		} else {

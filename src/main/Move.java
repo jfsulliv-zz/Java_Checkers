@@ -116,8 +116,14 @@ public class Move {
 	public boolean validJump(boolean silentMovementChecks) {
 		int tempY = (end.getY() + start.getY()) / 2;
 		int tempX = (end.getX() + start.getX()) / 2;
-		Location middle = new Location(tempX, tempY);
-
+		Location middle;
+		
+		try {
+			middle = new Location(tempX, tempY);
+		} catch(OutOfBoundsException oobe) {
+			return false;
+		}
+ 
 		if (board.checkSquare(middle) == null) {
 			if(!silentMovementChecks) { System.out.println("No piece to jump over."); }
 			return false;

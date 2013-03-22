@@ -13,9 +13,9 @@ public class AIPlayer extends Player {
 	private Random generator = new Random();
 
 	/**
-	 * Constructor method to call the Player Super's constructor given some parameters.
+	 * Constructor method to call the Player super's constructor given some parameters.
 	 * @param aColour The Colour of the AIPlayer to be made.
-	 * @param board The instance of the Board.
+	 * @param board The singleton instance of the Board.
 	 */
 	public AIPlayer(Colour aColour,Board board) {
 		super(aColour,board);
@@ -27,10 +27,10 @@ public class AIPlayer extends Player {
 	 * @return Location of a Random Piece that can be moved.
 	 */
 	public Location selectStart(){
-		updatePieces();
-		Location[] preferredLocs = new Location[12]; // Starting locations that have 'preferred' locations to move to
+		updatePieces(); // AIPlayer's myPieces array is updated to reflect the current board state
+		Location[] preferredLocs = new Location[myPieces.length]; // Starting piece locations that have 'preferred' locations to move to
 		int numPreferredMoves = 0;
-		Location[] otherLocs = new Location[12]; // All other starting Locations available
+		Location[] otherLocs = new Location[myPieces.length]; // All other starting piece Locations available
 		int numOtherMoves = 0;
 		
 		for(int i = 0; i < myPieces.length; i++){
@@ -41,7 +41,8 @@ public class AIPlayer extends Player {
 				preferredLocs[numPreferredMoves] = tempLoc; 
 				numPreferredMoves++;
 			} 
-			// If a Piece can be Kinged, its location is added to the Preferred array
+			// If a Piece can be Kinged, its location is added to the Preferred array.
+			// For a piece to be Kinged it has to move to the opposite end of the board.
 			else if ((tempPiece.getLocation().getY() == 6 && this.playerColour == Colour.BLACK) 
 					|| (tempPiece.getLocation().getY() == 1 && this.playerColour == Colour.RED)) {
 				if(tempPiece.emptyMoves(this).length > 0 && !tempPiece.isKing()) {
@@ -49,7 +50,7 @@ public class AIPlayer extends Player {
 					numPreferredMoves++;
 				}
 			}
-			// All other pieces' locations will be added to the Other array
+			// All other pieces' locations will be added to the Other array if they can move
 			else if (tempPiece.emptyMoves(this).length > 0) {
 				otherLocs[numOtherMoves] = tempLoc;
 				numOtherMoves++;
@@ -65,9 +66,9 @@ public class AIPlayer extends Player {
 			int randomIndex = generator.nextInt(numOtherMoves);
 			System.out.println("Computer selects Piece at " + otherLocs[randomIndex]);
 			return otherLocs[randomIndex];
-		}
+		} 
 		
-		System.out.println("No Pieces can be moved.");
+		
 		return null;
 	}
 
@@ -101,6 +102,8 @@ public class AIPlayer extends Player {
 			System.out.println("Computer moves to " + allMoves[randomIndex]);
 			return allMoves[randomIndex];
 		}
+		
+		
 		return null;
 	}
 }

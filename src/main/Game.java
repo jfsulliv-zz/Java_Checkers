@@ -7,14 +7,13 @@ import java.util.Scanner;
  * @author james
  *
  */
-public class Game {
+public class Game{
 	public static Game instance;
 	private Board board = Board.getInstance();
 	private Player blackPlayer, redPlayer;
 	private int mode;
 	private boolean gameOver;
 	private Scanner input = new Scanner(System.in);
-	
 	/*
 	 * Private default constructor that calls the initialize() method.
 	 */

@@ -41,19 +41,26 @@ public class Board {
 	private void initializeBoard() {
 		for (int row = 0; row <= BOARD_ROWS - 1; row++) {
 			for (int column = 0; column <= BOARD_COLUMNS - 1; column++) {
-				if (row <= 2) {
-					if ((row == 1) && (column % 2 == 1)) {
-						boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
-					} else if ((row != 1) && (column % 2 == 0)) {
-						boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
+				try{
+					if (row <= 2) {
+						if ((row == 1) && (column % 2 == 1)) {
+							boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
+						} else if ((row != 1) && (column % 2 == 0)) {
+							boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
+						}
 					}
-				}
-				if (row >= 5) {
-					if ((row == 6) && (column % 2 == 0)) {
-						boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
-					} else if ((row != 6) && (column % 2 == 1)) {
-						boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
+					if (row >= 5) {
+						if ((row == 6) && (column % 2 == 0)) {
+							boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
+						} else if ((row != 6) && (column % 2 == 1)) {
+							boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
+						}
 					}
+				// This exception should never trigger in a correct game.
+			    // The game will terminate should this occur.
+				} catch (OutOfBoundsException oobe) {
+					System.out.println("Fatal error initializing the Board.");
+					System.exit(1);
 				}
 			}
 		}

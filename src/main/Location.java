@@ -20,9 +20,13 @@ public class Location {
 	 * <p>
 	 * Pre-Condition: 0 <= x < 8; 0 <= y < 8
 	 */
-	public Location(int x, int y) {
-		xCoordinate = x;
-		yCoordinate = y;
+	public Location(int x, int y) throws OutOfBoundsException{
+		if(x < 0 || x >= ROWS || y < 0 || y >= COLUMNS) {
+			throw new OutOfBoundsException("Illegal coordinates were given.");
+		} else {
+			xCoordinate = x;
+			yCoordinate = y;
+		}
 	}
 
 	/**

@@ -10,7 +10,7 @@ public class HumanPlayer extends Player {
 	private Scanner scanner = new Scanner(System.in);
 
 	/**
-	 * Constructor method to call the Player Super's constructor given some parameters.
+	 * Constructor method to call the Player super's constructor given some parameters.
 	 * @param aColour The Colour of the HumanPlayer to be made.
 	 * @param board The instance of the Board.
 	 */
@@ -19,9 +19,9 @@ public class HumanPlayer extends Player {
 	}
 
 	/**
-	 * Accessor Method to determine, validate and return  a starting Piece for a Player to move.
+	 * Accessor Method to determine, validate and return  a starting piece Location.
 	 * 
-	 * @return Location of a Random Piece that can be moved.
+	 * @return Location of a selected Piece that can be moved.
 	 */
 	public Location selectStart(){
 		Location start = null;
@@ -90,6 +90,7 @@ public class HumanPlayer extends Player {
 		
 		while(!validUserInput){
 			try {
+				// The user must enter in the form "x,y", or the program will not allow them to continue.
 				String in = scanner.nextLine();
 				tempX = Integer.parseInt(in.substring(0,in.indexOf(",")));
 				tempY = Integer.parseInt(in.substring(in.indexOf(",") + 1));
@@ -101,10 +102,12 @@ public class HumanPlayer extends Player {
 					System.out.print("Invalid coordinates given- try again. ");
 				}
 				
-			} catch(IndexOutOfBoundsException e) {
+			} catch(IndexOutOfBoundsException iobe) {
 				System.out.print("Invalid entry- try again. ");
-			} catch(NumberFormatException e) {
+			} catch(NumberFormatException nfe) {
 				System.out.print("Invalid entry- try again. ");
+			} catch(OutOfBoundsException oobe) {
+				System.out.print("Invalid coordinates were given- try again.");
 			}
 		}
 		

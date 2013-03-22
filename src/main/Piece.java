@@ -12,7 +12,6 @@ package main;
 
 public class Piece {
 	private boolean king;
-	private Player owner;
 	private Colour colour;
 	private Location location;
 
@@ -86,7 +85,14 @@ public class Piece {
 			for(int y = -1; y <= 1; y += 2){	// located diagonally from the Piece
 				int tempX = location.getX() + x;
 				int tempY = location.getY() + y;
-				Location tempLoc = new Location(tempX,tempY);
+				Location tempLoc;
+				
+				try {
+					tempLoc = new Location(tempX,tempY);
+				} catch (OutOfBoundsException oobe) {
+					continue;
+				}
+				
 				Move move = new Move(owner,location,tempLoc,silentMovementChecks);
 				if(tempLoc.inBounds() && move.isValid()) { 
 					maxMoves[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
@@ -117,7 +123,14 @@ public class Piece {
 			for(int y = -2; y <= 2; y += 4){	// located diagonally from the Piece
 				int tempX = location.getX() + x;
 				int tempY = location.getY() + y;
-				Location tempLoc = new Location(tempX,tempY);
+				Location tempLoc;
+				
+				try {
+					tempLoc = new Location(tempX,tempY);
+				} catch (OutOfBoundsException oobe) {
+					continue;
+				}
+				
 				Move move = new Move(owner,location,tempLoc,silentMovementChecks);
 				if (tempLoc.inBounds() && move.isValid()){
 					maxJumps[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
