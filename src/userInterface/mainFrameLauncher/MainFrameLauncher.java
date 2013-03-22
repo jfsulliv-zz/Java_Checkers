@@ -1,14 +1,9 @@
 package userInterface.mainFrameLauncher;
 
-
 import javax.swing.SwingUtilities;
 
 import userInterface.GUI.MainFrame;
 import userInterface.controller.FrameSwitcher;
-
-
-
-
 
 public class MainFrameLauncher {
 

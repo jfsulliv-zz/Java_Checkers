@@ -14,13 +14,13 @@ import javax.swing.JPanel;
  * 
  * @author Daniel
  * 
- * 
- * 
+ * MainFrame is a container class. The container is comprised of a JFrame that will contain JPanels.
+ * The JPanels are switched according to what is happening in the FrameSwitcher.
  */
 public class MainFrame extends JFrame implements ActionListener {
 
 	private JFrame mainContainer = new JFrame("Frog Checkers");
-	private PanelListener panelListener;
+	private PanelListener panelListener; // Create a handle on the FrameSwitcher
 	private JPanel mainMenu;
 	private static JButton btnSinglePlayer, btnMultiPlayer, btnScoreBoards,
 	btnQuit;
@@ -29,10 +29,25 @@ public class MainFrame extends JFrame implements ActionListener {
 	multiPlayerButton, scoreBoardButton, rollOverScoreBoardButton,
 	rollOverMultiPlayerButton, quitButton, rollOverQuitButton;
 
+	/**
+	 * Accessor 
+	 * 
+	 * This method will start the GUI, initiating the main menu first.
+	 */
 	public void start() {
 		mainContainer(mainMenu());
 	}
 
+	/**
+	 * Mutator
+	 * 
+	 * @param frame
+	 * @return mainConainer
+	 * 
+	 * This method will create the container, mainContainer, and it takes a parameter 
+	 * of JPanel. This parameter will be responsible for changing frames.
+	 * 
+	 */
 	private JFrame mainContainer(JPanel frame) {
 		mainContainer.getContentPane().add(frame);
 		mainContainer.pack();
@@ -48,6 +63,13 @@ public class MainFrame extends JFrame implements ActionListener {
 		return mainContainer;
 	}
 	
+	/**
+	 * Mutator
+	 * 
+	 * @return mainMenu
+	 * 
+	 * Construct the main menu of the GUI.
+	 */
 	private JPanel mainMenu() {
 		mainMenu = new JPanel();
 		mainMenu.setLayout(null);
@@ -112,16 +134,30 @@ public class MainFrame extends JFrame implements ActionListener {
 		return mainMenu;
 	}
 
+	/**
+	 * 
+	 * @param panelListener
+	 * 
+	 * This creates a handle on the listener, PanelListener. Whenever an event happens, the
+	 * instance variable paneListener is no longer null which will be useful in the 
+	 * actionPerformed method.
+	 */
 	public void SwitchFrames(PanelListener panelListener) {
 		this.panelListener = panelListener;
 	}
 
-	@Override
+	/**
+	 * Mutator
+	 * 
+	 * actionPerformed will take you to the appropriate screens depending on what is 
+	 * clicked by the user. Before changing the frames we must first check
+	 * if panelListener is null.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton)e.getSource();
 		
 		if (source == btnSinglePlayer) {
-			if (panelListener != null) {
+			if (panelListener != null) { 
 				mainContainer.getContentPane().removeAll();
 				mainContainer.invalidate();
 				mainContainer(panelListener.gamePanel());

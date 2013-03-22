@@ -7,6 +7,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Daniel
+ *
+ * Creates a main menu for the GUI. <Currently not implemented>
+ */
 public class MainMenu extends JPanel implements ActionListener {
 
 	private JButton btnSinglePlayer, btnMultiPlayer, btnScoreBoard, btnQuit;
@@ -15,6 +21,11 @@ public class MainMenu extends JPanel implements ActionListener {
 			multiPlayerButton, scoreBoardButton, rollOverScoreBoardButton,
 			rollOverMultiPlayerButton, quitButton, rollOverQuitButton;
 
+	/**
+	 * Mutator
+	 * 
+	 * Constructs the view for the main menu.
+	 */
 	public MainMenu() {
 		setLayout(null);
 		background = new ImagePanel(new ImageIcon(
@@ -76,7 +87,7 @@ public class MainMenu extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JButton source = (JButton)e.getSource();
+		//JButton source = (JButton)e.getSource();
 		
 	}
 
