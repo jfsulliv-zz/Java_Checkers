@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages\\GamePanelBackground.jpg").getImage());
 		// Set the button equal to an ImageIcon and also add a roll over image.
 		quitButton = new ImageIcon("GUIImages\\gamePanelQuitButton.png"); 
+		//quitButton = new ImageIcon(getClass().getResource("GUIImages\\gamePanelQuitButton.jpg"));
 		rollOverQuitButton = new ImageIcon("GUIImages\\rollOverGamePanelQuitButton.png"); 
 		btnQuit = new JButton(quitButton);
 		// This next bit will make the default JButton invisible and will hide any of the 

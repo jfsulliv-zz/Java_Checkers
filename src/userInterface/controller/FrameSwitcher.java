@@ -22,8 +22,8 @@ public class FrameSwitcher implements PanelListener {
 	private JPanel mainMenu = new MainMenu(); // Create an instance of the MainMenu
 	private JPanel gamePanel = new GamePanel(); // Create an instance of the GamePanel
 	private JPanel scorePanel = new ScorePanel(); // Create an instance of the ScorePanel
-	// private IModel modelController;
-	// private GameLauncher gameMode;
+	//private IModel modelController;
+	//private GameLauncher gameMode;
 
 	/**
 	 * Creates a handle on the MainFrame.
@@ -44,7 +44,8 @@ public class FrameSwitcher implements PanelListener {
 	 */
 	public JPanel gamePanel() {
 		System.out.println("GamePanel Event: Recieved");
-		// modelController.gameInstance(gameMode); // Not yet implemented.
+		//gameMode.run();
+		//modelController.gameInstance(gameMode); // Not yet implemented.
 		return gamePanel;
 	}
 
