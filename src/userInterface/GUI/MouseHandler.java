@@ -131,14 +131,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
         yBoardCoord = 0;
                  
         }
-<<<<<<< HEAD:src/userInterface/GUI/MouseHandler.java
-    public Location getLocation() throws main.OutOfBoundsException {
-    	return new Location(xBoardCoord, yBoardCoord);
-    } 
-=======
     public Location getStart(){return start;} 
     public Location getEnd(){return end;}
->>>>>>> Updated MouseHandlers and partial GUI implemented:mainFrame/GUI/MouseHandler.java
+
     
     public int getClickNumber(){return clickNumber;}
     public void setClickNumber(int number){clickNumber = number;}
