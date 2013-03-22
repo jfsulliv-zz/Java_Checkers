@@ -1,11 +1,14 @@
 package userInterface.GUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import main.Location;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements ActionListener {
 
 	private JButton btnQuit;
 	private ImageIcon quitButton, rollOverQuitButton;
@@ -27,10 +30,20 @@ public class GamePanel extends JPanel {
 		btnQuit.setFocusPainted(false);
 		btnQuit.setBounds(385, 480, 145, 105);
 		btnQuit.setRolloverIcon(rollOverQuitButton);
+		btnQuit.addActionListener(this);
         
         mouseHandler = new MouseHandler(this, topLeftX, topLeftY, SQUARE_LENGTH);	
 		add(btnQuit);
 		add(background);
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton source = (JButton)e.getSource();
+		
+		if(source == btnQuit) {
+			System.exit(0);
+		}
 	}
 }

@@ -5,7 +5,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
+import main.GameLauncher;
+
 import userInterface.GUI.GamePanel;
+import userInterface.GUI.IModel;
 import userInterface.GUI.MainFrame;
 import userInterface.GUI.MainMenu;
 import userInterface.GUI.PanelListener;
@@ -17,7 +20,9 @@ public class FrameSwitcher implements PanelListener {
 	private JPanel mainMenu = new MainMenu();
 	private JPanel gamePanel = new GamePanel();
 	private JPanel scorePanel = new ScorePanel();
-
+	//private IModel modelController;
+	//private GameLauncher gameMode;
+	
 	public EventListenerList actionListenerList = new EventListenerList();
 
 	public FrameSwitcher() {
@@ -30,6 +35,7 @@ public class FrameSwitcher implements PanelListener {
 
 	public JPanel gamePanel() {
 		System.out.println("GamePanel Event: Recieved");
+		//modelController.gameInstance(gameMode);
 		return gamePanel;
 	}
 
