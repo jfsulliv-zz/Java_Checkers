@@ -1,4 +1,4 @@
-package controller;
+package userInterface.controller;
 
 public class ModelController {
 

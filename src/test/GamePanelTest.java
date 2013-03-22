@@ -1,6 +1,7 @@
-package panelTest;
-import GUI.*;
+package test;
 import javax.swing.JFrame;
+
+import userInterface.GUI.*;
 
 public class GamePanelTest{
     public static void main(String[] args){

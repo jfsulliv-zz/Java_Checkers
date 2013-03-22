@@ -1,15 +1,16 @@
-package controller;
+package userInterface.controller;
 
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
-import GUI.GamePanel;
-import GUI.MainFrame;
-import GUI.MainMenu;
-import GUI.PanelListener;
-import GUI.ScorePanel;
+import userInterface.GUI.GamePanel;
+import userInterface.GUI.MainFrame;
+import userInterface.GUI.MainMenu;
+import userInterface.GUI.PanelListener;
+import userInterface.GUI.ScorePanel;
+
 
 public class FrameSwitcher implements PanelListener {
 

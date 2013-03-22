@@ -1,4 +1,4 @@
-package GUI;
+package userInterface.GUI;
 import java.awt.Graphics;
 import java.awt.Color;
 import javax.swing.*;
