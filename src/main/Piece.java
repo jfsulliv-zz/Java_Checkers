@@ -24,23 +24,7 @@ public class Piece {
 	public Piece(Colour aColour, Location aLocation) {
 		this.colour = aColour;
 		this.location = aLocation;
-	}
-
-	/**
-	 * Constructor using an integer parameter to set colour Pre-Condition: int
-	 * aColour is 0(BLACK) or 1(RED)
-	 */
-	public Piece(int aColour) {
-		this.king = false;
-		if (aColour == 0 || aColour == 1) {
-			this.colour = Colour.values()[aColour]; // Enum.values()[ordinal]
-													// will return the
-													// corresponding enumeration
-		} else {
-			this.colour = null;
-			System.out.print("Invalid colour");
-		}
-
+		
 	}
 
 	/*
@@ -93,7 +77,7 @@ public class Piece {
 	 * @return An array that contains any and all movements a piece could legally make.
 	 */
 	public Location[] emptyMoves(Player owner){
-		boolean silent = true;
+		boolean silentMovementChecks = true;
 		int numMoves = 0;
 		Location[] maxMoves = new Location[4];
 
@@ -101,8 +85,15 @@ public class Piece {
 			for(int y = -1; y <= 1; y += 2){	// located diagonally from the Piece
 				int tempX = location.getX() + x;
 				int tempY = location.getY() + y;
-				Location tempLoc = new Location(tempX,tempY);
-				Move move = new Move(owner,location,tempLoc,silent);
+				Location tempLoc;
+				
+				try {
+					tempLoc = new Location(tempX,tempY);
+				} catch (OutOfBoundsException oobe) {
+					continue;
+				}
+				
+				Move move = new Move(owner,location,tempLoc,silentMovementChecks);
 				if(tempLoc.inBounds() && move.isValid()) { 
 					maxMoves[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
 					numMoves++;
@@ -124,7 +115,7 @@ public class Piece {
 	 * @return An array that contains any and all jumps a piece could legally make.
 	 */
 	public Location[] emptyJumps(Player owner){
-		boolean silent = true;
+		boolean silentMovementChecks = true;
 		int numMoves = 0;
 		Location[] maxJumps = new Location[4];
 
@@ -132,8 +123,15 @@ public class Piece {
 			for(int y = -2; y <= 2; y += 4){	// located diagonally from the Piece
 				int tempX = location.getX() + x;
 				int tempY = location.getY() + y;
-				Location tempLoc = new Location(tempX,tempY);
-				Move move = new Move(owner,location,tempLoc,silent);
+				Location tempLoc;
+				
+				try {
+					tempLoc = new Location(tempX,tempY);
+				} catch (OutOfBoundsException oobe) {
+					continue;
+				}
+				
+				Move move = new Move(owner,location,tempLoc,silentMovementChecks);
 				if (tempLoc.inBounds() && move.isValid()){
 					maxJumps[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
 					numMoves++;

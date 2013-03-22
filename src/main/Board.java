@@ -1,18 +1,10 @@
 package main;
 
 /**
- * A Board Class containing an 8x8 grid on which checkers can be played.
+ * A singleton Board Class containing an 8x8 grid on which checkers is played.
  * <p>
  * Each square is a member of a 2-dimensional Piece array that can hold a single
  * instance of a 'Piece' class.
- * 
- * @param boardArray
- *            A 2-dimensional Piece array of size 8x8
- * @param BOARD_ROWS
- *            : 8
- * @param BOARD_COLUMNS
- *            : 8
- * 
  */
 public class Board {
 	public static Board instance;
@@ -21,7 +13,17 @@ public class Board {
 	private Piece[][] boardArray = new Piece[8][8];
 	private int turnComplete = 0;
 
+	/*
+	 * Private Constructor to initialize the board.
+	 */
+	private Board(){
+		initializeBoard();
+	}
 	
+	/**
+	 * Method to generate and/or return the singleton instance of the Board.
+	 * @return the single Board instance.
+	 */
 	public static Board getInstance(){
 		if(instance == null){
 			instance = new Board();
@@ -29,37 +31,45 @@ public class Board {
 		return instance;
 	}
 	
-	/**
-	 * Initializes the game board by creating an integer array to store the
-	 * information of every square on the board. Each square will contain a 0
-	 * for empty space, a 1 if it holds a piece for player 1 or a 2 if it holds
-	 * a piece for player 2.
+	/*
+	 * Initializes the game board by creating a 2-D Piece array to store the
+	 * information of every square on the board. The arrays can hold either a Piece
+	 * instance or a Null object.
 	 * 
-	 * @return boardArray A 2D array holding information of what is currently on
-	 *         every square of the board.
 	 * @author Dylan Dobbyn
 	 */
-	public void initializeBoard() {
+	private void initializeBoard() {
 		for (int row = 0; row <= BOARD_ROWS - 1; row++) {
 			for (int column = 0; column <= BOARD_COLUMNS - 1; column++) {
-				if (row <= 2) {
-					if ((row == 1) && (column % 2 == 1)) {
-						boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
-					} else if ((row != 1) && (column % 2 == 0)) {
-						boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
+				try{
+					if (row <= 2) {
+						if ((row == 1) && (column % 2 == 1)) {
+							boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
+						} else if ((row != 1) && (column % 2 == 0)) {
+							boardArray[row][column] = new Piece(Colour.BLACK, new Location(column,row));
+						}
 					}
-				}
-				if (row >= 5) {
-					if ((row == 6) && (column % 2 == 0)) {
-						boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
-					} else if ((row != 6) && (column % 2 == 1)) {
-						boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
+					if (row >= 5) {
+						if ((row == 6) && (column % 2 == 0)) {
+							boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
+						} else if ((row != 6) && (column % 2 == 1)) {
+							boardArray[row][column] = new Piece(Colour.RED, new Location(column,row));
+						}
 					}
+				// This exception should never trigger in a correct game.
+			    // The game will terminate should this occur.
+				} catch (OutOfBoundsException oobe) {
+					System.out.println("Fatal error initializing the Board.");
+					System.exit(1);
 				}
 			}
 		}
 	}
 	
+	/**
+	 * Resets the game board to its original state by wiping all the Squares, and then
+	 * calling the initializeBoard() method.
+	 */
 	public void resetBoard() {
 		for (int row = 0; row <= BOARD_ROWS - 1; row++){
 			for (int column = 0; column <= BOARD_COLUMNS - 1; column++){
@@ -114,8 +124,10 @@ public class Board {
 	 * Private setter method to change the state of a position on the board.
 	 * Only used within Board's public methods to ensure encapsulation.
 	 */
-	private void setSquare(Location square, Piece piece) {
-		if(!square.inBounds()) { return; }
+	private void setSquare(Location square, Piece piece) throws OutOfBoundsException {
+		if(!square.inBounds()) {
+			throw new OutOfBoundsException("A piece was set at an invalid location.");
+		}
 		boardArray[square.getY()][square.getX()] = piece;
 		if(piece != null){
 			piece.setLocation(square);
@@ -154,17 +166,23 @@ public class Board {
 		Location start = aMove.getStart();
 		Location end = aMove.getEnd();
 		
-		if (aMove.isJump(start,end)) {
-			int tempY = (end.getY() + start.getY()) / 2;
-			int tempX = (end.getX() + start.getX()) / 2;
-			Location middle = new Location(tempX, tempY);
-			setSquare(middle,null);
-			continueTurn();
-		} else {
-			endTurn();
+		try {
+			if (aMove.isJump(start,end)) {
+				int tempY = (end.getY() + start.getY()) / 2;
+				int tempX = (end.getX() + start.getX()) / 2;
+				Location middle = new Location(tempX, tempY);
+				setSquare(middle,null);
+				continueTurn();
+			} else {
+				endTurn();
+			}
+			setSquare(end,checkSquare(start));
+			setSquare(start,null);
 		}
-		setSquare(end,checkSquare(start));
-		setSquare(start,null);
+		catch (OutOfBoundsException oobe){
+			System.out.println("A movement was made outside of the board's boundaries.");
+			return;
+		}
 	}
 
 	/*

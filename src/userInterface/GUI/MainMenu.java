@@ -1,23 +1,39 @@
-package GUI;
+package userInterface.GUI;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class MainMenu extends JPanel {
-	
-	private JPanel mainMenu = new JPanel();
+/**
+ * 
+ * @author Daniel
+ *
+ * Creates a main menu for the GUI. <Currently not implemented>
+ */
+public class MainMenu extends JPanel implements ActionListener {
+
 	private JButton btnSinglePlayer, btnMultiPlayer, btnScoreBoard, btnQuit;
-	private ImageIcon singlePlayerButton, rollOverSinglePlayerButton, multiPlayerButton, 
-					  scoreBoardButton, rollOverScoreBoardButton, 
-					  rollOverMultiPlayerButton, quitButton, rollOverQuitButton;
-	
-	public JPanel mainMenuPanel() {
-		mainMenu.setLayout(null);
-		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages\\newBackground.png").getImage());
-		
+	private ImagePanel background;
+	private ImageIcon singlePlayerButton, rollOverSinglePlayerButton,
+			multiPlayerButton, scoreBoardButton, rollOverScoreBoardButton,
+			rollOverMultiPlayerButton, quitButton, rollOverQuitButton;
+
+	/**
+	 * Mutator
+	 * 
+	 * Constructs the view for the main menu.
+	 */
+	public MainMenu() {
+		setLayout(null);
+		background = new ImagePanel(new ImageIcon(
+				"GUIImages\\newBackground.png").getImage());
+
 		singlePlayerButton = new ImageIcon("GUIImages\\singlePlayerButton.png");
-		rollOverSinglePlayerButton = new ImageIcon("GUIImages\\rollOverSinlgePlayerButton.png");
+		rollOverSinglePlayerButton = new ImageIcon(
+				"GUIImages\\rollOverSinlgePlayerButton.png");
 		btnSinglePlayer = new JButton(singlePlayerButton);
 		btnSinglePlayer.setOpaque(false);
 		btnSinglePlayer.setContentAreaFilled(false);
@@ -25,10 +41,12 @@ public class MainMenu extends JPanel {
 		btnSinglePlayer.setFocusPainted(false);
 		btnSinglePlayer.setBounds(320, 25, 275, 130);
 		btnSinglePlayer.setRolloverIcon(rollOverSinglePlayerButton);
-		mainMenu.add(btnSinglePlayer);
-		
+		btnSinglePlayer.addActionListener(this);
+		add(btnSinglePlayer);
+
 		multiPlayerButton = new ImageIcon("GUIImages\\multiPlayerButton.png");
-		rollOverMultiPlayerButton = new ImageIcon("GUIImages\\rollOverMultiPlayerButton.png");
+		rollOverMultiPlayerButton = new ImageIcon(
+				"GUIImages\\rollOverMultiPlayerButton.png");
 		btnMultiPlayer = new JButton(multiPlayerButton);
 		btnMultiPlayer.setOpaque(false);
 		btnMultiPlayer.setContentAreaFilled(false);
@@ -36,10 +54,12 @@ public class MainMenu extends JPanel {
 		btnMultiPlayer.setFocusPainted(false);
 		btnMultiPlayer.setBounds(320, 170, 275, 130);
 		btnMultiPlayer.setRolloverIcon(rollOverMultiPlayerButton);
-		mainMenu.add(btnMultiPlayer);
+		btnMultiPlayer.addActionListener(this);
+		add(btnMultiPlayer);
 
 		scoreBoardButton = new ImageIcon("GUIImages\\scoreBoardButton.png");
-		rollOverScoreBoardButton = new ImageIcon("GUIImages\\rollOverScoreBoardButton.png");
+		rollOverScoreBoardButton = new ImageIcon(
+				"GUIImages\\rollOverScoreBoardButton.png");
 		btnScoreBoard = new JButton(scoreBoardButton);
 		btnScoreBoard.setOpaque(false);
 		btnScoreBoard.setContentAreaFilled(false);
@@ -47,7 +67,8 @@ public class MainMenu extends JPanel {
 		btnScoreBoard.setFocusPainted(false);
 		btnScoreBoard.setBounds(13, 380, 225, 73);
 		btnScoreBoard.setRolloverIcon(rollOverScoreBoardButton);
-		mainMenu.add(btnScoreBoard);
+		btnScoreBoard.addActionListener(this);
+		add(btnScoreBoard);
 
 		quitButton = new ImageIcon("GUIImages\\quitButton.png");
 		rollOverQuitButton = new ImageIcon("GUIImages\\rollOverQuitButton.png");
@@ -58,11 +79,16 @@ public class MainMenu extends JPanel {
 		btnQuit.setFocusPainted(false);
 		btnQuit.setBounds(45, 460, 120, 85);
 		btnQuit.setRolloverIcon(rollOverQuitButton);
-		mainMenu.add(btnQuit);
-		
-		mainMenu.add(background);
+		btnQuit.addActionListener(this);
+		add(btnQuit);
 
-		return mainMenu;
+		add(background);
+
 	}
-}
 
+	public void actionPerformed(ActionEvent e) {
+		//JButton source = (JButton)e.getSource();
+		
+	}
+
+}

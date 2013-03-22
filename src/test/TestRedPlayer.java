@@ -5,6 +5,7 @@ import main.Colour;
 import main.HumanPlayer;
 import main.Location;
 import main.Move;
+import main.OutOfBoundsException;
 
 public class TestRedPlayer {
 	
@@ -18,7 +19,7 @@ public class TestRedPlayer {
 		board.resetBoard();
 	}
 	
-	private boolean red_moves_too_far_up() {
+	private boolean red_moves_too_far_up() throws OutOfBoundsException {
 		setup();
 		Location start = new Location(1,5);
 		Location end = new Location(2,3);
@@ -33,7 +34,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_moves_to_a_space_occupied_by_black() {
+	private boolean red_moves_to_a_space_occupied_by_black() throws OutOfBoundsException {
 		setup();
 		Location blackStart = new Location( 0,2);
 		Location blackMiddle = new Location(1,3);
@@ -52,7 +53,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_moves_to_a_space_occupied_by_red() {
+	private boolean red_moves_to_a_space_occupied_by_red() throws OutOfBoundsException {
 		setup();
 		Location redStart = new Location(2,6);
 		Location redEnd = new Location(3,5);
@@ -67,7 +68,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_moves_up() {
+	private boolean red_moves_up() throws OutOfBoundsException {
 		setup();
 		Location start = new Location(1,5);
 		Location end = new Location(2,4);
@@ -82,7 +83,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_moves_down() {
+	private boolean red_moves_down() throws OutOfBoundsException {
 		setup();
 		Location start = new Location(1,5);
 		Location end = new Location(2,4);
@@ -97,7 +98,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_jumps_a_black_piece_to_an_empty_space() {
+	private boolean red_jumps_a_black_piece_to_an_empty_space() throws OutOfBoundsException {
 		setup();
 		Location blackStart = new Location(0,2);
 		Location blackMiddle = new Location(1,3);
@@ -117,7 +118,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_jumps_a_black_piece_to_an_occupied_space() {
+	private boolean red_jumps_a_black_piece_to_an_occupied_space() throws OutOfBoundsException {
 		setup();
 		Location blackStart = new Location(0,2);
 		Location blackMiddle = new Location(1,3);
@@ -138,7 +139,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_jumps_a_friendly_piece() {
+	private boolean red_jumps_a_friendly_piece() throws OutOfBoundsException {
 		setup();
 		boolean testPassed = true;
 		Location redStart = new Location(1,5);
@@ -156,7 +157,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_jumps_an_empty_space() {
+	private boolean red_jumps_an_empty_space() throws OutOfBoundsException {
 		setup();
 		Location start = new Location(1,5);
 		Location end = new Location(3,3);
@@ -171,7 +172,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_jumps_too_far() {
+	private boolean red_jumps_too_far() throws OutOfBoundsException {
 		setup();
 		Location blackStart = new Location(0,2);
 		Location blackMiddle = new Location(1,3);
@@ -193,7 +194,7 @@ public class TestRedPlayer {
 		return testPassed;
 	}
 
-	private boolean red_attempts_moving_black_piece() {
+	private boolean red_attempts_moving_black_piece() throws OutOfBoundsException {
 		setup();
 		Location start = new Location(2,2);
 		Location end = new Location(3,3);
@@ -211,9 +212,9 @@ public class TestRedPlayer {
 		boolean testsPassed = true;
 		TestRedPlayer test = new TestRedPlayer();
 
+		try {
 		testsPassed &= test.red_moves_too_far_up();
 		testsPassed &= test.red_moves_to_a_space_occupied_by_black();
-		testsPassed &= test.red_moves_to_a_space_occupied_by_red();
 		testsPassed &= test.red_moves_up();
 		testsPassed &= test.red_moves_down();
 		testsPassed &= test.red_jumps_a_black_piece_to_an_empty_space();
@@ -222,6 +223,10 @@ public class TestRedPlayer {
 		testsPassed &= test.red_jumps_an_empty_space();
 		testsPassed &= test.red_jumps_too_far();
 		testsPassed &= test.red_attempts_moving_black_piece();
+		} catch (OutOfBoundsException oobe) {
+			System.out.println("There was a problem with the tested Locations.");
+			testsPassed = false;
+		}
 		
 		if (testsPassed) {
 			System.out.println("All tests on Red Pieces passed\n\n");

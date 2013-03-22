@@ -1,21 +1,22 @@
-package mainFrameLauncher;
-
+package userInterface.mainFrameLauncher;
 
 import javax.swing.SwingUtilities;
 
-
-import GUI.MainFrame;
-import GUIcontroller.FrameSwitcher;
-
+import userInterface.GUI.MainFrame;
+import userInterface.controller.FrameSwitcher;
 
 public class MainFrameLauncher {
 
 	public static void main(String[] args) {
 		
 		SwingUtilities.invokeLater(new Runnable() {
-			@Override
 			public void run() {
-				runGUI(); // Runs the GUI
+				try{
+					runGUI(); // Runs the GUI 
+				}
+				catch (Exception event) {
+					event.printStackTrace();
+				}
 			}
 
 		});

@@ -13,17 +13,20 @@ package main;
 public class Location {
 	public static final int ROWS = Board.BOARD_ROWS;
 	public static final int COLUMNS = Board.BOARD_COLUMNS;
-	private int xCoordinate;
-	private int yCoordinate;
+	private int xCoordinate, yCoordinate;
 
 	/**
 	 * Constructor from integer x,y coordinates
 	 * <p>
 	 * Pre-Condition: 0 <= x < 8; 0 <= y < 8
 	 */
-	public Location(int x, int y) {
-		xCoordinate = x;
-		yCoordinate = y;
+	public Location(int x, int y) throws OutOfBoundsException{
+		if(x < 0 || x >= ROWS || y < 0 || y >= COLUMNS) {
+			throw new OutOfBoundsException("Illegal coordinates were given.");
+		} else {
+			xCoordinate = x;
+			yCoordinate = y;
+		}
 	}
 
 	/**

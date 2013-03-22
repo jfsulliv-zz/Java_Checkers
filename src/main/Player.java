@@ -14,7 +14,6 @@ package main;
 public abstract class Player {
 	protected Piece[] myPieces;
 	protected final Colour playerColour;
-	protected final boolean human;
 	protected Board board = Board.getInstance();
 
 	/**
@@ -23,10 +22,9 @@ public abstract class Player {
 	 * @param aColour
 	 *            the Colour enumeration given
 	 */
-	public Player(Colour aColour, boolean isHuman, Board board) {
+	public Player(Colour aColour, Board board) {
 		this.playerColour = aColour;
-		this.human = isHuman;
-		queryPieces();
+		updatePieces();
 	}
 
 	/**
@@ -41,7 +39,7 @@ public abstract class Player {
 	/**
 	 * Mutator method to update the Player's Piece array with the current state of the board.
 	 */
-	public void queryPieces() {
+	public void updatePieces() {
 		this.myPieces = board.getPieces(this.playerColour);
 	}
 
@@ -59,22 +57,14 @@ public abstract class Player {
 	 * @param end - The ending location
 	 */
 	public void movePiece(Location start, Location end) {
-		Boolean silent = false;
-		Move move = new Move(this,start,end,silent);
+		Boolean silentMovementChecks = false;
+		Move move = new Move(this,start,end,silentMovementChecks);
 		if (end.inBounds() == false) {
 			return; 
 		} else if (move.isValid() == false) {
 			return;
 		}
 		board.movePiece(this,move);
-	}
-
-	/**
-	 * An Accessor method to return the Human status of the Player.
-	 * @return true if the Player is a Human.
-	 */
-	public boolean isHuman(){
-		return human;
 	}
 	
 	public abstract Location selectStart();
