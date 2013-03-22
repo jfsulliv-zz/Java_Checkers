@@ -38,9 +38,6 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
     private boolean inBound;
     private Cursor cursorShape;
     
-<<<<<<< HEAD:src/userInterface/GUI/MouseHandler.java
-    public MouseHandler(Component aComponent, int topLeftX, int topLeftY , int squareLength){
-=======
     /**
         *Constructor used to add the mouse handler to the panel with the proper bounds.
         *@param aComponent A component to add mouseHandler to. 
@@ -48,8 +45,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
         *@param squareLength The length of a single square on the board. 
         *@author Dylan
         */
-    public MouseHandler(Component aComponent, Location topLeft, int squareLength){
->>>>>>> Updated MouseHandlers and partial GUI implemented:mainFrame/GUI/MouseHandler.java
+     public MouseHandler(Component aComponent, int topLeftX, int topLeftY , int squareLength){
         this.topLeft = topLeft;
         this.squareLength = squareLength;
         this.component = aComponent;
