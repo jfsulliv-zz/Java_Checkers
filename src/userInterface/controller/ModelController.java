@@ -1,6 +1,7 @@
 package userInterface.controller;
 
 import main.GameLauncher;
+import userInterface.GUI.GamePanel;
 import userInterface.GUI.IModel;
 
 /**
@@ -12,12 +13,20 @@ import userInterface.GUI.IModel;
  */
 public class ModelController implements IModel {
 	
+	private Thread gameLauncher = new Thread(new GameLauncher());
+	private GameLauncher gameMode = new GameLauncher();
+	
+	public ModelController(GamePanel gamePanel) {
+	}
+
 	/**
 	 * Accessor method
 	 */
-	public void gameInstance(GameLauncher gameMode) {
+	public void gameInstance(Thread gameMode) {
 		System.out.println("GameModeModel event: Recieved");
-		gameMode.run();
+		gameLauncher = gameMode;
+		gameMode.start();
+		gameLauncher.start();
 	}
 
 	/**

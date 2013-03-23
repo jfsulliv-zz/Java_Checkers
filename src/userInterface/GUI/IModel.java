@@ -10,7 +10,7 @@ import main.GameLauncher;
  */
 public interface IModel {
 
-	public void gameInstance(GameLauncher gameMode);
+	public void gameInstance(Thread gameMode);
 	
 	public void scoreBoardInstance();
 }

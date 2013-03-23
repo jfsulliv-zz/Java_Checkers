@@ -2,8 +2,10 @@ package userInterface.mainFrameLauncher;
 
 import javax.swing.SwingUtilities;
 
+import userInterface.GUI.GamePanel;
 import userInterface.GUI.MainFrame;
 import userInterface.controller.FrameSwitcher;
+import userInterface.controller.ModelController;
 
 public class MainFrameLauncher {
 

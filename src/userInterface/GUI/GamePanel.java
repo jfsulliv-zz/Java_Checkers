@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import userInterface.controller.ModelController;
+import main.Game;
+import main.GameLauncher;
 import main.Location;
 
 /**
@@ -20,9 +24,11 @@ public class GamePanel extends JPanel implements ActionListener {
 	private JButton btnQuit;
 	private ImageIcon quitButton, rollOverQuitButton;
     private MouseHandler mouseHandler; 
-    private int topLeftX = 285;
-    private int topLeftY = 145;
+    private int topLeftX = 292;
+    private int topLeftY = 158;
     private static final int SQUARE_LENGTH = 44;
+    private ModelController modelController;
+    private GameLauncher gameMode;
 	
     /**
      * Mutator
@@ -33,11 +39,11 @@ public class GamePanel extends JPanel implements ActionListener {
 		setLayout(null);
 		// The background is set through an ImagePanel, defined in it's own class. The image can be found
 		// in the indicated path. 
-		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages\\GamePanelBackground.jpg").getImage());
+		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages\\Other\\FormalBackground.png").getImage());
 		// Set the button equal to an ImageIcon and also add a roll over image.
-		quitButton = new ImageIcon("GUIImages\\gamePanelQuitButton.png"); 
+		quitButton = new ImageIcon("GUIImages\\Buttons\\gamePanelQuitButton.png"); 
 		//quitButton = new ImageIcon(getClass().getResource("GUIImages\\gamePanelQuitButton.jpg"));
-		rollOverQuitButton = new ImageIcon("GUIImages\\rollOverGamePanelQuitButton.png"); 
+		rollOverQuitButton = new ImageIcon("GUIImages\\Buttons\\rollOverGamePanelQuitButton.png"); 
 		btnQuit = new JButton(quitButton);
 		// This next bit will make the default JButton invisible and will hide any of the 
 		// default borders.
@@ -46,7 +52,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		btnQuit.setBorderPainted(false);
 		btnQuit.setFocusPainted(false);
 		// Set the button
-		btnQuit.setBounds(385, 480, 145, 105);
+		btnQuit.setBounds(435, 520, 71, 46);
 		btnQuit.setRolloverIcon(rollOverQuitButton);
 		btnQuit.addActionListener(this);
 		// The mouseHandler will set the board to return location values in the terminal.
@@ -64,4 +70,10 @@ public class GamePanel extends JPanel implements ActionListener {
 			System.exit(0);
 		}
 	}
+
+	public void gameMode(ModelController modelController) {
+		this.modelController = modelController;
+		
+	}
+	
 }
