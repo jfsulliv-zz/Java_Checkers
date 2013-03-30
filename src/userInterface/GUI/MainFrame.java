@@ -155,20 +155,22 @@ public class MainFrame extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton)e.getSource();
-		
+		int gameMode = 0;
 		if (source == btnSinglePlayer) {
 			if (panelListener != null) { 
+				gameMode = 1;
 				mainContainer.getContentPane().removeAll();
 				mainContainer.invalidate();
-				mainContainer(panelListener.gamePanel());
+				mainContainer(panelListener.gamePanel(gameMode));
 				mainContainer.validate();
 				mainContainer.repaint();
 			}
 		} else if (source == btnMultiPlayer) {
 			if (panelListener != null) {
+				gameMode = 2;
 				mainContainer.getContentPane().removeAll();
 				mainContainer.invalidate();
-				mainContainer(panelListener.gamePanel());
+				mainContainer(panelListener.gamePanel(gameMode));
 				mainContainer.validate();
 				mainContainer.repaint();
 			}

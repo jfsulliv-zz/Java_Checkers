@@ -3,6 +3,8 @@ package userInterface.controller;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
+
+import main.Game;
 import main.GameLauncher;
 import userInterface.GUI.GamePanel;
 import userInterface.GUI.IModel;
@@ -22,14 +24,14 @@ public class FrameSwitcher implements PanelListener {
 	private JPanel mainMenu = new MainMenu(); // Create an instance of the MainMenu
 	private JPanel gamePanel = new GamePanel(); // Create an instance of the GamePanel
 	private JPanel scorePanel = new ScorePanel(); // Create an instance of the ScorePanel
-	private IModel modelController;
-	private Thread gameLauncher = new Thread(new GameLauncher());
+	private IModel modelController; // Create a handle on the ModelController
+	private int gameMode;
 
 	/**
 	 * Creates a handle on the MainFrame.
 	 * @param frame
 	 */
-	public FrameSwitcher(MainFrame frame) {
+	public FrameSwitcher(MainFrame frame, Game game) {
 
 	}
 
@@ -42,10 +44,12 @@ public class FrameSwitcher implements PanelListener {
 	 * When this method is called, within the MainFrame class, it will display the GamePanel
 	 * 
 	 */
-	public JPanel gamePanel() {
+	public JPanel gamePanel(int gameMode) {
 		System.out.println("GamePanel Event: Recieved");
-		//modelController.gameInstance(gameLauncher); // Not yet implemented.
-		gameLauncher.start();
+		this.gameMode = gameMode; // Store the given game mode in an instance variable.
+		if (modelController != null) {
+			modelController.gameInstance();
+		}
 		return gamePanel;
 	}
 
@@ -72,8 +76,19 @@ public class FrameSwitcher implements PanelListener {
 	 */
 	public JPanel scoreBoard() {
 		System.out.println("ScoreBoard Event: Recieved");
-		//modelController.scoreBoardInstance();
+		if (modelController != null) {
+			modelController.scoreBoardInstance();
+		}
 		return scorePanel;
+	}
+
+	public void setCoordinates(IModel modelController) {
+		this.modelController = modelController;
+	}
+	
+	public int getGameMode() {
+		System.out.println("The game mode chosen was " + gameMode + " player.");
+		return gameMode;
 	}
 
 }

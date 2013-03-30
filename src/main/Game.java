@@ -1,6 +1,10 @@
 package main;
 import java.util.Scanner;
 
+import userInterface.GUI.IModel;
+import userInterface.GUI.PanelListener;
+import userInterface.controller.FrameSwitcher;
+
 /**
  * A singleton of the Checkers game.
  * 
@@ -14,9 +18,13 @@ public class Game{
 	private int mode;
 	private boolean gameOver;
 	private Scanner input = new Scanner(System.in);
+	private PanelListener controller;
 	/*
 	 * Private default constructor that calls the initialize() method.
 	 */
+	public Game(String s) {
+		
+	}
 	private Game() {
 		initialize();
 		play();
@@ -52,15 +60,25 @@ public class Game{
 		}
 	}
 	
+	public void gameMode(PanelListener controller) {
+		this.controller = controller;
+	}
+	
 	/*
 	 * Method to initialize the game, including the Board's initialization and setting up the Players.
 	 * The Private play() method is called at the end, which will begin the game. The game will continue until a player loses.
 	 */
 	private void initialize(){
-		System.out.println("Welcome to Checkers!\n RED will play first.");
+		System.out.println("\nWelcome to Checkers!\nRED will play first.");
 		System.out.println("Enter locations when prompted in the form \"x,y\".");
 		System.out.println("The board is arranged with 0,0 at the Top-Left," + 
 			 " 7,7 at the Bottom-Right.");
+		
+		if(controller != null) {
+			controller.getGameMode();
+		} else {
+			System.out.println(controller);
+		}
 		
 		boolean validUserInput = false;
 		while(!validUserInput){

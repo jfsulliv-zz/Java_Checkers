@@ -10,9 +10,11 @@ import javax.swing.JPanel;
  */
 public interface PanelListener {
 
-	public JPanel gamePanel();
+	public JPanel gamePanel(int number);
 	
 	public JPanel mainMenu();
 	
 	public JPanel scoreBoard();
+	
+	public int getGameMode();
 }
