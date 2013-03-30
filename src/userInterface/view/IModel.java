@@ -1,4 +1,4 @@
-package userInterface.GUI;
+package userInterface.view;
 
 import main.GameLauncher;
 
@@ -10,7 +10,7 @@ import main.GameLauncher;
  */
 public interface IModel {
 
-	public void gameInstance();
+	public void gameInstance(int mode);
 	
 	public void scoreBoardInstance();
 	

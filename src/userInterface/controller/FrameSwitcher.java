@@ -6,12 +6,12 @@ import javax.swing.event.EventListenerList;
 
 import main.Game;
 import main.GameLauncher;
-import userInterface.GUI.GamePanel;
-import userInterface.GUI.IModel;
-import userInterface.GUI.MainFrame;
-import userInterface.GUI.MainMenu;
-import userInterface.GUI.PanelListener;
-import userInterface.GUI.ScorePanel;
+import userInterface.view.GamePanel;
+import userInterface.view.IModel;
+import userInterface.view.MainFrame;
+import userInterface.view.MainMenu;
+import userInterface.view.PanelListener;
+import userInterface.view.ScorePanel;
 
 /**
  * 
@@ -31,7 +31,7 @@ public class FrameSwitcher implements PanelListener {
 	 * Creates a handle on the MainFrame.
 	 * @param frame
 	 */
-	public FrameSwitcher(MainFrame frame, Game game) {
+	public FrameSwitcher(MainFrame frame) {
 
 	}
 
@@ -48,7 +48,7 @@ public class FrameSwitcher implements PanelListener {
 		System.out.println("GamePanel Event: Recieved");
 		this.gameMode = gameMode; // Store the given game mode in an instance variable.
 		if (modelController != null) {
-			modelController.gameInstance();
+			modelController.gameInstance(gameMode);
 		}
 		return gamePanel;
 	}

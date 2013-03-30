@@ -1,4 +1,4 @@
-package userInterface.GUI;
+package userInterface.view;
 
 import java.awt.Graphics;
 import java.awt.Color;

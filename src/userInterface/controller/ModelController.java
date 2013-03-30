@@ -1,7 +1,7 @@
 package userInterface.controller;
 
 import main.GameLauncher;
-import userInterface.GUI.IModel;
+import userInterface.view.IModel;
 
 /**
  * 
@@ -12,16 +12,12 @@ import userInterface.GUI.IModel;
  */
 public class ModelController implements IModel {
 	
-	private Thread gameLauncher = new Thread(new GameLauncher());
 	
-	public ModelController() {
-		
-	}
-
 	/**
 	 * Accessor method
 	 */
-	public void gameInstance() {
+	public void gameInstance(int mode) {
+		Thread gameLauncher = new Thread(new GameLauncher(mode));
 		System.out.println("GameInstance event: Recieved");
 		gameLauncher.start();
 	}

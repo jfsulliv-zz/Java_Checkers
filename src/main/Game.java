@@ -1,9 +1,9 @@
 package main;
 import java.util.Scanner;
 
-import userInterface.GUI.IModel;
-import userInterface.GUI.PanelListener;
 import userInterface.controller.FrameSwitcher;
+import userInterface.view.IModel;
+import userInterface.view.PanelListener;
 
 /**
  * A singleton of the Checkers game.
@@ -18,15 +18,14 @@ public class Game{
 	private int mode;
 	private boolean gameOver;
 	private Scanner input = new Scanner(System.in);
-	private PanelListener controller;
-	/*
-	 * Private default constructor that calls the initialize() method.
-	 */
-	public Game(String s) {
-		
-	}
+	
 	private Game() {
 		initialize();
+		play();
+	}
+	
+	private Game(int mode) {
+		initialize(mode);
 		play();
 	}
 	
@@ -40,7 +39,18 @@ public class Game{
 		}
 		return instance;
 	}
-
+	
+	public static Game getInstance(int mode){
+		if(instance == null){
+			instance = new Game(mode);
+		}
+		return instance;
+	}
+	
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
+	
 	/*
 	 * Private method that will call the turn(Player aPlayer) method until the gameOver is true.
 	 * Alternates between the Black and the Red player.
@@ -60,9 +70,6 @@ public class Game{
 		}
 	}
 	
-	public void gameMode(PanelListener controller) {
-		this.controller = controller;
-	}
 	
 	/*
 	 * Method to initialize the game, including the Board's initialization and setting up the Players.
@@ -73,12 +80,6 @@ public class Game{
 		System.out.println("Enter locations when prompted in the form \"x,y\".");
 		System.out.println("The board is arranged with 0,0 at the Top-Left," + 
 			 " 7,7 at the Bottom-Right.");
-		
-		if(controller != null) {
-			controller.getGameMode();
-		} else {
-			System.out.println(controller);
-		}
 		
 		boolean validUserInput = false;
 		while(!validUserInput){
@@ -113,6 +114,19 @@ public class Game{
 		}
 		
 		board.printArray();
+	}
+	
+	private void initialize(int mode) {
+		switch(mode) {
+			case 1:
+				blackPlayer = new AIPlayer(Colour.BLACK,board);
+				redPlayer = new HumanPlayer(Colour.RED,board); 
+				break;
+			case 2: 
+				blackPlayer = new HumanPlayer(Colour.BLACK,board);
+				redPlayer = new HumanPlayer(Colour.RED,board); 
+				break;
+		}
 	}
 	
 	/*

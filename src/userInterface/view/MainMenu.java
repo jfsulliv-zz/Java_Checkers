@@ -1,4 +1,4 @@
-package userInterface.GUI;
+package userInterface.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,11 +29,11 @@ public class MainMenu extends JPanel implements ActionListener {
 	public MainMenu() {
 		setLayout(null);
 		background = new ImagePanel(new ImageIcon(
-				"GUIImages\\Other\\newBackground.png").getImage());
+				"GUIImages/Other/newBackground.png").getImage());
 
-		singlePlayerButton = new ImageIcon("GUIImages\\Buttons\\singlePlayerButton.png");
+		singlePlayerButton = new ImageIcon("GUIImages/Buttons/singlePlayerButton.png");
 		rollOverSinglePlayerButton = new ImageIcon(
-				"GUIImages\\Buttons\\rollOverSinlgePlayerButton.png");
+				"GUIImages/Buttons/rollOverSinlgePlayerButton.png");
 		btnSinglePlayer = new JButton(singlePlayerButton);
 		btnSinglePlayer.setOpaque(false);
 		btnSinglePlayer.setContentAreaFilled(false);
@@ -44,9 +44,9 @@ public class MainMenu extends JPanel implements ActionListener {
 		btnSinglePlayer.addActionListener(this);
 		add(btnSinglePlayer);
 
-		multiPlayerButton = new ImageIcon("GUIImages\\Buttons\\multiPlayerButton.png");
+		multiPlayerButton = new ImageIcon("GUIImages/Buttons/multiPlayerButton.png");
 		rollOverMultiPlayerButton = new ImageIcon(
-				"GUIImages\\Buttons\\rollOverMultiPlayerButton.png");
+				"GUIImages/Buttons/rollOverMultiPlayerButton.png");
 		btnMultiPlayer = new JButton(multiPlayerButton);
 		btnMultiPlayer.setOpaque(false);
 		btnMultiPlayer.setContentAreaFilled(false);
@@ -57,9 +57,9 @@ public class MainMenu extends JPanel implements ActionListener {
 		btnMultiPlayer.addActionListener(this);
 		add(btnMultiPlayer);
 
-		scoreBoardButton = new ImageIcon("GUIImages\\Buttons\\scoreBoardButton.png");
+		scoreBoardButton = new ImageIcon("GUIImages/Buttons/scoreBoardButton.png");
 		rollOverScoreBoardButton = new ImageIcon(
-				"GUIImages\\Buttons\\rollOverScoreBoardButton.png");
+				"GUIImages/Buttons/rollOverScoreBoardButton.png");
 		btnScoreBoard = new JButton(scoreBoardButton);
 		btnScoreBoard.setOpaque(false);
 		btnScoreBoard.setContentAreaFilled(false);
@@ -70,8 +70,8 @@ public class MainMenu extends JPanel implements ActionListener {
 		btnScoreBoard.addActionListener(this);
 		add(btnScoreBoard);
 
-		quitButton = new ImageIcon("GUIImages\\Buttons\\quitButton.png");
-		rollOverQuitButton = new ImageIcon("GUIImages\\rollOverQuitButton.png");
+		quitButton = new ImageIcon("GUIImages/Buttons/quitButton.png");
+		rollOverQuitButton = new ImageIcon("GUIImages/rollOverQuitButton.png");
 		btnQuit = new JButton(quitButton);
 		btnQuit.setOpaque(false);
 		btnQuit.setContentAreaFilled(false);

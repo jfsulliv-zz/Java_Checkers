@@ -1,4 +1,4 @@
-package userInterface.GUI;
+package userInterface.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,11 +39,11 @@ public class GamePanel extends JPanel implements ActionListener {
 		setLayout(null);
 		// The background is set through an ImagePanel, defined in it's own class. The image can be found
 		// in the indicated path. 
-		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages\\Other\\FormalBackground.png").getImage());
+		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages/Other/FormalBackground.png").getImage());
 		// Set the button equal to an ImageIcon and also add a roll over image.
-		quitButton = new ImageIcon("GUIImages\\Buttons\\gamePanelQuitButton.png"); 
+		quitButton = new ImageIcon("GUIImages/Buttons/gamePanelQuitButton.png"); 
 		//quitButton = new ImageIcon(getClass().getResource("GUIImages\\gamePanelQuitButton.jpg"));
-		rollOverQuitButton = new ImageIcon("GUIImages\\Buttons\\rollOverGamePanelQuitButton.png"); 
+		rollOverQuitButton = new ImageIcon("GUIImages/Buttons/rollOverGamePanelQuitButton.png"); 
 		btnQuit = new JButton(quitButton);
 		// This next bit will make the default JButton invisible and will hide any of the 
 		// default borders.

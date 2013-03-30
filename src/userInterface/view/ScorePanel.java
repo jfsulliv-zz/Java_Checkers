@@ -1,4 +1,4 @@
-package userInterface.GUI;
+package userInterface.view;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -18,7 +18,7 @@ public class ScorePanel extends JPanel {
 	 */
 	public ScorePanel() {
 		setLayout(null);
-		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages\\Other\\ScoreBoardView.png").getImage());
+		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages/Other/ScoreBoardView.png").getImage());
 
 		add(background);
 	}
