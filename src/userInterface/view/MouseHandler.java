@@ -1,5 +1,6 @@
 package userInterface.view;
 
+import main.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,6 +16,7 @@ import main.OutOfBoundsException;
  */
 
 public class MouseHandler implements MouseListener, MouseMotionListener {
+	private Game game;
 	private int squareLength;
 	private int leftBound;
 	private int rightBound;
@@ -45,6 +47,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	 */
 	public MouseHandler(Component aComponent, int topLeftX, int topLeftY,
 			int squareLength) {
+		this.game = Game.getInstance();
 		this.topLeft = topLeft;
 		this.squareLength = squareLength;
 		this.component = aComponent;
@@ -109,6 +112,10 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	 * @author Dylan
 	 */
 	public void mouseClicked(MouseEvent e) {
+		if(game.currentPlayer().isHuman() == false || game.currentPlayer() == null) {
+			return;
+		}
+		
 		if (clickNumber == 0) {
 			try {
 				start = new Location(0, 0);
@@ -118,6 +125,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			}
 
 		}
+		
 		if (inBound) {
 			xBoardCoord = (int) Math.floor((e.getX() - leftBound)
 					/ squareLength);
@@ -127,20 +135,44 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			yCoord = e.getY();
 			clickNumber++;
 		}
+		
 		if (clickNumber == 1) {
 			try {
+				
 				start = new Location(xBoardCoord, yBoardCoord);
+				game.currentPlayer().setStart(start);
+				if(game.currentPlayer().validStartSelected() == false){
+					clickNumber = 0;
+					return;
+				}
+				
 			} catch (OutOfBoundsException e1) {
 				e1.printStackTrace();
 			}
 		} else if (clickNumber == 2) {
 			try {
+				
 				end = new Location(xBoardCoord, yBoardCoord);
+				game.currentPlayer().setEnd(end);
+				if(game.currentPlayer().validEndSelected() == false){
+					clickNumber = 1;
+					return;
+				}
+				
+				if(start.isSameLocation(end)) {
+					start = null;
+					end = null;
+					clickNumber = 0;
+					return;
+				} else {
+					System.out.println(start.toString() + "    " + end.toString());
+					game.currentPlayer().makeCurrentMove();
+				}
+				
 			} catch (OutOfBoundsException e1) {
 				e1.printStackTrace();
 			}
 			clickNumber = 0;
-			System.out.println(start.toString() + "    " + end.toString());
 		}
 		xBoardCoord = 0;
 		yBoardCoord = 0;

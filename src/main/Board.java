@@ -1,12 +1,14 @@
 package main;
 
+import java.util.Observable;
+
 /**
  * A singleton Board Class containing an 8x8 grid on which checkers is played.
  * <p>
  * Each square is a member of a 2-dimensional Piece array that can hold a single
  * instance of a 'Piece' class.
  */
-public class Board {
+public class Board extends Observable{
 	public static Board instance;
 	public static final int BOARD_ROWS = 8;
 	public static final int BOARD_COLUMNS = 8;
@@ -140,9 +142,18 @@ public class Board {
 	 */
 	public int turnComplete(){ return turnComplete; }
 	
-	public void resetTurn(){ turnComplete = 0; }
-	private void continueTurn(){ turnComplete = 1; }
-	private void endTurn(){ turnComplete = 2; }
+	
+	public void resetTurn(){ 
+		clearChanged();
+		turnComplete = 0; 
+	}
+	private void continueTurn(){ 
+		clearChanged();
+		turnComplete = 1; 
+	}
+	private void endTurn(){ 
+		turnComplete = 2; 
+	}
 
 
 	/**
@@ -178,6 +189,9 @@ public class Board {
 			}
 			setSquare(end,checkSquare(start));
 			setSquare(start,null);
+			
+			setChanged();
+			
 		}
 		catch (OutOfBoundsException oobe){
 			System.out.println("A movement was made outside of the board's boundaries.");

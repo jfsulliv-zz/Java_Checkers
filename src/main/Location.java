@@ -52,6 +52,13 @@ public class Location {
 			return true;
 		} return false;
 	}
+	
+	public boolean isSameLocation(Location otherLoc){
+		if(xCoordinate == otherLoc.getX() && yCoordinate == otherLoc.getY()) {
+			return true;
+		}
+		return false;
+	}
 
 	public String toString() {
 		return xCoordinate + "," + yCoordinate;

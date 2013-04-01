@@ -12,9 +12,14 @@ package main;
  * 
  */
 public abstract class Player {
+	protected boolean myTurn;
 	protected Piece[] myPieces;
 	protected final Colour playerColour;
 	protected Board board = Board.getInstance();
+	protected Location currentStart, currentEnd;
+	protected boolean isHuman;
+	
+	private Location selectedLocation;
 
 	/**
 	 * Constructor for creating a Player given a Colour enumeration, its Human status, and the Board instance.
@@ -25,6 +30,10 @@ public abstract class Player {
 	public Player(Colour aColour, Board board) {
 		this.playerColour = aColour;
 		updatePieces();
+	}
+	
+	public boolean isHuman(){
+		return isHuman;
 	}
 
 	/**
@@ -50,25 +59,57 @@ public abstract class Player {
 	public Piece[] getPieces() {
 		return this.myPieces;
 	}
-
-	/**
-	 * A method for the player to send the Movement command to the Board.
-	 * @param start - The starting location
-	 * @param end - The ending location
-	 */
-	public void movePiece(Location start, Location end) {
-		Boolean silentMovementChecks = false;
-		Move move = new Move(this,start,end,silentMovementChecks);
-		if (end.inBounds() == false) {
-			return; 
+	
+	public void makeCurrentMove() {
+		if(currentStart == null || currentEnd == null || myTurn == false) {
+			if(isHuman == false) {
+				setStart(null);
+				setEnd(null);
+			} else {
+				return;
+			}
+		}
+		
+		Move move = new Move(this,currentStart,currentEnd,false);
+		
+		if (currentEnd.inBounds() == false) {
+			return;
 		} else if (move.isValid() == false) {
 			return;
 		}
+		
 		board.movePiece(this,move);
+		if(move.isJump(currentStart,currentEnd) 
+		&& board.checkSquare(currentEnd).emptyJumps(this).length > 0) {
+			currentEnd = currentStart;
+		} else {
+			myTurn = false;
+		}
 	}
 	
-	public abstract Location selectStart();
-	public abstract Location selectEnd(Location start);
+	public abstract void setStart(Location start);
+	public abstract void setEnd(Location end);
+	
+	public boolean validStartSelected() {
+		return (currentStart != null);
+	}
+	
+	public boolean validEndSelected() {
+		return (currentEnd != null);
+	}
+	
+	public void resetLocations(){
+		currentStart = null;
+		currentEnd = null;
+	}
+	
+	public void myTurn(){
+		myTurn = true;
+	}
+	
+	public boolean isMyTurn(){
+		return myTurn;
+	}
 	
 	public String toString(){
 		return "Player: " + this.playerColour;

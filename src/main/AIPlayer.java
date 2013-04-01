@@ -19,14 +19,23 @@ public class AIPlayer extends Player {
 	 */
 	public AIPlayer(Colour aColour,Board board) {
 		super(aColour,board);
+		isHuman = false;
 	}
 	
+	public void setStart(Location start){
+		currentStart = setStart();
+	}
+	
+	public void setEnd(Location end){
+		currentEnd = setEnd();
+		
+	}
 	/**
 	 * Accessor Method to return a random, usable Piece's Location for the AIPlayer to move on the Board.
 	 * <p>The AIPlayer will seek out any jumps it can perform and prefer those.
 	 * @return Location of a Random Piece that can be moved.
 	 */
-	public Location selectStart(){
+	private Location setStart(){
 		updatePieces(); // AIPlayer's myPieces array is updated to reflect the current board state
 		Location[] preferredLocs = new Location[myPieces.length]; // Starting piece locations that have 'preferred' locations to move to
 		int numPreferredMoves = 0;
@@ -79,8 +88,8 @@ public class AIPlayer extends Player {
 	 * @param start The starting location of a Piece that has some valid moves.
 	 * @return Location of a random movement for the piece.
 	 */
-	public Location selectEnd(Location start){
-		Piece tempPiece = board.checkSquare(start);
+	private Location setEnd(){
+		Piece tempPiece = board.checkSquare(currentStart);
 		Location[] allJumps = tempPiece.emptyJumps(this);  // Arrays containing possible movements and jumps
 		Location[] allMoves = tempPiece.emptyMoves(this);  // for a given Piece's location.
 		

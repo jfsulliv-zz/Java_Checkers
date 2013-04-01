@@ -8,7 +8,9 @@ public class GameLauncher implements Runnable {
 	}
 
 	public void run() {
-		Game.getInstance(mode);
+		Game game = Game.getInstance();
+		game.initialize(mode);
+		game.play();
 	}
 
 }
