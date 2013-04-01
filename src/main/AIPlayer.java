@@ -89,6 +89,7 @@ public class AIPlayer extends Player {
 	 * @return Location of a random movement for the piece.
 	 */
 	private Location setEnd(){
+		pause(3);
 		Piece tempPiece = board.checkSquare(currentStart);
 		Location[] allJumps = tempPiece.emptyJumps(this);  // Arrays containing possible movements and jumps
 		Location[] allMoves = tempPiece.emptyMoves(this);  // for a given Piece's location.
@@ -114,5 +115,34 @@ public class AIPlayer extends Player {
 		
 		
 		return null;
+	}
+	/**
+	 * 	<!--Mutator method-->
+	 * 
+	 * 	<style>
+	 * 		#method {
+	 * 			text-indent: 10.0px;
+	 * 		}
+	 * 	</style>
+	 * 
+	 * 	<ul><li><b>AIPlayer</b></li></ul>
+	 * 	<ul><div ID="method">private void pause()</div></ul>
+	 * 	<ul>
+	 * 		<p>
+	 * 			This method pauses the AI players move by a declared number of seconds.
+	 * 		</p>
+	 * 	</ul>
+	 * 	<ul>
+	 * 		@param timeToWaitInSeconds The specified time to wait in seconds.
+	 * 	</ul>
+	 */
+	private void pause(int timeToWaitInSeconds) {
+		int timeToMilli = 1000 * timeToWaitInSeconds;
+		long t0, t1;
+        t0 =  System.currentTimeMillis();
+        do{
+            t1 = System.currentTimeMillis();
+        }
+        while (t1 - t0 < timeToMilli);
 	}
 }

@@ -26,6 +26,7 @@ public class Game {
 				redPlayer = new HumanPlayer(Colour.RED,board); 
 				break;
 		}
+		board.printArray();
 	}
 	
 	public void play() {
@@ -41,6 +42,7 @@ public class Game {
 						break;
 			}
 			System.out.println("Turn: "+ currentPlayer.toString());
+			board.printArray();
 			while(!board.hasChanged()) {
 				currentPlayer.myTurn();
 				if(currentPlayer.isHuman() == false){
