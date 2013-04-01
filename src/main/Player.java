@@ -18,8 +18,6 @@ public abstract class Player {
 	protected Board board = Board.getInstance();
 	protected Location currentStart, currentEnd;
 	protected boolean isHuman;
-	
-	private Location selectedLocation;
 
 	/**
 	 * Constructor for creating a Player given a Colour enumeration, its Human status, and the Board instance.
@@ -32,13 +30,14 @@ public abstract class Player {
 		updatePieces();
 	}
 	
+	/**
+	 * @return True if the player is a Human.
+	 */
 	public boolean isHuman(){
 		return isHuman;
 	}
 
 	/**
-	 * Accessor method to return the Player's Colour
-	 * 
 	 * @return playerColour the Colour enumeration of the player
 	 */
 	public Colour getColour() {
@@ -53,8 +52,7 @@ public abstract class Player {
 	}
 
 	/**
-	 * Accessor method to return the Player's Piece array.
-	 * @return
+	 * @return Piece[] myPieces, an array containing every piece on the board available to the player.
 	 */
 	public Piece[] getPieces() {
 		return this.myPieces;
@@ -89,6 +87,8 @@ public abstract class Player {
 	
 	public abstract void setStart(Location start);
 	public abstract void setEnd(Location end);
+	public abstract void setStart();
+	public abstract void setEnd();
 	
 	public boolean validStartSelected() {
 		return (currentStart != null);

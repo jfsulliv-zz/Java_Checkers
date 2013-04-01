@@ -155,7 +155,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 				end = new Location(xBoardCoord, yBoardCoord);
 				game.currentPlayer().setEnd(end);
 				if(game.currentPlayer().validEndSelected() == false){
-					clickNumber = 1;
+					clickNumber = 0;
+					start = null;
 					return;
 				}
 				

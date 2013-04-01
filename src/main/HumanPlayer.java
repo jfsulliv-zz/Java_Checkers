@@ -22,6 +22,14 @@ public class HumanPlayer extends Player {
 		isHuman = true;
 	}
 	
+	public void setStart(){
+		return;
+	}
+	
+	public void setEnd(){
+		return;
+	}
+	
 	public void setStart(Location start){
 		if(start.inBounds() == false){
 			System.out.println("That is an invalid location.");
