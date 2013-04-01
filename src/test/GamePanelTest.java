@@ -9,8 +9,9 @@ public class GamePanelTest{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GamePanel panel1 = new GamePanel();
         frame.add(panel1);
-        frame.setSize(925, 600);
+        frame.setSize(925, 608);
         frame.setVisible(true);
+        frame.setResizable(false);
         }
     }
 

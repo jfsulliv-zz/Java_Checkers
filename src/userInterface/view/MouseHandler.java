@@ -1,13 +1,6 @@
 package userInterface.view;
 
-import java.awt.Graphics;
-import java.awt.Color;
-import javax.swing.*;
 import java.awt.*;
-import javax.swing.JPanel;
-import java.io.*;
-import java.awt.image.*;
-import javax.imageio.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -38,7 +31,6 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	private int yBoardCoord;
 	private boolean inBound;
 	private Cursor cursorShape;
-
 	/**
 	 * Constructor used to add the mouse handler to the panel with the proper
 	 * bounds.
@@ -94,13 +86,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
 		if (e.getX() > leftBound && e.getX() < rightBound
 				&& e.getY() > upperBound && e.getY() < lowerBound) {
-			component.setCursor(cursorShape
-					.getPredefinedCursor(cursorShape.HAND_CURSOR));
+			component.setCursor(cursorShape.getPredefinedCursor(cursorShape.HAND_CURSOR));
 			inBound = true;
 
 		} else {
-			component.setCursor(cursorShape
-					.getPredefinedCursor(cursorShape.DEFAULT_CURSOR));
+			component.setCursor(cursorShape.getPredefinedCursor(cursorShape.DEFAULT_CURSOR));
 			inBound = false;
 		}
 
@@ -159,6 +149,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
 	public Location getStart() {
 		return start;
+	}
+	public void getStart(Location start) {
+		this.start = start;
 	}
 
 	public Location getEnd() {

@@ -6,10 +6,11 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 /**
+ * 	<ul>
+ * 		<p>ImagePanel sets the background for any JPanel</p>
+ * 		@author Daniel
+ * 	</ul>
  * 
- * @author Daniel
- * 
- * ImagePanel will allow us to create a background image for any panel.
  *
  */
 public class ImagePanel extends JPanel {
@@ -17,11 +18,31 @@ public class ImagePanel extends JPanel {
 	private Image image;
 	
 	/**
-	 * Mutator
+	 * <!--Mutator method.-->
+	 * 	<style>
+	 * 		#method{
+	 * 			text-indent: 10.0px;
+	 * 		}
+	 * 	</style>
+	 * 	<ul><li><b>ImagePanel</b></li></ul>
+	 * 	<ul><div ID="method"><p>public ImagePanel(Image image)</p></div></ul>
+	 * 	<ul> 
+	 * 		<p>
+	 * 			Takes the given image and sets the size to the images default size. 
+	 * 		</p>
+	 * 	</ul>
+	 * 	<ul>
+	 * 		<p>
+	 * 			PreCondition: The image given must be in the proper path and the right extension.
+	 * 			<br>PostCondition: Will return the image as the new background</br>
+	 * 		</p>
+	 * 	</ul>
 	 * 
-	 * @param image
+	 * 	<ul>
+	 *  	@param image  The image to be shown as the background.
+	 *  </ul>
 	 * 
-	 * A constructor that manipulates the image.
+	 * 
 	 */
 	public ImagePanel(Image image) {
 		this.image = image;
@@ -32,11 +53,7 @@ public class ImagePanel extends JPanel {
 		setSize(size);
 		setLayout(null);
 	}
-	/**
-	 * Mutator
-	 * 
-	 * Draws the image specified.
-	 */
+
 	public void paintComponent(Graphics g) {
 		g.drawImage(image,  0 , 0 ,  null);
 	}

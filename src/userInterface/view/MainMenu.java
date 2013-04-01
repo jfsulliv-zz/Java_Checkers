@@ -8,10 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * 
- * @author Daniel
+ * 	<ul>
+ * 		<p>
+ * 			Creates the view for the main menu. This class will utilize a custom look and feel
+ * 			in accordance to the theme of this project.
+ * 		</p>
+ * 		@author Daniel
+ * 	</ul>
  *
- * Creates a main menu for the GUI. <Currently not implemented>
  */
 public class MainMenu extends JPanel implements ActionListener {
 
@@ -22,10 +26,22 @@ public class MainMenu extends JPanel implements ActionListener {
 			rollOverMultiPlayerButton, quitButton, rollOverQuitButton;
 
 	/**
-	 * Mutator
-	 * 
-	 * Constructs the view for the main menu.
-	 */
+     *<!--Mutator-->
+     *	<ul>
+     *		<li><strong>MaineMenu</strong></li>
+     *	</ul>
+     *	<style> 
+     *		div {
+     *			text-indent: 10.0px;
+     *		}
+     *	</style>
+     *	<ul>
+     * 		<div><p>public MainMenu()</p></div>
+     * 		<p>
+     * 			Creates the view of the main menu, utilizing JButtons. These buttons have a custom
+     * 			look and feel that will compliment the GUI. 
+     *	</ul>
+     */
 	public MainMenu() {
 		setLayout(null);
 		background = new ImagePanel(new ImageIcon(

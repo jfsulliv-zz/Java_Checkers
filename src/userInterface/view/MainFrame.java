@@ -11,11 +11,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * 
- * @author Daniel
- * 
- * MainFrame is a container class. The container is comprised of a JFrame that will contain JPanels.
- * The JPanels are switched according to what is happening in the FrameSwitcher.
+ * 	<ul>
+ * 		<p>
+ * 			MainFrame is a container class. The container is comprised of a JFrame that will contain JPanels.
+ * 			The JPanels are switched according to what is happening in the FrameSwitcher.
+ * 		</p>
+ * 		@author Daniel
+ * 	</ul>
  */
 public class MainFrame extends JFrame implements ActionListener {
 
@@ -30,22 +32,47 @@ public class MainFrame extends JFrame implements ActionListener {
 	rollOverMultiPlayerButton, quitButton, rollOverQuitButton;
 
 	/**
-	 * Accessor 
+	 * <!--Accessor method.-->
+	 * 	<style>
+	 * 		div {
+	 * 			text-indent: 10.0px;
+	 * 		}
+	 * 	</style>
+	 * 	<ul><li><b>MainFrame</b></li></ul>
+	 * 	<ul><div><p>public void start()</p></div></ul>
+	 * 	<ul> 
+	 * 		<p>
+	 * 			This is the initializer for the GUI. This will also ensure that
+	 * 			the main menu will always show first.
+	 * 		</p>
+	 * 	</ul>
 	 * 
-	 * This method will start the GUI, initiating the main menu first.
 	 */
 	public void start() {
 		mainContainer(mainMenu());
 	}
 
 	/**
-	 * Mutator
-	 * 
-	 * @param frame
-	 * @return mainConainer
-	 * 
-	 * This method will create the container, mainContainer, and it takes a parameter 
-	 * of JPanel. This parameter will be responsible for changing frames.
+	 * <!--Mutator method-->
+	 * 	<style>
+	 * 		div {
+	 * 			text-indent: 10.0px;
+	 * 		}
+	 * 	</style>
+	 * 	<ul><li><b>MainFrame</b></li></ul>
+	 * 	<ul><div><p>private JFrame mainContainer(JPanel frame)</p></div></ul>
+	 * 	<ul> 
+	 * 		<p>
+	 * 			Creates the container for all the JPanels that will be used. This container
+	 * 			will add given JPanels, through the constructor. The frame will not be 
+	 * 			resizable and will be in the middle of the users screen. 
+	 * 		</p>
+	 * 	</ul>
+	 * 	
+	 * 	<ul>
+	 * 		@param frame Takes a JPanel, which will be displayed.
+	 * 		@return Returns the container (JFrame)
+	 * 	</ul>
 	 * 
 	 */
 	private JFrame mainContainer(JPanel frame) {
@@ -64,12 +91,25 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Mutator
-	 * 
-	 * @return mainMenu
-	 * 
-	 * Construct the main menu of the GUI.
-	 */
+     *<!--Mutator-->
+     *	<ul>
+     *		<li><strong>MaineMenu</strong></li>
+     *	</ul>
+     *	<style> 
+     *		div {
+     *			text-indent: 10.0px;
+     *		}
+     *	</style>
+     *	<ul>
+     * 		<div><p>public MainMenu()</p></div>
+     * 		<p>
+     * 			Creates the view of the main menu, utilizing JButtons. These buttons have a custom
+     * 			look and feel that will compliment the GUI. 
+     *	</ul>
+     *	<ul>
+     *		@return The view for the main menu.
+     *	</ul>
+     */
 	private JPanel mainMenu() {
 		mainMenu = new JPanel();
 		mainMenu.setLayout(null);
@@ -135,24 +175,30 @@ public class MainFrame extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * 
-	 * @param panelListener
-	 * 
-	 * This creates a handle on the listener, PanelListener. Whenever an event happens, the
-	 * instance variable paneListener is no longer null which will be useful in the 
-	 * actionPerformed method.
-	 */
+     *<!--Accessor-->
+     *	<ul>
+     *		<li><strong>MaineMenu</strong></li>
+     *	</ul>
+     *	<style> 
+     *		div {
+     *			text-indent: 10.0px;
+     *		}
+     *	</style>
+     *	<ul>
+     * 		<div><p>public MainMenu()</p></div>
+     * 		<p>
+     * 			This creates a handle on the listener, PanelListener. Whenever 
+     * 			event happens, the instance variable paneListener is no longer null
+     * 			which will be useful in the actionPerformed method.
+     *	</ul>
+     *	<ul>
+     *		@param panelListener Initializes the listener.
+     *	</ul>
+     */
 	public void SwitchFrames(PanelListener panelListener) {
 		this.panelListener = panelListener;
 	}
 
-	/**
-	 * Mutator
-	 * 
-	 * actionPerformed will take you to the appropriate screens depending on what is 
-	 * clicked by the user. Before changing the frames we must first check
-	 * if panelListener is null.
-	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton)e.getSource();
 		int gameMode = -1;

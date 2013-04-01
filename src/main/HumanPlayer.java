@@ -1,6 +1,8 @@
 package main;
 import java.util.Scanner;
 
+import userInterface.view.MouseHandler;
+
 /**
  * A human Player Subclass. Contains methods to take user input and turn it into a Location.
  * @author james
@@ -8,6 +10,7 @@ import java.util.Scanner;
  */
 public class HumanPlayer extends Player {
 	private Scanner scanner = new Scanner(System.in);
+	MouseHandler handler;
 
 	/**
 	 * Constructor method to call the Player super's constructor given some parameters.

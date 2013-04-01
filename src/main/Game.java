@@ -1,10 +1,6 @@
 package main;
 import java.util.Scanner;
 
-import userInterface.controller.FrameSwitcher;
-import userInterface.view.IModel;
-import userInterface.view.PanelListener;
-
 /**
  * A singleton of the Checkers game.
  * 
@@ -19,10 +15,10 @@ public class Game{
 	private boolean gameOver;
 	private Scanner input = new Scanner(System.in);
 	
-	private Game() {
-		initialize();
-		play();
-	}
+//	private Game() {
+//		initialize();
+//		play();
+//	}
 	
 	private Game(int mode) {
 		initialize(mode);
@@ -33,12 +29,12 @@ public class Game{
 	 * Accessor Method to return the Singleton instance of the game, or call the constructor if it does not exist.
 	 * @return The instance of the Game.
 	 */
-	public static Game getInstance(){
-		if(instance == null){
-			instance = new Game();
-		}
-		return instance;
-	}
+//	public static Game getInstance(){
+//		if(instance == null){
+//			instance = new Game();
+//		}
+//		return instance;
+//	}
 	
 	public static Game getInstance(int mode){
 		if(instance == null){
@@ -75,46 +71,46 @@ public class Game{
 	 * Method to initialize the game, including the Board's initialization and setting up the Players.
 	 * The Private play() method is called at the end, which will begin the game. The game will continue until a player loses.
 	 */
-	private void initialize(){
-		System.out.println("\nWelcome to Checkers!\nRED will play first.");
-		System.out.println("Enter locations when prompted in the form \"x,y\".");
-		System.out.println("The board is arranged with 0,0 at the Top-Left," + 
-			 " 7,7 at the Bottom-Right.");
-		
-		boolean validUserInput = false;
-		while(!validUserInput){
-			System.out.println("Do you want to play 1 or 2 player?");
-			
-			try { 
-				String selection = input.nextLine();
-				mode = Integer.parseInt(selection);
-				if(mode != 1 && mode != 2) {
-					System.out.println("Invalid entry- Setting to 1-player.");
-					mode = 1;
-				}
-				validUserInput = true;
-			} catch(IndexOutOfBoundsException e) {
-				System.out.print("Invalid entry- try again. ");
-			} catch(NumberFormatException e) {
-				System.out.print("Invalid entry- try again. ");
-			}
-		}
-		
-		switch(mode) {
-			case 1:
-				System.out.println("Playing against an AI Player.");
-				blackPlayer = new AIPlayer(Colour.BLACK,board);
-				redPlayer = new HumanPlayer(Colour.RED,board); 
-				break;
-			case 2: 
-				System.out.println("Red will move first.");
-				blackPlayer = new HumanPlayer(Colour.BLACK,board);
-				redPlayer = new HumanPlayer(Colour.RED,board); 
-				break;
-		}
-		
-		board.printArray();
-	}
+//	private void initialize(){
+//		System.out.println("\nWelcome to Checkers!\nRED will play first.");
+//		System.out.println("Enter locations when prompted in the form \"x,y\".");
+//		System.out.println("The board is arranged with 0,0 at the Top-Left," + 
+//			 " 7,7 at the Bottom-Right.");
+//		
+//		boolean validUserInput = false;
+//		while(!validUserInput){
+//			System.out.println("Do you want to play 1 or 2 player?");
+//			
+//			try { 
+//				String selection = input.nextLine();
+//				mode = Integer.parseInt(selection);
+//				if(mode != 1 && mode != 2) {
+//					System.out.println("Invalid entry- Setting to 1-player.");
+//					mode = 1;
+//				}
+//				validUserInput = true;
+//			} catch(IndexOutOfBoundsException e) {
+//				System.out.print("Invalid entry- try again. ");
+//			} catch(NumberFormatException e) {
+//				System.out.print("Invalid entry- try again. ");
+//			}
+//		}
+//		
+//		switch(mode) {
+//			case 1:
+//				System.out.println("Playing against an AI Player.");
+//				blackPlayer = new AIPlayer(Colour.BLACK,board);
+//				redPlayer = new HumanPlayer(Colour.RED,board); 
+//				break;
+//			case 2: 
+//				System.out.println("Red will move first.");
+//				blackPlayer = new HumanPlayer(Colour.BLACK,board);
+//				redPlayer = new HumanPlayer(Colour.RED,board); 
+//				break;
+//		}
+//		
+//		board.printArray();
+//	}
 	
 	private void initialize(int mode) {
 		switch(mode) {
@@ -127,6 +123,7 @@ public class Game{
 				redPlayer = new HumanPlayer(Colour.RED,board); 
 				break;
 		}
+		board.printArray();
 	}
 	
 	/*

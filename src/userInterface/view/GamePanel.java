@@ -7,16 +7,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import userInterface.controller.ModelController;
-import main.Game;
-import main.GameLauncher;
-import main.Location;
-
 /**
- * 
- * @author Daniel
- * 
- * Creates a GamePanel with a board that returns locations, for now in the terminal.
+ * 	<ul>
+ * 		<p>Creates a GamePanel with a board that returns locations, for now in the terminal.</p>
+ * 		@author Daniel
+ * 	</ul>
  *
  */
 public class GamePanel extends JPanel implements ActionListener {
@@ -27,13 +22,25 @@ public class GamePanel extends JPanel implements ActionListener {
     private int topLeftX = 292;
     private int topLeftY = 158;
     private static final int SQUARE_LENGTH = 44;
-    private ModelController modelController;
-    private GameLauncher gameMode;
 	
     /**
-     * Mutator
-     * 
-     * Constructs the view for the game panel.
+     *<!--Mutator-->
+     *	<ul>
+     *		<li><strong>GamePanel</strong></li>
+     *	</ul>
+     *	<style> 
+     *		div {
+     *			text-indent: 10.0px;
+     *		}
+     *	</style>
+     *	<ul>
+     * 		<div><p>public GamePanel()</p></div>
+     * 		<p>
+     * 			Creates the view of the game panel, using custom images stored in the .../GUIImages folder.
+     * 			The class also utilizes a custom ImagePanel class which will allow us to set an image as
+     * 			the background of the panel. 
+     * 		</p>
+     *	</ul>
      */
 	public GamePanel() {
 		setLayout(null);
@@ -71,9 +78,4 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public void gameMode(ModelController modelController) {
-		this.modelController = modelController;
-		
-	}
-	
 }
