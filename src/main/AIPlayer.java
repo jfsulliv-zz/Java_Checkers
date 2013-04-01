@@ -95,12 +95,8 @@ public class AIPlayer extends Player {
 	 * <p>The AIPlayer will seek out any jumps it can perform, or pieces it could king, and return those.
 	 * @return Location of a random movement for the piece.
 	 */
-<<<<<<< HEAD
 	private Location selectEnd(){
-=======
-	private Location setEnd(){
 		pause(3);
->>>>>>> e18325937f5efafd4b7cd146a8a0679965fa64a0
 		Piece tempPiece = board.checkSquare(currentStart);
 		Location[] allJumps = tempPiece.emptyJumps(this);  // Arrays containing possible movements and jumps
 		Location[] allMoves = tempPiece.emptyMoves(this);  // for a given Piece's location.
