@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import main.Board;
 import main.Location;
 import main.OutOfBoundsException;
 
@@ -112,8 +114,14 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	 * @author Dylan
 	 */
 	public void mouseClicked(MouseEvent e) {
+		// If the Player is not a Human player or is a null, any mouse events are ignored
 		if(game.currentPlayer().isHuman() == false || game.currentPlayer() == null) {
 			return;
+		}
+		
+		// If the Player is jumping a second piece, it can only select an end-point
+		if(game.currentPlayer().isContinueMove() == true){
+			clickNumber = 1;
 		}
 		
 		if (clickNumber == 0) {
@@ -161,6 +169,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 				}
 				
 				if(start.isSameLocation(end)) {
+					game.currentPlayer().resetLocations();
 					start = null;
 					end = null;
 					clickNumber = 0;

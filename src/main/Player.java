@@ -18,6 +18,8 @@ public abstract class Player {
 	protected Board board = Board.getInstance();
 	protected Location currentStart, currentEnd;
 	protected boolean isHuman;
+	
+	protected boolean continueMove = false;
 
 	/**
 	 * Constructor for creating a Player given a Colour enumeration, its Human status, and the Board instance.
@@ -61,8 +63,8 @@ public abstract class Player {
 	public void makeCurrentMove() {
 		if(currentStart == null || currentEnd == null || myTurn == false) {
 			if(isHuman == false) {
-				setStart(null);
-				setEnd(null);
+				setStart();
+				setEnd();
 			} else {
 				return;
 			}
@@ -79,8 +81,11 @@ public abstract class Player {
 		board.movePiece(this,move);
 		if(move.isJump(currentStart,currentEnd) 
 		&& board.checkSquare(currentEnd).emptyJumps(this).length > 0) {
-			currentEnd = currentStart;
+			System.out.println("This piece can continue to jump.");
+			continueMove = true;
+			currentStart = currentEnd;
 		} else {
+			resetLocations();
 			myTurn = false;
 		}
 	}
@@ -99,6 +104,7 @@ public abstract class Player {
 	}
 	
 	public void resetLocations(){
+		continueMove = false;
 		currentStart = null;
 		currentEnd = null;
 	}
@@ -109,6 +115,10 @@ public abstract class Player {
 	
 	public boolean isMyTurn(){
 		return myTurn;
+	}
+	
+	public boolean isContinueMove(){
+		return continueMove;
 	}
 	
 	public String toString(){

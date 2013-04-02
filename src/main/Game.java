@@ -43,8 +43,9 @@ public class Game {
 	public void play() {
 		int turn = 1;
 		while(!gameOver()) {
-			
+			board.printArray();
 			board.resetTurn();
+			
 			switch(turn) {
 				case 0: currentPlayer = blackPlayer;
 						turn +=1;
@@ -54,20 +55,15 @@ public class Game {
 						break;
 			}
 			System.out.println("Turn: "+ currentPlayer.toString());
+			currentPlayer.myTurn();
 			
 			// The following loop will only end when the Observable Board's state has changed, ie a piece has been moved.
-			while(!board.hasChanged()) {
-				currentPlayer.myTurn();
-				
-				// AI Players will have their movements provided.
-				if(currentPlayer.isHuman() == false){
-					currentPlayer.setStart();
-					currentPlayer.setEnd();
+			while(currentPlayer.isMyTurn() == true) {
+				if(!currentPlayer.isHuman()){
 					currentPlayer.makeCurrentMove();
 				}
 			}
 		}
-
 	}
 	
 	/**
@@ -81,12 +77,14 @@ public class Game {
 	 * @return True if the current Player can no longer move.
 	 */
 	public boolean gameOver(){
+		currentPlayer.updatePieces();
+		
 		if (currentPlayer.getPieces().length > 0){
 			return false;
 		}
 		
 		for(int i = 0; i < currentPlayer.getPieces().length; i++){
-			if (currentPlayer.getPieces()[i].emptyJumps(currentPlayer).length > 0 ||
+			if (currentPlayer.getPieces()[i].emptyMoves(currentPlayer).length > 0 ||
 					currentPlayer.getPieces()[i].emptyJumps(currentPlayer).length > 0) {
 				return false;
 			}

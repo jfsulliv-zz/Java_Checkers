@@ -148,10 +148,11 @@ public class Board extends Observable{
 		turnComplete = 0; 
 	}
 	private void continueTurn(){ 
-		clearChanged();
+		setChanged();
 		turnComplete = 1; 
 	}
 	private void endTurn(){ 
+		setChanged();
 		turnComplete = 2; 
 	}
 
@@ -189,8 +190,6 @@ public class Board extends Observable{
 			}
 			setSquare(end,checkSquare(start));
 			setSquare(start,null);
-			
-			setChanged();
 			
 		}
 		catch (OutOfBoundsException oobe){
