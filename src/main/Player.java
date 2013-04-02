@@ -84,6 +84,7 @@ public abstract class Player {
 			System.out.println("This piece can continue to jump.");
 			continueMove = true;
 			currentStart = currentEnd;
+			setEnd();
 		} else {
 			resetLocations();
 			myTurn = false;
