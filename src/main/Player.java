@@ -79,6 +79,7 @@ public abstract class Player {
 		}
 		
 		board.movePiece(this,move);
+		
 		if(move.isJump(currentStart,currentEnd) 
 		&& board.checkSquare(currentEnd).emptyJumps(this).length > 0) {
 			System.out.println("This piece can continue to jump.");
@@ -95,6 +96,9 @@ public abstract class Player {
 	public abstract void setEnd(Location end);
 	public abstract void setStart();
 	public abstract void setEnd();
+	
+	public Location getStart() { return currentStart; }
+	public Location getEnd() { return currentEnd; }
 	
 	public boolean validStartSelected() {
 		return (currentStart != null);

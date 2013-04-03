@@ -115,7 +115,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		mainMenu.setLayout(null);
 		
 		background = new ImagePanel(new ImageIcon(
-				"GUIImages\\Other\\newBackground.png").getImage());
+				"GUIImages/Other/newBackground.png").getImage());
 		
 		
 		singlePlayerButton = new ImageIcon("GUIImages/Buttons/singlePlayerButton.png");

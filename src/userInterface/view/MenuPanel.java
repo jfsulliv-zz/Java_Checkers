@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  * 	</ul>
  *
  */
-public class MainMenu extends JPanel implements ActionListener {
+public class MenuPanel extends JPanel implements ActionListener {
 
 	private JButton btnSinglePlayer, btnMultiPlayer, btnScoreBoard, btnQuit;
 	private ImagePanel background;
@@ -42,7 +42,7 @@ public class MainMenu extends JPanel implements ActionListener {
      * 			look and feel that will compliment the GUI. 
      *	</ul>
      */
-	public MainMenu() {
+	public MenuPanel() {
 		setLayout(null);
 		background = new ImagePanel(new ImageIcon(
 				"GUIImages/Other/newBackground.png").getImage());

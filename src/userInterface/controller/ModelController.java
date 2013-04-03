@@ -1,6 +1,6 @@
 package userInterface.controller;
 
-import main.GameLauncher;
+import main.*;
 import userInterface.view.IModel;
 
 /**
@@ -12,6 +12,8 @@ import userInterface.view.IModel;
  *
  */
 public class ModelController implements IModel {
+	Game game = Game.getInstance();
+	private boolean validSelectionMade = false;
 	
 	/**
 	 * 	<!--Accessor Method-->
@@ -66,6 +68,42 @@ public class ModelController implements IModel {
 	 */
 	public void scoreBoardInstance() {
 		System.out.println("ScoreBoardInstance event: Recieved");
+	}
+	
+	public void setStartLocation(Player currentPlayer, Location aLoc){
+		validSelectionMade = false;
+		currentPlayer.setStart(aLoc);
+		
+		if(currentPlayer.validStartSelected() == false){
+			return;
+		} else {
+			validSelectionMade = true;
+		}
+	}
+	
+	public void setEndLocation(Player currentPlayer, Location aLoc){
+		validSelectionMade = false;
+		if(aLoc.isSameLocation(currentPlayer.getStart())) {
+			currentPlayer.resetLocations();
+			return;
+		}
+		currentPlayer.setEnd(aLoc);
+		
+		if(currentPlayer.validEndSelected() == false){
+			currentPlayer.resetLocations();
+			return;
+		} else {
+			validSelectionMade = true;
+		}
+		
+	}
+	
+	public void makeMove(Player currentPlayer){
+		game.currentPlayer().makeCurrentMove();
+	}
+	
+	public boolean validSelectionMade(){
+		return validSelectionMade;
 	}
 
 }

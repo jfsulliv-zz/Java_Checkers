@@ -1,6 +1,8 @@
 package userInterface.view;
 
+import userInterface.controller.*;
 import main.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import userInterface.controller.MouseHandler;
 
 /**
  * 	<ul>
@@ -21,7 +22,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	private JButton btnQuit;
 	private ImageIcon quitButton, rollOverQuitButton;
+	private IModel modelController;
     private MouseHandler mouseHandler; 
+    private Location selectedSquare;
     private int topLeftX = 292;
     private int topLeftY = 158;
     private static final int SQUARE_LENGTH = 44;
@@ -66,7 +69,8 @@ public class GamePanel extends JPanel implements ActionListener {
 		btnQuit.setRolloverIcon(rollOverQuitButton);
 		btnQuit.addActionListener(this);
 		// The mouseHandler will set the board to return location values in the terminal.
-        mouseHandler = new MouseHandler(this, topLeftX, topLeftY, SQUARE_LENGTH); 
+		modelController = new ModelController();
+        mouseHandler = new MouseHandler(this, topLeftX, topLeftY, SQUARE_LENGTH, modelController); 
 		add(btnQuit);
 		add(background);
 		
@@ -79,6 +83,10 @@ public class GamePanel extends JPanel implements ActionListener {
 		if(source == btnQuit) {
 			System.exit(0);
 		}
+	}
+	
+	public void setSelectedSquare(Location aLoc){
+		selectedSquare = aLoc;
 	}
 
 }

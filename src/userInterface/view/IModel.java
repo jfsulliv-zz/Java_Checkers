@@ -1,5 +1,6 @@
 package userInterface.view;
 
+import main.*;
 
 /**
  * 	<ul>
@@ -58,5 +59,10 @@ public interface IModel {
 	 * 	</ul>
 	 */
 	public void scoreBoardInstance();
+	
+	public void setStartLocation(Player currentPlayer, Location aLoc);
+	public void setEndLocation(Player currentPlayer, Location aLoc);
+	public void makeMove(Player currentPlayer);
+	public boolean validSelectionMade();
 	
 }

@@ -1,12 +1,12 @@
 package userInterface.controller;
 
 import main.*;
+import userInterface.view.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import main.Board;
 import main.Location;
 import main.OutOfBoundsException;
 
@@ -18,23 +18,20 @@ import main.OutOfBoundsException;
  */
 
 public class MouseHandler implements MouseListener, MouseMotionListener {
-	private Game game;
-	private int squareLength;
-	private int leftBound;
-	private int rightBound;
-	private int upperBound;
-	private int lowerBound;
-	private Location topLeft;
-	private Location start;
-	private Location end;
 	private Component component;
-	private int clickNumber = 0;
-	private int xCoord;
-	private int yCoord;
-	private int xBoardCoord;
-	private int yBoardCoord;
-	private boolean inBound;
+	private IModel modelController;
 	private Cursor cursorShape;
+	
+	private int squareLength, leftBound, rightBound, upperBound, lowerBound;
+	private int clickNumber = 0;
+	private boolean inBound;
+	
+	private Game game;
+	private Player player;
+	
+	private Location start, end;
+	private int xBoardCoord, yBoardCoord;
+	
 	/**
 	 * Constructor used to add the mouse handler to the panel with the proper
 	 * bounds.
@@ -48,11 +45,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	 * @author Dylan
 	 */
 	public MouseHandler(Component aComponent, int topLeftX, int topLeftY,
-			int squareLength) {
+			int squareLength, IModel modelController) {
 		this.game = Game.getInstance();
-		this.topLeft = topLeft;
 		this.squareLength = squareLength;
 		this.component = aComponent;
+		this.modelController = modelController;
 		leftBound = topLeftX;
 		upperBound = topLeftY;
 		rightBound = 8 * squareLength + leftBound;
@@ -117,6 +114,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 		// If the Player is not a Human player or is a null, any mouse events are ignored
 		if(game.currentPlayer().isHuman() == false || game.currentPlayer() == null) {
 			return;
+		} else {
+			player = game.currentPlayer();
 		}
 		
 		// If the Player is jumping a second piece, it can only select an end-point
@@ -124,35 +123,27 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			clickNumber = 1;
 		}
 		
-		if (clickNumber == 0) {
-			try {
-				start = new Location(0, 0);
-				end = new Location(0, 0);
-			} catch (OutOfBoundsException e1) {
-				e1.printStackTrace();
-			}
-
-		}
-		
 		if (inBound) {
 			xBoardCoord = (int) Math.floor((e.getX() - leftBound)
 					/ squareLength);
 			yBoardCoord = (int) Math.floor((e.getY() - upperBound)
 					/ squareLength);
-			xCoord = e.getX();
-			yCoord = e.getY();
 			clickNumber++;
 		}
+		
 		
 		if (clickNumber == 1) {
 			try {
 				
 				start = new Location(xBoardCoord, yBoardCoord);
-				game.currentPlayer().setStart(start);
-				if(game.currentPlayer().validStartSelected() == false){
+				modelController.setStartLocation(player,start);
+				
+				if(!modelController.validSelectionMade()) {
 					clickNumber = 0;
+					start = null;
 					return;
 				}
+				
 				
 			} catch (OutOfBoundsException e1) {
 				e1.printStackTrace();
@@ -161,22 +152,16 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 			try {
 				
 				end = new Location(xBoardCoord, yBoardCoord);
-				game.currentPlayer().setEnd(end);
-				if(game.currentPlayer().validEndSelected() == false){
-					clickNumber = 0;
-					start = null;
-					return;
-				}
+				modelController.setEndLocation(player, end);
 				
-				if(start.isSameLocation(end)) {
-					game.currentPlayer().resetLocations();
+				if(!modelController.validSelectionMade()){
+					clickNumber = 0;
 					start = null;
 					end = null;
-					clickNumber = 0;
 					return;
 				} else {
 					System.out.println(start.toString() + "    " + end.toString());
-					game.currentPlayer().makeCurrentMove();
+					modelController.makeMove(player);
 				}
 				
 			} catch (OutOfBoundsException e1) {
@@ -187,16 +172,5 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 		xBoardCoord = 0;
 		yBoardCoord = 0;
 
-	}
-
-	public Location getStart() {
-		return start;
-	}
-	public void setStart(Location start) {
-		this.start = start;
-	}
-
-	public Location getEnd() {
-		return end;
 	}
 }

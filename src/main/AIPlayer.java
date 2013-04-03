@@ -96,7 +96,7 @@ public class AIPlayer extends Player {
 	 * @return Location of a random movement for the piece.
 	 */
 	private Location selectEnd(){
-		pause(3);
+		pause(2);
 		Piece tempPiece = board.checkSquare(currentStart);
 		Location[] allJumps = tempPiece.emptyJumps(this);  // Arrays containing possible movements and jumps
 		Location[] allMoves = tempPiece.emptyMoves(this);  // for a given Piece's location.
