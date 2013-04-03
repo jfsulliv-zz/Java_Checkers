@@ -1,4 +1,4 @@
-package userInterface.view;
+package userInterface.controller;
 
 import main.*;
 import java.awt.*;
@@ -192,19 +192,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	public Location getStart() {
 		return start;
 	}
-	public void getStart(Location start) {
+	public void setStart(Location start) {
 		this.start = start;
 	}
 
 	public Location getEnd() {
 		return end;
-	}
-
-	public int getClickNumber() {
-		return clickNumber;
-	}
-
-	public void setClickNumber(int number) {
-		clickNumber = number;
 	}
 }

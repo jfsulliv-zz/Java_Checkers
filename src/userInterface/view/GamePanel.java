@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import userInterface.controller.MouseHandler;
+
 /**
  * 	<ul>
  * 		<p>Creates a GamePanel with a board that returns locations, for now in the terminal.</p>
@@ -69,7 +71,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		add(background);
 		
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton)e.getSource();
