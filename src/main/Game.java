@@ -55,12 +55,6 @@ public class Game {
 						turn -=1;
 						break;
 			}
-			if(currentPlayer == redPlayer) {
-				defendingPlayer = blackPlayer;
-			}
-			else {
-				defendingPlayer = redPlayer;
-			}
 			System.out.println("Turn: "+ currentPlayer.toString());
 			currentPlayer.myTurn();
 			
@@ -93,19 +87,34 @@ public class Game {
 		boolean isGameOver = false;
 		currentPlayer.updatePieces();
 		
-		if (currentPlayer.getPieces().length > 0) {
+		if (currentPlayer.update().length > 0) {
 			isGameOver = false;
 		}
-		if (redPlayer.getPieces().length == 0) {
+		if (redPlayer.update().length == 0) {
 			System.out.println("Black is the winner!");
+			if(isSinglePlayer()) {
+				System.out.println("+ 1 point to lost games");
+			}
 			board.printArray();
 			isGameOver = true;
 		}
-		if(blackPlayer.getPieces().length == 0) {
+		if(blackPlayer.update().length == 0) {
 			System.out.println("Red is the winner!");
+			if(isSinglePlayer()) {
+				System.out.println("+ 1 point to won games");
+			}
 			board.printArray();
 			isGameOver = true;
 		}
 		return isGameOver;
 	}
+	
+	private boolean isSinglePlayer() {
+		boolean isSinglePlayer = false;
+		if(redPlayer instanceof HumanPlayer && blackPlayer instanceof AIPlayer) {
+			System.out.println("+ 1 point to lost games");
+		}
+		return isSinglePlayer;
+	}
+	
 }

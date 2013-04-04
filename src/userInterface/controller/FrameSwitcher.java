@@ -70,7 +70,6 @@ public class FrameSwitcher implements PanelListener {
 	 * 
 	 */
 	public JPanel gamePanel(int gameMode) {
-		System.out.println("GamePanel Event: Recieved");
 		this.gameMode = gameMode; // Store the given game mode in an instance variable.
 		if (modelController != null) {
 			modelController.gameInstance(gameMode);
@@ -106,7 +105,6 @@ public class FrameSwitcher implements PanelListener {
 	 * 
 	 */
 	public JPanel mainMenu() {
-		System.out.println("MainMenu Event: Recieved");
 		return mainMenu;
 	}
 
@@ -138,7 +136,6 @@ public class FrameSwitcher implements PanelListener {
 	 * 
 	 */
 	public JPanel scoreBoard() {
-		System.out.println("ScoreBoard Event: Recieved");
 		if (modelController != null) {
 			modelController.scoreBoardInstance();
 		}

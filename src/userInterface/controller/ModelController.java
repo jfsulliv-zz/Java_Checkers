@@ -43,7 +43,6 @@ public class ModelController implements IModel {
 	 */
 	public void gameInstance(int mode) {
 		Thread gameLauncher = new Thread(new GameLauncher(mode));
-		System.out.println("GameInstance event: Recieved");
 		gameLauncher.start();
 	}
 
@@ -67,7 +66,6 @@ public class ModelController implements IModel {
 	 * 	</ul>
 	 */
 	public void scoreBoardInstance() {
-		System.out.println("ScoreBoardInstance event: Recieved");
 	}
 	
 	public void setStartLocation(Player currentPlayer, Location aLoc){
