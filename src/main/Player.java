@@ -47,17 +47,29 @@ public abstract class Player {
 	}
 
 	/**
-	 * Mutator method to update the Player's Piece array with the current state of the board.
+	 * <!--Mutator method-->
+	 * <ul><li><b>Player</b></li></ul>
+	 * <ul>
+	 * 	Updates the Players Piece array with the current state of the board. 
+	 * 	<p>
+	 *	@return myPieces The Players updated Pieces
+	 * </ul>
 	 */
-	public void updatePieces() {
-		this.myPieces = board.getPieces(this.playerColour);
+	public Piece[] updatePieces() {
+		return this.myPieces = board.getPieces(this.playerColour);
 	}
 
 	/**
-	 * @return Piece[] myPieces, an array containing every piece on the board available to the player.
+	 * <!--Accessor method-->
+	 * <ul><li><b>Player</b></li></ul>
+	 * <ul>
+	 * 	Getter method that gathers, in real time, the amount of Pieces that the current player is holding.
+	 * 	<p>
+	 * 	@return Piece[] myPieces, an array containing every piece on the board available to the player.
+	 * </ul>
 	 */
 	public Piece[] getPieces() {
-		return this.myPieces;
+		return updatePieces();
 	}
 	
 	public void makeCurrentMove() {

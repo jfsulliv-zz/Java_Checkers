@@ -23,6 +23,7 @@ public class FrameSwitcher implements PanelListener {
 	private JPanel scorePanel = new ScorePanel(); // Create an instance of the ScorePanel
 	private IModel modelController; // Create a handle on the ModelController
 	private int gameMode;
+	private MainFrame frame;
 
 	/**
 	 * <ul>
@@ -35,7 +36,7 @@ public class FrameSwitcher implements PanelListener {
 	 * </ul>
 	 */
 	public FrameSwitcher(MainFrame frame) {
-
+		this.frame = frame;
 	}
 
 	/**

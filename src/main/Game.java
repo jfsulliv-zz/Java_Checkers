@@ -3,7 +3,7 @@ package main;
 public class Game {
 	private static Game instance;
 	private Board board = Board.getInstance();
-	private Player redPlayer, blackPlayer, currentPlayer;
+	private Player redPlayer, blackPlayer, currentPlayer, defendingPlayer;
 	private boolean gameOver = false;
 	
 	private Game(){	}
@@ -45,14 +45,21 @@ public class Game {
 		while(!gameOver()) {
 			board.printArray();
 			board.resetTurn();
-			
 			switch(turn) {
 				case 0: currentPlayer = blackPlayer;
+						System.out.println(currentPlayer + " has " + currentPlayer.getPieces().length + " pieces.");
 						turn +=1;
 						break;
 				case 1: currentPlayer = redPlayer;
+						System.out.println(currentPlayer + " has " + currentPlayer.getPieces().length + " pieces.");
 						turn -=1;
 						break;
+			}
+			if(currentPlayer == redPlayer) {
+				defendingPlayer = blackPlayer;
+			}
+			else {
+				defendingPlayer = redPlayer;
 			}
 			System.out.println("Turn: "+ currentPlayer.toString());
 			currentPlayer.myTurn();
@@ -74,23 +81,31 @@ public class Game {
 	}
 	
 	/**
-	 * @return True if the current Player can no longer move.
+	 * <!--Accessor method-->
+	 * <ul><li><b>Game</b></li></ul>
+	 * <ul>
+	 * 	Checks whether the game is still happening or not.
+	 * 	<p>
+	 * 	@return isGameOver The state of whether the game is over or not.
+	 * </ul>
 	 */
 	public boolean gameOver(){
+		boolean isGameOver = false;
 		currentPlayer.updatePieces();
 		
-		if (currentPlayer.getPieces().length > 0){
-			return false;
+		if (currentPlayer.getPieces().length > 0) {
+			isGameOver = false;
 		}
-		
-		for(int i = 0; i < currentPlayer.getPieces().length; i++){
-			if (currentPlayer.getPieces()[i].emptyMoves(currentPlayer).length > 0 ||
-					currentPlayer.getPieces()[i].emptyJumps(currentPlayer).length > 0) {
-				return false;
-			}
+		if (redPlayer.getPieces().length == 0) {
+			System.out.println("Black is the winner!");
+			board.printArray();
+			isGameOver = true;
 		}
-		
-		return true;
+		if(blackPlayer.getPieces().length == 0) {
+			System.out.println("Red is the winner!");
+			board.printArray();
+			isGameOver = true;
+		}
+		return isGameOver;
 	}
-	
 }
