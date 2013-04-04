@@ -112,7 +112,7 @@ public class Game {
 	private boolean isSinglePlayer() {
 		boolean isSinglePlayer = false;
 		if(redPlayer instanceof HumanPlayer && blackPlayer instanceof AIPlayer) {
-			System.out.println("+ 1 point to lost games");
+			isSinglePlayer = true;
 		}
 		return isSinglePlayer;
 	}
