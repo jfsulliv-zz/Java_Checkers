@@ -8,11 +8,11 @@ public class Game {
 	private Player redPlayer, blackPlayer, currentPlayer, defendingPlayer;
 	private boolean gameOver = false;
 	private ScoreDataHandler file = new ScoreDataHandler();
-	private Score score = new Score();
-//	private int wins = file.loadScore().getWins();
-//	private int losses = file.loadScore().getLosses();
-//	private int gamesPlayed = file.loadScore().getGamesPlayed();
-//	private Score score = new Score(wins, losses, gamesPlayed);
+	//private Score score = new Score();
+	private int wins = file.loadScore().getWins();
+	private int losses = file.loadScore().getLosses();
+	private int gamesPlayed = file.loadScore().getGamesPlayed();
+	private Score score;// = new Score(wins, losses, gamesPlayed);
 	
 	private Game(){	}
 	
@@ -94,7 +94,7 @@ public class Game {
 	public boolean gameOver(){
 		boolean isGameOver = false;
 		currentPlayer.updatePieces();
-		
+		score = new Score(wins, losses, gamesPlayed);
 		if (currentPlayer.update().length > 0) {
 			isGameOver = false;
 		}
