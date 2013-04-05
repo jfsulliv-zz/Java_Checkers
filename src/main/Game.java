@@ -1,10 +1,18 @@
 package main;
 
+import userInterface.controller.ScoreDataHandler;
+
 public class Game {
 	private static Game instance;
 	private Board board = Board.getInstance();
 	private Player redPlayer, blackPlayer, currentPlayer, defendingPlayer;
 	private boolean gameOver = false;
+	private ScoreDataHandler file = new ScoreDataHandler();
+	private Score score = new Score();
+//	private int wins = file.loadScore().getWins();
+//	private int losses = file.loadScore().getLosses();
+//	private int gamesPlayed = file.loadScore().getGamesPlayed();
+//	private Score score = new Score(wins, losses, gamesPlayed);
 	
 	private Game(){	}
 	
@@ -93,7 +101,11 @@ public class Game {
 		if (redPlayer.update().length == 0) {
 			System.out.println("Black is the winner!");
 			if(isSinglePlayer()) {
-				System.out.println("+ 1 point to lost games");
+				score.appendLosses();
+				score.appendGamesPlayed();
+				file.saveScore(score);
+				System.out.println("Wins: " + score.getWins() + "\nLosses: " + score.getLosses() + 
+						"\nGames Played: " + score.getGamesPlayed());
 			}
 			board.printArray();
 			isGameOver = true;
@@ -101,7 +113,11 @@ public class Game {
 		if(blackPlayer.update().length == 0) {
 			System.out.println("Red is the winner!");
 			if(isSinglePlayer()) {
-				System.out.println("+ 1 point to won games");
+				score.appendWins();
+				score.appendGamesPlayed();
+				file.saveScore(score);
+				System.out.println("Wins: " + score.getWins() + "\nLosses: " + score.getLosses() + 
+						"\nGames Played: " + score.getGamesPlayed());
 			}
 			board.printArray();
 			isGameOver = true;
