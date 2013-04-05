@@ -1,77 +1,158 @@
 package userInterface.controller;
 
-import java.awt.event.ActionListener;
 import javax.swing.JPanel;
-import javax.swing.event.EventListenerList;
-import main.GameLauncher;
-import userInterface.GUI.GamePanel;
-import userInterface.GUI.IModel;
-import userInterface.GUI.MainFrame;
-import userInterface.GUI.MainMenu;
-import userInterface.GUI.PanelListener;
-import userInterface.GUI.ScorePanel;
+
+import userInterface.view.GamePanel;
+import userInterface.view.IModel;
+import userInterface.view.MainFrame;
+import userInterface.view.MenuPanel;
+import userInterface.view.PanelListener;
+import userInterface.view.ScorePanel;
 
 /**
+ *	<ul>
+ *		<p>FrameSwitcher will listen to events coming from the MainFrame.</p>
+ *		@author Daniel
+ *	</ul>
  * 
- * @author Daniel
- *
- * The FrameSwitcher is a listener that listens to actions called from the MainFrame. 
  */
 public class FrameSwitcher implements PanelListener {
 
-	private JPanel mainMenu = new MainMenu(); // Create an instance of the MainMenu
+	private JPanel mainMenu = new MenuPanel(); // Create an instance of the MainMenu
 	private JPanel gamePanel = new GamePanel(); // Create an instance of the GamePanel
 	private JPanel scorePanel = new ScorePanel(); // Create an instance of the ScorePanel
-	// private IModel modelController;
-	// private GameLauncher gameMode;
-
+	private IModel modelController; // Create a handle on the ModelController
+	private int gameMode;
+	private MainFrame frame;
+	private static FrameSwitcher instance;
+	
 	/**
-	 * Creates a handle on the MainFrame.
-	 * @param frame
+	 * <ul>
+	 * 	Creates a handle on the MainFrame.
+	 * </ul>
+	 * <ul>
+	 * 	@param frame Takes an instance of MainFrame, to be called in the launcher. This will allow
+	 * 				us to create a handle on the MainFrame, such that this class becomes a 
+	 * 				listener.
+	 * </ul>
 	 */
-	public FrameSwitcher(MainFrame frame) {
-
+	private FrameSwitcher(MainFrame frame) {
+		this.frame = frame;
 	}
 
 	/**
-	 * Accessor method.
+	 * <!--Accessor method.-->
+	 * 	<style>
+	 * 		#method{
+	 * 			text-indent: 10.0px;
+	 * 		}
+	 * 	</style>
+	 * 	<ul><li><b>FrameSwitcher</b></li></ul>
+	 * 	<ul><div ID="method"><p>public JPanel gamePanel(int gameMode)</p></div></ul>
+	 * 	<ul> 
+	 * 		<p>
+	 * 			Sets the mode of the game, whether it's single player or multi player.
+	 * 			This method is also responsible for showing the appropriate panel depending on
+	 * 			what button has been clicked.
+	 * 		</p>
+	 * 	</ul>
+	 * 	<ul>
+	 * 		<p>
+	 * 			PreCondition: There must be a gamePanel to return.
+	 * 			<br>PostCondition: Will return the gamePanel.</br>
+	 * 		</p>
+	 * 	</ul>
 	 * 
-	 * @PreCond: There must be a gamePanel to return.
-	 * @PostCond: Will return the gamePanel.
+	 * 	<ul>
+	 *  	@param gameMode  The mode of the game, determined by which button is clicked.
+	 *  	@return Return the instance of the games view.
+	 *  </ul>
 	 * 
-	 * When this method is called, within the MainFrame class, it will display the GamePanel
 	 * 
 	 */
-	public JPanel gamePanel() {
-		System.out.println("GamePanel Event: Recieved");
-		// modelController.gameInstance(gameMode); // Not yet implemented.
+	public JPanel gamePanel(int gameMode) {
+		this.gameMode = gameMode; // Store the given game mode in an instance variable.
+		if (modelController != null) {
+			modelController.gameInstance(gameMode);
+		}
 		return gamePanel;
 	}
 
 	/**
-	 * Accessor method
+	 * <!--Accessor method.-->
+	 * 	<style>
+	 * 		#method {
+	 * 			text-indent: 10.0px;
+	 * 		}
+	 * 	</style>
+	 * 	<ul><li><b>FrameSwitcher</b></li></ul>
+	 * 	<ul><div ID="method"><p>public JPanel mainMenu()</p></div></ul>
+	 * 	<ul> 
+	 * 		<p>
+	 * 			This is the main menu of the GUI. This is not yet implemented.
+	 * 		</p>
+	 * 	</ul>
+	 * 	<ul>
+	 * 		<p>
+	 * 			PreCondition: There must be a main menu to return.
+	 * 			<br>PostCondition: Will return the main menu.</br>
+	 * 		</p>
+	 * 	</ul>
 	 * 
-	 * @PreCond: There must be a mainMenu to return.
-	 * @PostCond: Will return the mainMenu.
+	 * 	<ul>
+	 *  	@return Return the instance of the menus view.
+	 *  </ul>
 	 * 
-	 * When this method is called, within the MainFrame class, it will display the MainMenu
+	 * 
 	 */
 	public JPanel mainMenu() {
-		System.out.println("MainMenu Event: Recieved");
 		return mainMenu;
 	}
 
 	/**
-	 * Accessor method
+	 * <!--Accessor method.-->
+	 * 	<style>
+	 * 		#method {
+	 * 			text-indent: 10.0px;
+	 * 		}
+	 * 	</style>
+	 * 	<ul><li><b>FrameSwitcher</b></li></ul>
+	 * 	<ul><div ID="method"><p>public JPanel scoreBoard()</p></div></ul>
+	 * 	<ul> 
+	 * 		<p>
+	 * 			This is the score board of the GUI. This is not yet implemented.
+	 * 		</p>
+	 * 	</ul>
+	 * 	<ul>
+	 * 		<p>
+	 * 			PreCondition: There must be a score board to return.
+	 * 			<br>PostCondition: Will return the score board.</br>
+	 * 		</p>
+	 * 	</ul>
 	 * 
-	 * @PreCond: There must be a scoreBoard to return.
-	 * @PostCond: Will return a scoreBoard.
+	 * 	<ul>
+	 *  @return Return the instance of the score boards view.
+	 *  </ul>
 	 * 
-	 * When this method is called, within the MainFrame class, it will display the ScorePanel
+	 * 
 	 */
 	public JPanel scoreBoard() {
-		System.out.println("ScoreBoard Event: Recieved");
+		if (modelController != null) {
+			modelController.scoreBoardInstance();
+		}
 		return scorePanel;
 	}
+	public static FrameSwitcher getInstance(MainFrame frame){
+		if (instance == null){
+			instance = new FrameSwitcher(frame);
+		}
+		return instance;
+	}
 
+	public void setCoordinates(IModel modelController) {
+		this.modelController = modelController;
+	}
+	
+	public IModel getModelController() { return modelController; }
+	
 }

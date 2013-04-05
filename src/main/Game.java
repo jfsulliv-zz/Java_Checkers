@@ -1,167 +1,136 @@
 package main;
-import java.util.Scanner;
 
-/**
- * A singleton of the Checkers game.
- * 
- * @author james
- *
- */
-public class Game{
-	public static Game instance;
+import userInterface.controller.ScoreDataHandler;
+
+public class Game {
+	private static Game instance;
 	private Board board = Board.getInstance();
-	private Player blackPlayer, redPlayer;
-	private int mode;
-	private boolean gameOver;
-	private Scanner input = new Scanner(System.in);
-	/*
-	 * Private default constructor that calls the initialize() method.
-	 */
-	private Game() {
-		initialize();
-		play();
-	}
+	private Player redPlayer, blackPlayer, currentPlayer, defendingPlayer;
+	private boolean gameOver = false;
+	private ScoreDataHandler file = new ScoreDataHandler();
+	//private Score score = new Score();
+	private int wins = file.loadScore().getWins();
+	private int losses = file.loadScore().getLosses();
+	private int gamesPlayed = file.loadScore().getGamesPlayed();
+	private Score score;// = new Score(wins, losses, gamesPlayed);
+	
+	private Game(){	}
 	
 	/**
-	 * Accessor Method to return the Singleton instance of the game, or call the constructor if it does not exist.
-	 * @return The instance of the Game.
+	 * Method to obtain the Singleton instance of the Game. If the Game is not yet instantiated, it will be.
+	 * @return instance the Singletom instance of the Game.
 	 */
-	public static Game getInstance(){
+	public static synchronized Game getInstance(){
 		if(instance == null){
 			instance = new Game();
 		}
 		return instance;
 	}
-
-	/*
-	 * Private method that will call the turn(Player aPlayer) method until the gameOver is true.
-	 * Alternates between the Black and the Red player.
-	 */
-	private void play() {
-		int turn = 1;
-		while(!gameOver) {
-			board.resetTurn();
-			switch(turn) {
-			case 0: turn(blackPlayer);
-						turn +=1;
-						break;
-			case 1: turn(redPlayer);
-						turn -=1;
-						break;
-			}
-		}
-	}
 	
-	/*
-	 * Method to initialize the game, including the Board's initialization and setting up the Players.
-	 * The Private play() method is called at the end, which will begin the game. The game will continue until a player loses.
+	/**
+	 * Initialization method for the game, to create the players.
+	 * @param mode Integer value corresponding to the number of human Players, 1 or 2. AI Players will fill the rest.
 	 */
-	private void initialize(){
-		System.out.println("Welcome to Checkers!\n RED will play first.");
-		System.out.println("Enter locations when prompted in the form \"x,y\".");
-		System.out.println("The board is arranged with 0,0 at the Top-Left," + 
-			 " 7,7 at the Bottom-Right.");
-		
-		boolean validUserInput = false;
-		while(!validUserInput){
-			System.out.println("Do you want to play 1 or 2 player?");
-			
-			try { 
-				String selection = input.nextLine();
-				mode = Integer.parseInt(selection);
-				if(mode != 1 && mode != 2) {
-					System.out.println("Invalid entry- Setting to 1-player.");
-					mode = 1;
-				}
-				validUserInput = true;
-			} catch(IndexOutOfBoundsException e) {
-				System.out.print("Invalid entry- try again. ");
-			} catch(NumberFormatException e) {
-				System.out.print("Invalid entry- try again. ");
-			}
-		}
-		
+	public void initialize(int mode) {
 		switch(mode) {
 			case 1:
-				System.out.println("Playing against an AI Player.");
 				blackPlayer = new AIPlayer(Colour.BLACK,board);
 				redPlayer = new HumanPlayer(Colour.RED,board); 
 				break;
 			case 2: 
-				System.out.println("Red will move first.");
 				blackPlayer = new HumanPlayer(Colour.BLACK,board);
 				redPlayer = new HumanPlayer(Colour.RED,board); 
 				break;
 		}
-		
-		board.printArray();
-	}
-	
-	/*
-	 * Method to run a single Turn for a Human Player.
-	 * A player can move a single Piece in a turn. If they jump a piece, they can continue to move
-	 * the same piece, as long as they can continue to jump other pieces.
-	 */
-	private void turn(Player aPlayer){
-		aPlayer.updatePieces();
-		if(aPlayer.myPieces.length == 0 || canMove(aPlayer) == false){
-			gameOver(aPlayer);
-			return;
-		}
-		System.out.println("Turn: "+aPlayer.toString());
-		
-		Location start = null;
-		Location end = null;
-			
-		// This segment is called until a valid movement has been made by the Player.
-		while(board.turnComplete() == 0) {
-			start = aPlayer.selectStart();
-			end = aPlayer.selectEnd(start);
-			aPlayer.movePiece(start,end);
-		}
-		board.printArray();
-		
-		start = end;
-		
-		// The following section pertains to a continuing turn- if a player jumps a piece,
-		// they can proceed to make another jump if it is possible.
-		while(board.turnComplete() == 1 && board.checkSquare(start).emptyJumps(aPlayer).length > 0){
-			System.out.println("You took a piece and can continue to move!");
-			end = aPlayer.selectEnd(start);
-			aPlayer.movePiece(start, end);
-			board.printArray();
-			start = end;
-		}
-	}
-	
-
-	
-	/*
-	 * Accessor method to determine if a Player has any valid moves on the board.
-	 */
-	private boolean canMove(Player aPlayer) {
-		for (int i = 0; i < aPlayer.myPieces.length; i++) {
-			if (aPlayer.myPieces[i].emptyMoves(aPlayer).length > 0 
-					|| aPlayer. myPieces[i].emptyJumps(aPlayer).length > 0){
-				return true;
-			} 
-		}
-		return false;
-	}
-	
-	/*
-	 * Method to end the game for a given Player.
-	 */
-	private void gameOver(Player aPlayer){
-		System.out.println(aPlayer.toString()+" no longer has any pieces to move!"
-			+ " They lose.");
-		gameOver = true;
+		currentPlayer = redPlayer;
 	}
 	
 	/**
-	 * @return True if the game is over (ie, A player can no longer move.)
+	 * Main Loop to continue playing the game until one player or the other can no longer move.
+	 */
+	public void play() {
+		int turn = 1;
+		while(!gameOver()) {
+			board.printArray();
+			board.resetTurn();
+			switch(turn) {
+				case 0: currentPlayer = blackPlayer;
+						System.out.println(currentPlayer + " has " + currentPlayer.getPieces().length + " pieces.");
+						turn +=1;
+						break;
+				case 1: currentPlayer = redPlayer;
+						System.out.println(currentPlayer + " has " + currentPlayer.getPieces().length + " pieces.");
+						turn -=1;
+						break;
+			}
+			System.out.println("Turn: "+ currentPlayer.toString());
+			currentPlayer.myTurn();
+			
+			// The following loop will only end when the Observable Board's state has changed, ie a piece has been moved.
+			while(currentPlayer.isMyTurn() == true) {
+				if(!currentPlayer.isHuman()){
+					currentPlayer.makeCurrentMove();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @return The Player whose turn it is.
+	 */
+	public Player currentPlayer() { 
+		return currentPlayer; 
+	}
+	
+	/**
+	 * <!--Accessor method-->
+	 * <ul><li><b>Game</b></li></ul>
+	 * <ul>
+	 * 	Checks whether the game is still happening or not.
+	 * 	<p>
+	 * 	@return isGameOver The state of whether the game is over or not.
+	 * </ul>
 	 */
 	public boolean gameOver(){
-		return gameOver;
+		boolean isGameOver = false;
+		currentPlayer.updatePieces();
+		score = new Score(wins, losses, gamesPlayed);
+		if (currentPlayer.update().length > 0) {
+			isGameOver = false;
+		}
+		if (redPlayer.update().length == 0) {
+			System.out.println("Black is the winner!");
+			if(isSinglePlayer()) {
+				score.appendLosses();
+				score.appendGamesPlayed();
+				file.saveScore(score);
+				System.out.println("Wins: " + score.getWins() + "\nLosses: " + score.getLosses() + 
+						"\nGames Played: " + score.getGamesPlayed());
+			}
+			board.printArray();
+			isGameOver = true;
+		}
+		if(blackPlayer.update().length == 0) {
+			System.out.println("Red is the winner!");
+			if(isSinglePlayer()) {
+				score.appendWins();
+				score.appendGamesPlayed();
+				file.saveScore(score);
+				System.out.println("Wins: " + score.getWins() + "\nLosses: " + score.getLosses() + 
+						"\nGames Played: " + score.getGamesPlayed());
+			}
+			board.printArray();
+			isGameOver = true;
+		}
+		return isGameOver;
 	}
+	
+	private boolean isSinglePlayer() {
+		boolean isSinglePlayer = false;
+		if(redPlayer instanceof HumanPlayer && blackPlayer instanceof AIPlayer) {
+			isSinglePlayer = true;
+		}
+		return isSinglePlayer;
+	}
+	
 }

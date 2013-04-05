@@ -12,9 +12,14 @@ package main;
  * 
  */
 public abstract class Player {
+	protected boolean myTurn;
 	protected Piece[] myPieces;
 	protected final Colour playerColour;
 	protected Board board = Board.getInstance();
+	protected Location currentStart, currentEnd;
+	protected boolean isHuman;
+	
+	protected boolean continueMove = false;
 
 	/**
 	 * Constructor for creating a Player given a Colour enumeration, its Human status, and the Board instance.
@@ -26,10 +31,15 @@ public abstract class Player {
 		this.playerColour = aColour;
 		updatePieces();
 	}
+	
+	/**
+	 * @return True if the player is a Human.
+	 */
+	public boolean isHuman(){
+		return isHuman;
+	}
 
 	/**
-	 * Accessor method to return the Player's Colour
-	 * 
 	 * @return playerColour the Colour enumeration of the player
 	 */
 	public Colour getColour() {
@@ -44,31 +54,81 @@ public abstract class Player {
 	}
 
 	/**
-	 * Accessor method to return the Player's Piece array.
-	 * @return
+	 * @return Piece[] myPieces, an array containing every piece on the board available to the player.
 	 */
 	public Piece[] getPieces() {
 		return this.myPieces;
 	}
-
-	/**
-	 * A method for the player to send the Movement command to the Board.
-	 * @param start - The starting location
-	 * @param end - The ending location
-	 */
-	public void movePiece(Location start, Location end) {
-		Boolean silentMovementChecks = false;
-		Move move = new Move(this,start,end,silentMovementChecks);
-		if (end.inBounds() == false) {
-			return; 
+	
+	public Piece[] update() {
+		return this.myPieces = board.getPieces(this.playerColour);
+	}
+	
+	public void makeCurrentMove() {
+		if(currentStart == null || currentEnd == null || myTurn == false) {
+			if(isHuman == false) {
+				setStart();
+				setEnd();
+			} else {
+				return;
+			}
+		}
+		
+		Move move = new Move(this,currentStart,currentEnd,false);
+		
+		if (currentEnd.inBounds() == false) {
+			return;
 		} else if (move.isValid() == false) {
 			return;
 		}
+		
 		board.movePiece(this,move);
+		
+		if(move.isJump(currentStart,currentEnd) 
+		&& board.checkSquare(currentEnd).emptyJumps(this).length > 0) {
+			System.out.println("This piece can continue to jump.");
+			continueMove = true;
+			currentStart = currentEnd;
+			setEnd();
+		} else {
+			resetLocations();
+			myTurn = false;
+		}
 	}
 	
-	public abstract Location selectStart();
-	public abstract Location selectEnd(Location start);
+	public abstract void setStart(Location start);
+	public abstract void setEnd(Location end);
+	public abstract void setStart();
+	public abstract void setEnd();
+	
+	public Location getStart() { return currentStart; }
+	public Location getEnd() { return currentEnd; }
+	
+	public boolean validStartSelected() {
+		return (currentStart != null);
+	}
+	
+	public boolean validEndSelected() {
+		return (currentEnd != null);
+	}
+	
+	public void resetLocations(){
+		continueMove = false;
+		currentStart = null;
+		currentEnd = null;
+	}
+	
+	public void myTurn(){
+		myTurn = true;
+	}
+	
+	public boolean isMyTurn(){
+		return myTurn;
+	}
+	
+	public boolean isContinueMove(){
+		return continueMove;
+	}
 	
 	public String toString(){
 		return "Player: " + this.playerColour;

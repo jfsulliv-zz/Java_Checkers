@@ -1,20 +1,16 @@
-package userInterface.controller;
+package userInterface.view;
 
 import main.*;
-import userInterface.view.IModel;
 
 /**
  * 	<ul>
- * 		<p>Creates a handle on the model of the data.</p>
+ * 		<p> This interface is defined for use by ModelController class. </p>
  * 		@author Daniel
  * 	</ul>
- * 
  *
  */
-public class ModelController implements IModel {
-	Game game = Game.getInstance();
-	private boolean validSelectionMade = false;
-	
+public interface IModel {
+
 	/**
 	 * 	<!--Accessor Method-->
 	 * 	<style>
@@ -41,11 +37,8 @@ public class ModelController implements IModel {
 	 * 		@param mode The mode of the game, determined by which button is clicked.
 	 * 	</ul>
 	 */
-	public void gameInstance(int mode) {
-		Thread gameLauncher = new Thread(new GameLauncher(mode));
-		gameLauncher.start();
-	}
-
+	public void gameInstance(int mode);
+	
 	/**
 	 * 	<!--Accessor Method-->
 	 * 	<style>
@@ -65,43 +58,11 @@ public class ModelController implements IModel {
 	 * 		</p>
 	 * 	</ul>
 	 */
-	public void scoreBoardInstance() {
-	}
+	public void scoreBoardInstance();
 	
-	public void setStartLocation(Player currentPlayer, Location aLoc){
-		validSelectionMade = false;
-		currentPlayer.setStart(aLoc);
-		
-		if(currentPlayer.validStartSelected() == false){
-			return;
-		} else {
-			validSelectionMade = true;
-		}
-	}
+	public void setStartLocation(Player currentPlayer, Location aLoc);
+	public void setEndLocation(Player currentPlayer, Location aLoc);
+	public void makeMove(Player currentPlayer);
+	public boolean validSelectionMade();
 	
-	public void setEndLocation(Player currentPlayer, Location aLoc){
-		validSelectionMade = false;
-		if(aLoc.isSameLocation(currentPlayer.getStart())) {
-			currentPlayer.resetLocations();
-			return;
-		}
-		currentPlayer.setEnd(aLoc);
-		
-		if(currentPlayer.validEndSelected() == false){
-			currentPlayer.resetLocations();
-			return;
-		} else {
-			validSelectionMade = true;
-		}
-		
-	}
-	
-	public void makeMove(Player currentPlayer){
-		game.currentPlayer().makeCurrentMove();
-	}
-	
-	public boolean validSelectionMade(){
-		return validSelectionMade;
-	}
-
 }

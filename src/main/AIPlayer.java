@@ -19,14 +19,31 @@ public class AIPlayer extends Player {
 	 */
 	public AIPlayer(Colour aColour,Board board) {
 		super(aColour,board);
+		isHuman = false;
 	}
 	
-	/**
+	public void setStart(Location start) {
+		currentStart = start;
+	}
+	
+	public void setEnd(Location end) {
+		currentEnd = end;
+	}
+	
+	public void setStart(){
+		currentStart = selectStart();
+	}
+	
+	public void setEnd(){
+		currentEnd = selectEnd();
+		
+	}
+	/*
 	 * Accessor Method to return a random, usable Piece's Location for the AIPlayer to move on the Board.
 	 * <p>The AIPlayer will seek out any jumps it can perform and prefer those.
 	 * @return Location of a Random Piece that can be moved.
 	 */
-	public Location selectStart(){
+	private Location selectStart(){
 		updatePieces(); // AIPlayer's myPieces array is updated to reflect the current board state
 		Location[] preferredLocs = new Location[myPieces.length]; // Starting piece locations that have 'preferred' locations to move to
 		int numPreferredMoves = 0;
@@ -73,14 +90,14 @@ public class AIPlayer extends Player {
 	}
 
 	
-	/**
+	/*
 	 * Accessor method to return a valid end-point for the location of the selected Piece.
 	 * <p>The AIPlayer will seek out any jumps it can perform, or pieces it could king, and return those.
-	 * @param start The starting location of a Piece that has some valid moves.
 	 * @return Location of a random movement for the piece.
 	 */
-	public Location selectEnd(Location start){
-		Piece tempPiece = board.checkSquare(start);
+	private Location selectEnd(){
+		pause(2);
+		Piece tempPiece = board.checkSquare(currentStart);
 		Location[] allJumps = tempPiece.emptyJumps(this);  // Arrays containing possible movements and jumps
 		Location[] allMoves = tempPiece.emptyMoves(this);  // for a given Piece's location.
 		
@@ -105,5 +122,34 @@ public class AIPlayer extends Player {
 		
 		
 		return null;
+	}
+	/**
+	 * 	<!--Mutator method-->
+	 * 
+	 * 	<style>
+	 * 		#method {
+	 * 			text-indent: 10.0px;
+	 * 		}
+	 * 	</style>
+	 * 
+	 * 	<ul><li><b>AIPlayer</b></li></ul>
+	 * 	<ul><div ID="method">private void pause()</div></ul>
+	 * 	<ul>
+	 * 		<p>
+	 * 			This method pauses the AI players move by a declared number of seconds.
+	 * 		</p>
+	 * 	</ul>
+	 * 	<ul>
+	 * 		@param timeToWaitInSeconds The specified time to wait in seconds.
+	 * 	</ul>
+	 */
+	private void pause(int timeToWaitInSeconds) {
+		int timeToMilli = 1000 * timeToWaitInSeconds;
+		long t0, t1;
+        t0 =  System.currentTimeMillis();
+        do{
+            t1 = System.currentTimeMillis();
+        }
+        while (t1 - t0 < timeToMilli);
 	}
 }

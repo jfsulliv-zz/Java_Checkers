@@ -1,4 +1,4 @@
-package userInterface.GUI;
+package userInterface.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,12 +8,16 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * 
- * @author Daniel
+ * 	<ul>
+ * 		<p>
+ * 			Creates the view for the main menu. This class will utilize a custom look and feel
+ * 			in accordance to the theme of this project.
+ * 		</p>
+ * 		@author Daniel
+ * 	</ul>
  *
- * Creates a main menu for the GUI. <Currently not implemented>
  */
-public class MainMenu extends JPanel implements ActionListener {
+public class MenuPanel extends JPanel implements ActionListener {
 
 	private JButton btnSinglePlayer, btnMultiPlayer, btnScoreBoard, btnQuit;
 	private ImagePanel background;
@@ -22,18 +26,30 @@ public class MainMenu extends JPanel implements ActionListener {
 			rollOverMultiPlayerButton, quitButton, rollOverQuitButton;
 
 	/**
-	 * Mutator
-	 * 
-	 * Constructs the view for the main menu.
-	 */
-	public MainMenu() {
+     *<!--Mutator-->
+     *	<ul>
+     *		<li><strong>MaineMenu</strong></li>
+     *	</ul>
+     *	<style> 
+     *		div {
+     *			text-indent: 10.0px;
+     *		}
+     *	</style>
+     *	<ul>
+     * 		<div><p>public MainMenu()</p></div>
+     * 		<p>
+     * 			Creates the view of the main menu, utilizing JButtons. These buttons have a custom
+     * 			look and feel that will compliment the GUI. 
+     *	</ul>
+     */
+	public MenuPanel() {
 		setLayout(null);
 		background = new ImagePanel(new ImageIcon(
-				"GUIImages\\newBackground.png").getImage());
+				"GUIImages/Other/newBackground.png").getImage(),"MenuPanel");
 
-		singlePlayerButton = new ImageIcon("GUIImages\\singlePlayerButton.png");
+		singlePlayerButton = new ImageIcon("GUIImages/Buttons/singlePlayerButton.png");
 		rollOverSinglePlayerButton = new ImageIcon(
-				"GUIImages\\rollOverSinlgePlayerButton.png");
+				"GUIImages/Buttons/rollOverSinlgePlayerButton.png");
 		btnSinglePlayer = new JButton(singlePlayerButton);
 		btnSinglePlayer.setOpaque(false);
 		btnSinglePlayer.setContentAreaFilled(false);
@@ -44,9 +60,9 @@ public class MainMenu extends JPanel implements ActionListener {
 		btnSinglePlayer.addActionListener(this);
 		add(btnSinglePlayer);
 
-		multiPlayerButton = new ImageIcon("GUIImages\\multiPlayerButton.png");
+		multiPlayerButton = new ImageIcon("GUIImages/Buttons/multiPlayerButton.png");
 		rollOverMultiPlayerButton = new ImageIcon(
-				"GUIImages\\rollOverMultiPlayerButton.png");
+				"GUIImages/Buttons/rollOverMultiPlayerButton.png");
 		btnMultiPlayer = new JButton(multiPlayerButton);
 		btnMultiPlayer.setOpaque(false);
 		btnMultiPlayer.setContentAreaFilled(false);
@@ -57,9 +73,9 @@ public class MainMenu extends JPanel implements ActionListener {
 		btnMultiPlayer.addActionListener(this);
 		add(btnMultiPlayer);
 
-		scoreBoardButton = new ImageIcon("GUIImages\\scoreBoardButton.png");
+		scoreBoardButton = new ImageIcon("GUIImages/Buttons/scoreBoardButton.png");
 		rollOverScoreBoardButton = new ImageIcon(
-				"GUIImages\\rollOverScoreBoardButton.png");
+				"GUIImages/Buttons/rollOverScoreBoardButton.png");
 		btnScoreBoard = new JButton(scoreBoardButton);
 		btnScoreBoard.setOpaque(false);
 		btnScoreBoard.setContentAreaFilled(false);
@@ -70,8 +86,8 @@ public class MainMenu extends JPanel implements ActionListener {
 		btnScoreBoard.addActionListener(this);
 		add(btnScoreBoard);
 
-		quitButton = new ImageIcon("GUIImages\\quitButton.png");
-		rollOverQuitButton = new ImageIcon("GUIImages\\rollOverQuitButton.png");
+		quitButton = new ImageIcon("GUIImages/Buttons/quitButton.png");
+		rollOverQuitButton = new ImageIcon("GUIImages/rollOverQuitButton.png");
 		btnQuit = new JButton(quitButton);
 		btnQuit.setOpaque(false);
 		btnQuit.setContentAreaFilled(false);
