@@ -13,6 +13,10 @@ public class Score implements Serializable {
 	private int wins;
 	private int losses;
 	private int gamesPlayed;
+
+	public Score() {
+		
+	}
 	
 	/**
 	 * <!--Mutator method.-->
@@ -51,9 +55,7 @@ public class Score implements Serializable {
 		this.losses = losses;
 		this.gamesPlayed = gamesPlayed;
 	}
-	public Score() {
-		
-	}
+	
 	/**
 	 * <!--Accessor method-->
 	 * <ul><li><b>Score</b></li></ul>

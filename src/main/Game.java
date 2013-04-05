@@ -5,14 +5,12 @@ import userInterface.controller.ScoreDataHandler;
 public class Game {
 	private static Game instance;
 	private Board board = Board.getInstance();
-	private Player redPlayer, blackPlayer, currentPlayer, defendingPlayer;
-	private boolean gameOver = false;
+	private Player redPlayer, blackPlayer, currentPlayer;
 	private ScoreDataHandler file = new ScoreDataHandler();
-	//private Score score = new Score();
 	private int wins = file.loadScore().getWins();
 	private int losses = file.loadScore().getLosses();
 	private int gamesPlayed = file.loadScore().getGamesPlayed();
-	private Score score;// = new Score(wins, losses, gamesPlayed);
+	private Score score;
 	
 	private Game(){	}
 	
@@ -94,11 +92,13 @@ public class Game {
 	public boolean gameOver(){
 		boolean isGameOver = false;
 		currentPlayer.updatePieces();
+		redPlayer.updatePieces();
+		blackPlayer.updatePieces();
 		score = new Score(wins, losses, gamesPlayed);
-		if (currentPlayer.update().length > 0) {
+		if (currentPlayer.getPieces().length > 0) {
 			isGameOver = false;
 		}
-		if (redPlayer.update().length == 0) {
+		if (redPlayer.getPieces().length == 0) {
 			System.out.println("Black is the winner!");
 			if(isSinglePlayer()) {
 				score.appendLosses();
@@ -110,7 +110,7 @@ public class Game {
 			board.printArray();
 			isGameOver = true;
 		}
-		if(blackPlayer.update().length == 0) {
+		if(blackPlayer.getPieces().length == 0) {
 			System.out.println("Red is the winner!");
 			if(isSinglePlayer()) {
 				score.appendWins();

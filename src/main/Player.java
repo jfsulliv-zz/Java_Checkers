@@ -60,10 +60,6 @@ public abstract class Player {
 		return this.myPieces;
 	}
 	
-	public Piece[] update() {
-		return this.myPieces = board.getPieces(this.playerColour);
-	}
-	
 	public void makeCurrentMove() {
 		if(currentStart == null || currentEnd == null || myTurn == false) {
 			if(isHuman == false) {
