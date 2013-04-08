@@ -1,5 +1,9 @@
 package main;
 
+import java.util.ArrayList;
+
+import algorithm.BoardState;
+
 /**
  * A Checkers Piece. Holds information on piece colour, location, and King status.
  * <p>
@@ -76,7 +80,7 @@ public class Piece {
 	 * @param start The Location the Piece starts in.
 	 * @return An array that contains any and all movements a piece could legally make.
 	 */
-	public Location[] emptyMoves(Player owner){
+	public Location[] emptyMoves(Player owner, Board aBoard){
 		boolean silentMovementChecks = true;
 		int numMoves = 0;
 		Location[] maxMoves = new Location[4];
@@ -93,7 +97,7 @@ public class Piece {
 					continue;
 				}
 				
-				Move move = new Move(owner,location,tempLoc,silentMovementChecks);
+				Move move = new Move(owner,location,tempLoc, aBoard, silentMovementChecks);
 				if(tempLoc.inBounds() && move.isValid()) { 
 					maxMoves[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
 					numMoves++;
@@ -114,7 +118,7 @@ public class Piece {
 	 * @param start The Location the Piece starts in.
 	 * @return An array that contains any and all jumps a piece could legally make.
 	 */
-	public Location[] emptyJumps(Player owner){
+	public Location[] emptyJumps(Player owner, Board aBoard){
 		boolean silentMovementChecks = true;
 		int numMoves = 0;
 		Location[] maxJumps = new Location[4];
@@ -131,7 +135,7 @@ public class Piece {
 					continue;
 				}
 				
-				Move move = new Move(owner,location,tempLoc,silentMovementChecks);
+				Move move = new Move(owner,location,tempLoc, aBoard, silentMovementChecks);
 				if (tempLoc.inBounds() && move.isValid()){
 					maxJumps[numMoves] = tempLoc;	// All valid locations will be added to a temporary Array
 					numMoves++;
@@ -142,8 +146,50 @@ public class Piece {
 		Location[] legalJumps = new Location[numMoves];
 		for(int index = 0; index < numMoves; index++){	// A new array of correct Length is generated
 			legalJumps[index] = maxJumps[index];		// and returned
-		}		
+		}
 		return legalJumps;
+	}
+	
+	
+	/**
+	 * Returns a list of all movemets for a given piece, with a given board state.
+	 * @param owner The owner of the Piece.
+	 * @param boardState A given state of the board.
+	 * @return A Move[] containing all of the legal moves the Piece could make.
+	 */
+	public Move[] getAllMoves(Player owner, Board aBoard, boolean jumpsOnly){
+		Location[] moves = emptyMoves(owner, aBoard);
+		Location[] jumps = emptyJumps(owner, aBoard);
+		
+		Move[] allMoves;
+		
+		if(owner.getColour() != colour){
+			return new Move[0];
+		}
+		
+		if(jumpsOnly){
+			allMoves = new Move[jumps.length];
+		} else {
+			allMoves = new Move[moves.length + jumps.length];
+		}
+		
+		int index = 0;
+		if(jumpsOnly == false){
+			for(Location move: moves){
+				Move m = new Move(owner,location,move,aBoard,true);
+				allMoves[index] = m;
+				index++;
+			}
+		}
+		
+		for(Location jump: jumps){
+			Move m = new Move(owner,location,jump,aBoard,true);
+			allMoves[index] = m;
+			index++;
+		}
+		
+		return allMoves;
+		
 	}
 	
 	public String toString() {

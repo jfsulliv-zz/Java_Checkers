@@ -15,7 +15,7 @@ public abstract class Player {
 	protected boolean myTurn;
 	protected Piece[] myPieces;
 	protected final Colour playerColour;
-	protected Board board = Board.getInstance();
+	protected Board board;
 	protected Location currentStart, currentEnd;
 	protected boolean isHuman;
 	
@@ -29,6 +29,7 @@ public abstract class Player {
 	 */
 	public Player(Colour aColour, Board board) {
 		this.playerColour = aColour;
+		this.board = board;
 		updatePieces();
 	}
 	
@@ -60,7 +61,11 @@ public abstract class Player {
 		return this.myPieces;
 	}
 	
+	/**
+	 * Performs the current movement for the Player.
+	 */
 	public void makeCurrentMove() {
+		
 		if(currentStart == null || currentEnd == null || myTurn == false) {
 			if(isHuman == false) {
 				setStart();
@@ -70,7 +75,7 @@ public abstract class Player {
 			}
 		}
 		
-		Move move = new Move(this,currentStart,currentEnd,false);
+		Move move = new Move(this,currentStart,currentEnd,board,false);
 		
 		if (currentEnd.inBounds() == false) {
 			return;
@@ -81,7 +86,7 @@ public abstract class Player {
 		board.movePiece(this,move);
 		
 		if(move.isJump(currentStart,currentEnd) 
-		&& board.checkSquare(currentEnd).emptyJumps(this).length > 0) {
+		&& board.checkSquare(currentEnd).emptyJumps(this,board).length > 0) {
 			System.out.println("This piece can continue to jump.");
 			continueMove = true;
 			currentStart = currentEnd;
