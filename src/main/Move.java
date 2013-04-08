@@ -8,7 +8,7 @@ package main;
  */
 public class Move {
 	private boolean valid;
-	private Board board = Board.getInstance();
+	private Board board;
 	private Location start, end;
 	private Player owner;
 	
@@ -18,10 +18,11 @@ public class Move {
 	 * @param end The end location.
 	 * @param silentMovementChecks Whether the checks should be done silently or not.
 	 */
-	public Move(Player aPlayer, Location start, Location end, boolean silentMovementChecks){
+	public Move(Player aPlayer, Location start, Location end, Board board, boolean silentMovementChecks){
 		this.owner = aPlayer;
 		this.start = start;
 		this.end = end;
+		this.board = board;
 		this.valid = validMove(silentMovementChecks);
 		
 	}
