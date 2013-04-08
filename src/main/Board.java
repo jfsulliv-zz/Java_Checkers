@@ -11,7 +11,7 @@ import java.util.Observable;
 public class Board extends Observable{
 	public static final int BOARD_ROWS = 8;
 	public static final int BOARD_COLUMNS = 8;
-	private static Piece[][] boardArray = new Piece[8][8];
+	private Piece[][] boardArray = new Piece[8][8];
 	private int turnComplete = 0;
 	
 	/*
@@ -48,7 +48,10 @@ public class Board extends Observable{
 			}
 		}
 	}
-	
+
+	public Piece[][] getArray(){
+		return this.boardArray;
+	}	
 	/**
 	 * Resets the game board to its original state by wiping all the Squares, and then
 	 * calling the initializeBoard() method.
@@ -241,11 +244,6 @@ public class Board extends Observable{
 		}
 		System.out.print("\n");
 	}
-
-	public static Piece[][] getArray(){
-	return boardArray;
-}
-
 
 /**
  * A singleton Board Class containing an 8x8 grid on which checkers is played.

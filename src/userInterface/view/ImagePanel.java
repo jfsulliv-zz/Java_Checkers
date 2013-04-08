@@ -61,7 +61,7 @@ public class ImagePanel extends JPanel {
 		g.drawImage(image,  0 , 0 ,  null);
 
 		if (panelName == "GamePanel"){
-			Piece[][] boardArray = Board.getArray();
+			Piece[][] boardArray = Game.getInstance().getBoard().getArray();
 	
 			for(int row = 0; row <= 7; row++){
 				for (int column = 0; column <=7; column++){

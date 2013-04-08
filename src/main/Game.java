@@ -86,6 +86,10 @@ public class Game {
 	public Player getBlack() {
 		return blackPlayer;
 	}
+
+	public Board getBoard() {
+		return this.mainBoard;
+	}
 	/**
 	 * @return True if the current Player can no longer move.
 	 */
