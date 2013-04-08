@@ -9,29 +9,10 @@ import java.util.Observable;
  * instance of a 'Piece' class.
  */
 public class Board extends Observable{
-	public static Board instance;
 	public static final int BOARD_ROWS = 8;
 	public static final int BOARD_COLUMNS = 8;
 	private static Piece[][] boardArray = new Piece[8][8];
 	private int turnComplete = 0;
-
-	/*
-	 * Private Constructor to initialize the board.
-	 */
-	private Board(){
-		initializeBoard();
-	}
-	
-	/**
-	 * Method to generate and/or return the singleton instance of the Board.
-	 * @return the single Board instance.
-	 */
-	public static Board getInstance(){
-		if(instance == null){
-			instance = new Board();
-		}
-		return instance;
-	}
 	
 	/*
 	 * Initializes the game board by creating a 2-D Piece array to store the
@@ -40,7 +21,7 @@ public class Board extends Observable{
 	 * 
 	 * @author Dylan Dobbyn
 	 */
-	private void initializeBoard() {
+	void initializeBoard() {
 		for (int row = 0; row <= BOARD_ROWS - 1; row++) {
 			for (int column = 0; column <= BOARD_COLUMNS - 1; column++) {
 				try{
@@ -183,13 +164,22 @@ public class Board extends Observable{
 				int tempY = (end.getY() + start.getY()) / 2;
 				int tempX = (end.getX() + start.getX()) / 2;
 				Location middle = new Location(tempX, tempY);
+				
 				setSquare(middle,null);
-				continueTurn();
+				setSquare(end,checkSquare(start));
+				setSquare(start,null);
+				
+				if(checkSquare(end).emptyJumps(player, this).length > 0){
+					continueTurn();
+				} else {
+					endTurn();
+				}
+				
 			} else {
 				endTurn();
+				setSquare(end,checkSquare(start));
+				setSquare(start,null);
 			}
-			setSquare(end,checkSquare(start));
-			setSquare(start,null);
 			
 		}
 		catch (OutOfBoundsException oobe){
@@ -255,7 +245,7 @@ public class Board extends Observable{
 	public static Piece[][] getArray(){
 	return boardArray;
 }
-}
+
 
 /**
  * A singleton Board Class containing an 8x8 grid on which checkers is played.
@@ -264,3 +254,33 @@ public class Board extends Observable{
  square is a member of a 2-dimensional Piece array that can hold a single
  * instance of a 'Piece' class.
  */
+
+	
+	public Board cloneBoard(Board lastBoard){
+		Board b = new Board();
+		for(int row = 0; row < Board.BOARD_ROWS; row++){
+			for(int col = 0; col < Board.BOARD_COLUMNS; col++){
+				Location tempLoc = null;
+				try {
+					tempLoc = new Location(row,col);
+				} catch (OutOfBoundsException e) {
+					System.exit(1);
+				}
+				
+				if(lastBoard.checkSquare(tempLoc) == null){
+					continue;
+				} else {
+					try {
+						b.setSquare(tempLoc,new Piece(lastBoard.checkSquare(tempLoc).getColour(), tempLoc));
+					} catch (OutOfBoundsException e) {
+						continue;
+					}
+				}
+				
+			}
+		}
+		
+		return b;
+	}
+}
+

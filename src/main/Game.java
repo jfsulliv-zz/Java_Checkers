@@ -1,18 +1,10 @@
 package main;
 
-import userInterface.controller.ScoreDataHandler;
-
 public class Game {
 	private static Game instance;
-	private Board board = Board.getInstance();
-	private Player redPlayer, blackPlayer, currentPlayer, defendingPlayer;
+	private Board mainBoard;
+	private Player redPlayer, blackPlayer, currentPlayer;
 	private boolean gameOver = false;
-	private ScoreDataHandler file = new ScoreDataHandler();
-	//private Score score = new Score();
-	private int wins = file.loadScore().getWins();
-	private int losses = file.loadScore().getLosses();
-	private int gamesPlayed = file.loadScore().getGamesPlayed();
-	private Score score;// = new Score(wins, losses, gamesPlayed);
 	
 	private Game(){	}
 	
@@ -32,14 +24,17 @@ public class Game {
 	 * @param mode Integer value corresponding to the number of human Players, 1 or 2. AI Players will fill the rest.
 	 */
 	public void initialize(int mode) {
+		mainBoard = new Board();
+		mainBoard.initializeBoard();
+		mainBoard.printArray();
 		switch(mode) {
 			case 1:
-				blackPlayer = new AIPlayer(Colour.BLACK,board);
-				redPlayer = new HumanPlayer(Colour.RED,board); 
+				blackPlayer = new AIPlayer(Colour.BLACK,mainBoard);
+				redPlayer = new HumanPlayer(Colour.RED,mainBoard); 
 				break;
 			case 2: 
-				blackPlayer = new HumanPlayer(Colour.BLACK,board);
-				redPlayer = new HumanPlayer(Colour.RED,board); 
+				blackPlayer = new HumanPlayer(Colour.BLACK,mainBoard);
+				redPlayer = new HumanPlayer(Colour.RED,mainBoard); 
 				break;
 		}
 		currentPlayer = redPlayer;
@@ -51,18 +46,20 @@ public class Game {
 	public void play() {
 		int turn = 1;
 		while(!gameOver()) {
-			board.printArray();
-			board.resetTurn();
+			mainBoard.printArray();
+			mainBoard.resetTurn();
+			
 			switch(turn) {
 				case 0: currentPlayer = blackPlayer;
-						System.out.println(currentPlayer + " has " + currentPlayer.getPieces().length + " pieces.");
 						turn +=1;
 						break;
 				case 1: currentPlayer = redPlayer;
-						System.out.println(currentPlayer + " has " + currentPlayer.getPieces().length + " pieces.");
 						turn -=1;
 						break;
 			}
+			
+			if(gameOver()) break;
+			
 			System.out.println("Turn: "+ currentPlayer.toString());
 			currentPlayer.myTurn();
 			
@@ -82,55 +79,30 @@ public class Game {
 		return currentPlayer; 
 	}
 	
-	/**
-	 * <!--Accessor method-->
-	 * <ul><li><b>Game</b></li></ul>
-	 * <ul>
-	 * 	Checks whether the game is still happening or not.
-	 * 	<p>
-	 * 	@return isGameOver The state of whether the game is over or not.
-	 * </ul>
-	 */
-	public boolean gameOver(){
-		boolean isGameOver = false;
-		currentPlayer.updatePieces();
-		score = new Score(wins, losses, gamesPlayed);
-		if (currentPlayer.update().length > 0) {
-			isGameOver = false;
-		}
-		if (redPlayer.update().length == 0) {
-			System.out.println("Black is the winner!");
-			if(isSinglePlayer()) {
-				score.appendLosses();
-				score.appendGamesPlayed();
-				file.saveScore(score);
-				System.out.println("Wins: " + score.getWins() + "\nLosses: " + score.getLosses() + 
-						"\nGames Played: " + score.getGamesPlayed());
-			}
-			board.printArray();
-			isGameOver = true;
-		}
-		if(blackPlayer.update().length == 0) {
-			System.out.println("Red is the winner!");
-			if(isSinglePlayer()) {
-				score.appendWins();
-				score.appendGamesPlayed();
-				file.saveScore(score);
-				System.out.println("Wins: " + score.getWins() + "\nLosses: " + score.getLosses() + 
-						"\nGames Played: " + score.getGamesPlayed());
-			}
-			board.printArray();
-			isGameOver = true;
-		}
-		return isGameOver;
+	public Player getRed() {
+		return redPlayer;
 	}
 	
-	private boolean isSinglePlayer() {
-		boolean isSinglePlayer = false;
-		if(redPlayer instanceof HumanPlayer && blackPlayer instanceof AIPlayer) {
-			isSinglePlayer = true;
+	public Player getBlack() {
+		return blackPlayer;
+	}
+	/**
+	 * @return True if the current Player can no longer move.
+	 */
+	public boolean gameOver(){
+		currentPlayer.updatePieces();
+		
+		if (redPlayer.getPieces().length == 0 || blackPlayer.getPieces().length == 0){
+			return true;
 		}
-		return isSinglePlayer;
+		
+		for(int i = 0; i < currentPlayer.getPieces().length; i++){
+			if (currentPlayer.getPieces()[i].getAllMoves(currentPlayer, mainBoard, false).length > 0) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 }

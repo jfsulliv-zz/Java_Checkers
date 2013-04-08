@@ -52,6 +52,7 @@ public class ScoreDataHandler {
             out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(score);
         } catch (Exception e) {
+        	System.out.println(fileName + " could not be found.");
         	e.printStackTrace();
         } finally {
             if (out != null) {
@@ -63,6 +64,32 @@ public class ScoreDataHandler {
             }
         }
 	}
+	
+	/**
+	 * This method is only for testing.
+	 * @param score
+	 * @param fileName
+	 */
+	public void saveScore(Score score, String fileName) {
+		ObjectOutputStream out = null;
+		
+        try {
+            out = new ObjectOutputStream(new FileOutputStream(fileName));
+            out.writeObject(score);
+        } catch (Exception e) {
+        	System.out.println(fileName + " could not be found.");
+        	e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException ioe) {
+                	ioe.printStackTrace();
+                }
+            }
+        }
+	}
+	
 	/**
 	 * <!--Mutator method.-->
 	 * 	<style>
@@ -97,6 +124,7 @@ public class ScoreDataHandler {
             in = new ObjectInputStream(new FileInputStream(fileName));
             score = (Score)in.readObject();
         } catch (Exception e) {
+        	System.out.println(fileName + " could not be found.");
             e.printStackTrace();
         } finally {
             if (in != null) {
