@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import main.*;
+
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -19,6 +21,11 @@ public class ImagePanel extends JPanel {
 	private int upperBound = 158;
 	private int leftBound = 292;
 	private String panelName;
+	private ImageIcon blueFrogs = new ImageIcon("GUIImages/Other/BlueFrog.png"); 
+	private ImageIcon greenFrogs = new ImageIcon("GUIImages/Other/GreenFrog.png"); 
+	private ImageIcon blueKing = new ImageIcon("GUIImages/Other/BlueFrogKing.png"); 
+	private ImageIcon greenKing = new ImageIcon("GUIImages/Other/GreenFrogKing.png"); 
+	private Colour colour;
 	/**
 	 * <!--Mutator method.-->
 	 * 	<style>
@@ -59,17 +66,33 @@ public class ImagePanel extends JPanel {
 
 	public void paintComponent(Graphics g) {		
 		g.drawImage(image,  0 , 0 ,  null);
-
+		
 		if (panelName == "GamePanel"){
 			Piece[][] boardArray = Game.getInstance().getBoard().getArray();
-	
+			
 			for(int row = 0; row <= 7; row++){
 				for (int column = 0; column <=7; column++){
-					if (boardArray[column][row] !=null){
-						g.fillOval(row*44+leftBound, column*44+upperBound,40,40);
+					if(boardArray[column][row] != null) {
+						if(boardArray[column][row].getColour() == Colour.BLACK) {
+							greenFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+						}
+						if(boardArray[column][row].getColour() == Colour.RED) {
+							blueFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+						}
+						if(boardArray[column][row].getColour() == Colour.RED) {
+							if(boardArray[column][row].isKing()) {
+								blueKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+							}
+						}
+						if(boardArray[column][row].getColour() == Colour.BLACK) {
+							if(boardArray[column][row].isKing()) {
+								greenKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+							}
+						}
 					}
 				}
 			}
+			this.updateUI();
 		}
 
 

@@ -51,9 +51,11 @@ public class Game {
 			
 			switch(turn) {
 				case 0: currentPlayer = blackPlayer;
+						System.out.println(currentPlayer.getPieces().length);
 						turn +=1;
 						break;
 				case 1: currentPlayer = redPlayer;
+						System.out.println(currentPlayer.getPieces().length);
 						turn -=1;
 						break;
 			}
@@ -95,6 +97,8 @@ public class Game {
 	 */
 	public boolean gameOver(){
 		currentPlayer.updatePieces();
+		redPlayer.updatePieces();
+		blackPlayer.updatePieces();
 		
 		if (redPlayer.getPieces().length == 0 || blackPlayer.getPieces().length == 0){
 			return true;
