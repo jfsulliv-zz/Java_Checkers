@@ -67,37 +67,38 @@ public class ImagePanel extends JPanel {
 	public void paintComponent(Graphics g) {		
 		g.drawImage(image,  0 , 0 ,  null);
 		
-		if (panelName == "GamePanel"){
-			Piece[][] boardArray = Game.getInstance().getBoard().getArray();
-			
-			for(int row = 0; row <= 7; row++){
-				for (int column = 0; column <=7; column++){
-					if(boardArray[column][row] != null) {
-						if(boardArray[column][row].getColour() == Colour.BLACK) {
-							greenFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
-						}
-						if(boardArray[column][row].getColour() == Colour.RED) {
-							blueFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
-						}
-						if(boardArray[column][row].getColour() == Colour.RED) {
-							if(boardArray[column][row].isKing()) {
-								blueKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
-							}
-						}
-						if(boardArray[column][row].getColour() == Colour.BLACK) {
-							if(boardArray[column][row].isKing()) {
-								greenKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
-							}
-						}
+		if (panelName != "GamePanel"){
+			return;
+		}
+		Piece[][] boardArray = Game.getInstance().getBoard().getArray();
+
+		for(int row = 0; row <= 7; row++){
+			for (int column = 0; column <=7; column++){
+				
+				if(boardArray[column][row] == null){
+					continue;
+				} 
+				else if(boardArray[column][row].getColour() == Colour.BLACK) {
+					if(boardArray[column][row].isKing()) {
+						greenKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+					} else {
+						greenFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
 					}
+
+				} 
+				else {
+					if(boardArray[column][row].isKing()) {
+						blueKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+					} else {
+						blueFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+					}
+
 				}
 			}
-			this.updateUI();
 		}
-
-
+		this.updateUI();
 	}
-	
 	
 
 }
+	

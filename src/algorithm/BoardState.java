@@ -89,8 +89,8 @@ public class BoardState{
 				else if (currentBoard.checkSquare(loc).getColour() == Colour.RED){
 					scoreRed++;
 					
-					if((2 < loc.getX() || loc.getX() < 5) &&
-							(2 < loc.getY() || loc.getY() < 5)){
+					if((1 < loc.getX() || loc.getX() < 6) &&
+							(1 < loc.getY() || loc.getY() < 6)){
 						scoreRed++;
 					} 
 					
@@ -112,8 +112,8 @@ public class BoardState{
 				else if (currentBoard.checkSquare(loc).getColour() == Colour.BLACK){
 					scoreBlack++;
 					
-					if((2 < loc.getX() || loc.getX() < 5) &&
-							(2 < loc.getY() || loc.getY() < 5)){
+					if((1 < loc.getX() || loc.getX() < 6) &&
+							(1 < loc.getY() || loc.getY() < 6)){
 						scoreBlack++;
 					} 
 					
@@ -133,15 +133,16 @@ public class BoardState{
 				}
 			}
 		}
-		
-		if(gameOver()){
-			if(currentBoard.getPieces(rootPlayer.getColour()).length == 0){
-				netScore = Integer.MAX_VALUE;
-			} else {
-				netScore = Integer.MIN_VALUE;
-			}
+
+		if(currentBoard.getPieces(rootPlayer.getColour()).length == 0){
+			netScore = Integer.MIN_VALUE;
+			return netScore;
+		} else if(currentBoard.getPieces(otherPlayer.getColour()).length == 0) {
+			netScore = Integer.MAX_VALUE;
 			return netScore;
 		}
+		
+		
 		
 		switch(rootPlayer.getColour()){
 			case BLACK: 
