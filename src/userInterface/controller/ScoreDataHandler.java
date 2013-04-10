@@ -140,4 +140,25 @@ public class ScoreDataHandler {
     		}
     	}
 	}
+
+
+	public String getWin() {
+		controller = new ScoreDataHandler();
+		String wins;
+		return wins = Integer.toString(controller.loadScore().getWins());
+	}
+
+
+	public String getGamesPlayed() {
+		controller = new ScoreDataHandler();
+		String gamesPlayed;
+		return gamesPlayed = Integer.toString(controller.loadScore().getGamesPlayed());
+	}
+
+
+	public String getLoss() {
+		controller = new ScoreDataHandler();
+		String losses;
+		return losses = Integer.toString(controller.loadScore().getLosses());
+	}
 }
