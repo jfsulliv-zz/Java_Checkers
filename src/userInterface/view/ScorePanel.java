@@ -1,7 +1,12 @@
 package userInterface.view;
 
+import java.awt.Font;
+
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import userInterface.controller.ScoreDataHandler;
 
 /**
  * 	<ul>
@@ -12,6 +17,9 @@ import javax.swing.JPanel;
  */
 public class ScorePanel extends JPanel {
 
+	private ScoreDataHandler controller = new ScoreDataHandler();
+	private JLabel wins, losses, gamesPlayed;
+	
 	 /**
      *<!--Mutator-->
      *	<ul>
@@ -31,8 +39,23 @@ public class ScorePanel extends JPanel {
      */
 	public ScorePanel() {
 		setLayout(null);
-		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages/Other/ScoreBoardView.png").getImage(),"ScoreBoard");
+		ImagePanel background = new ImagePanel(new ImageIcon("GUIImages/Other/ScoreBoard.png").getImage(),"ScoreBoard");
 
+		wins = new JLabel(controller.getWin());
+		wins.setFont(new Font("Serif", Font.PLAIN, 45));
+		wins.setBounds(500, 195, 50, 50);
+		
+		losses = new JLabel(controller.getLoss());
+		losses.setFont(new Font("Serif", Font.PLAIN, 45));
+		losses.setBounds(500, 290, 50, 50);
+		
+		gamesPlayed = new JLabel(controller.getGamesPlayed());
+		gamesPlayed.setFont(new Font("Serif", Font.PLAIN, 45));
+		gamesPlayed.setBounds(500, 400, 50, 50);
+		
+		add(wins);
+		add(losses);
+		add(gamesPlayed);
 		add(background);
 	}
 }
