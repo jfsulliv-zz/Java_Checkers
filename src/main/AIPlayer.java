@@ -59,6 +59,7 @@ public class AIPlayer extends Player {
 	 * If no favourable moves are found (ie 100% loss scenarios),a random move is selected.
 	 */
 	public void setBestMove(){
+		pause(1);
 		BoardState b = new BoardState(this,board, this);
 		AIMiniMax alg = new AIMiniMax(this);
 		alg.evaluateMovementTree(0,b,1);
