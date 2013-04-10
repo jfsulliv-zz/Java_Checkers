@@ -142,8 +142,6 @@ public class BoardState{
 			return netScore;
 		}
 		
-		
-		
 		switch(rootPlayer.getColour()){
 			case BLACK: 
 					netScore = scoreBlack - scoreRed;

@@ -35,7 +35,7 @@ public class AIMiniMax {
 	 */
 	public int evaluateMovementTree(int depth, BoardState someBoard, int signFactor){
 		if(depth >= MAX_DEPTH || someBoard.gameOver()){
-			return signFactor * someBoard.calculateScore();
+			return someBoard.calculateScore();
 		}
 		
 		Move[] moves = someBoard.findMoves();
@@ -63,7 +63,7 @@ public class AIMiniMax {
 			}
 		}
 		
-		return posValue;
+		return signFactor * posValue;
 		
 		
 	}
