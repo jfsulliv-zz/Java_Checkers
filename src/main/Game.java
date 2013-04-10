@@ -1,10 +1,16 @@
 package main;
 
+import userInterface.controller.ScoreDataHandler;
+
 public class Game {
 	private static Game instance;
 	private Board mainBoard;
 	private Player redPlayer, blackPlayer, currentPlayer;
-	private boolean gameOver = false;
+	private ScoreDataHandler file = new ScoreDataHandler();
+	private int wins = file.loadScore().getWins();
+	private int losses = file.loadScore().getLosses();
+	private int gamesPlayed = file.loadScore().getGamesPlayed();
+	private Score score;
 	
 	private Game(){	}
 	
@@ -101,6 +107,7 @@ public class Game {
 		blackPlayer.updatePieces();
 		
 		if (redPlayer.getPieces().length == 0 || blackPlayer.getPieces().length == 0){
+			appendScore();
 			return true;
 		}
 		
@@ -111,6 +118,32 @@ public class Game {
 		}
 		
 		return true;
+	}
+	
+	private boolean isSinglePlayer() {
+		boolean isSinglePlayer = false;
+		
+		if(blackPlayer instanceof AIPlayer) {
+			isSinglePlayer = true;
+		}
+		
+		return isSinglePlayer;
+	}
+	
+	private void appendScore() {
+		score = new Score(wins, losses, gamesPlayed);
+		
+		if(isSinglePlayer()) {
+			if(blackPlayer.getPieces().length == 0) {
+				score.appendWins();
+				score.appendGamesPlayed();
+				file.saveScore(score);
+			}
+		} else {
+			score.appendLosses();
+			score.appendGamesPlayed();
+			file.saveScore(score);
+		}
 	}
 	
 }
