@@ -77,9 +77,11 @@ public abstract class Player {
 		
 		Move move = new Move(this,currentStart,currentEnd,board,false);
 		
-		if (currentEnd.inBounds() == false) {
+		if (move.isValid() == false) {
 			return;
-		} else if (move.isValid() == false) {
+		} else if (!move.isJump(currentStart,currentEnd) && board.turnComplete() == 1){
+			System.out.println("That piece can only continue by jumping.");
+			currentEnd = null;
 			return;
 		}
 		

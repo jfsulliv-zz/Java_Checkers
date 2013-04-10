@@ -50,7 +50,7 @@ public class HumanPlayer extends Player {
 		} else if (board.checkSquare(end) != null) {
 			System.out.println("That square is already occupied.");
 			return;
-		}
+		} 
 		currentEnd = end;
 	}
 
