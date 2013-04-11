@@ -2,6 +2,7 @@ package userInterface.controller;
 
 import main.*;
 import userInterface.view.IModel;
+import javax.swing.SwingUtilities;
 
 /**
  * 	<ul>
@@ -41,6 +42,7 @@ public class ModelController implements IModel {
 	 * 	</ul>
 	 */
 	public void gameInstance(int mode) {
+		System.out.println(SwingUtilities.isEventDispatchThread());
 		GameLauncher gameLauncher = new GameLauncher(mode);
 		gameLauncher.execute();
 	}

@@ -19,6 +19,7 @@ import userInterface.view.MainFrame;
  */
 public class MainFrameLauncher {
 
+	private ModelController modelController;
 	private static FrameSwitcher controller;
 	public static void main(String[] args) {
 		
@@ -33,6 +34,7 @@ public class MainFrameLauncher {
 			}
 
 		});
+
 	}
 	
 	/**
