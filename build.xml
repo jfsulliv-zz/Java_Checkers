@@ -1,80 +1,40 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="CPSC219_Project_Git">
-    <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../eclipse"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.7"/>
-    <property name="source" value="1.7"/>
-    <path id="CPSC219_Project_Git.classpath">
-        <pathelement location="classes"/>
-    </path>
-    <target name="init">
-        <mkdir dir="classes"/>
-        <copy includeemptydirs="false" todir="classes">
-            <fileset dir="src">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-	<delete dir="jar"/>
-        <delete dir="classes"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="classes" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
-            <classpath refid="CPSC219_Project_Git.classpath"/>
-        </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
-    </target>
-    <target name="TestBlackPlayer">
-        <java classname="test.TestBlackPlayer" failonerror="true" fork="yes">
-            <classpath refid="CPSC219_Project_Git.classpath"/>
-        </java>
-    </target>
-    <target name="GameLauncher (1)">
-        <java classname="main.GameLauncher" failonerror="true" fork="yes">
-            <classpath refid="CPSC219_Project_Git.classpath"/>
-        </java>
-    </target>
-    <target name="TestAll">
-        <java classname="test.TestAll" failonerror="true" fork="yes">
-            <classpath refid="CPSC219_Project_Git.classpath"/>
-        </java>
-    </target>
-    <target name="MainFrameLauncher">
-        <java classname="userInterface.MainFrameLauncher" failonerror="true" fork="yes">
-            <classpath refid="CPSC219_Project_Git.classpath"/>
-        </java>
-    </target>
-    <target name="jar" depends="build">
-        <mkdir dir="jar"/>
-        <jar destfile="jar/FrogCheckers.jar" basedir="classes">
-            <manifest>
-                <attribute name="userInterface.MainFrameLauncher" value="oata.HelloWorld"/>
-            </manifest>
-        </jar>
-    </target>
+<project name="FrogCheckers" default="dist" basedir=".">
+ <property name="src" location = "src"/>
+ <property name="build" location = "build"/>
+ <property name="dist" location = "dist"/>
+
+ <target name="compile"
+	description="compile the source code">
+  <tstamp/>
+  <mkdir dir="${build}"/>
+  <javac srcdir="${src}" destdir="${build}"/>
+ </target>
+
+ <target name="dist" depends="compile"
+	description="generate the distribution">
+  <mkdir dir="${dist}/lib"/>
+  <jar destfile="${dist}/lib/FrogCheckers-${DSTAMP}.jar" basedir="${build}">
+	<fileset dir="${build}"/>
+	<fileset dir="${src}/GUIImages"/>
+	<manifest>
+	  <attribute name="Main-Class"
+		value="userInterface.MainFrameLauncher"/>
+	</manifest>
+  </jar>
+ </target>
+
+ <target name="clean"
+	description="clean up">
+  <delete dir="${build}"/>
+  <delete dir="${dist}"/>
+ </target>
+
+ <target name="run" depends="dist"
+	description="runs the Game from jar">
+  <java jar="${dist}/lib/FrogCheckers-${DSTAMP}.jar"
+	fork="true"
+	failonerror="true">
+  </java>
+ </target>
 </project>
+
