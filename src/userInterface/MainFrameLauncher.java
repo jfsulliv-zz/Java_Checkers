@@ -2,6 +2,8 @@ package userInterface;
 
 import javax.swing.SwingUtilities;
 
+import main.Game;
+
 
 import userInterface.controller.FrameSwitcher;
 import userInterface.controller.ModelController;

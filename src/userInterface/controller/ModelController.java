@@ -12,9 +12,8 @@ import userInterface.view.IModel;
  *
  */
 public class ModelController implements IModel {
-	Game game = Game.getInstance();
 	private boolean validSelectionMade = false;
-	
+	Game game = Game.getInstance();
 	/**
 	 * 	<!--Accessor Method-->
 	 * 	<style>
@@ -42,8 +41,8 @@ public class ModelController implements IModel {
 	 * 	</ul>
 	 */
 	public void gameInstance(int mode) {
-		Thread gameLauncher = new Thread(new GameLauncher(mode));
-		gameLauncher.start();
+		GameLauncher gameLauncher = new GameLauncher(mode);
+		gameLauncher.execute();
 	}
 
 	/**
