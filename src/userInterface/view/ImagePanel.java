@@ -6,6 +6,7 @@ import main.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import userInterface.controller.FrameSwitcher;
 
 /**
  * 	<ul>
@@ -26,6 +27,7 @@ public class ImagePanel extends JPanel {
 	private ImageIcon blueKing = new ImageIcon("GUIImages/Other/BlueFrogKing.png"); 
 	private ImageIcon greenKing = new ImageIcon("GUIImages/Other/GreenFrogKing.png"); 
 	private Colour colour;
+    private FrameSwitcher frameSwitcher;
 	/**
 	 * <!--Mutator method.-->
 	 * 	<style>
@@ -68,37 +70,33 @@ public class ImagePanel extends JPanel {
 		g.drawImage(image,  0 , 0 ,  null);
 		
 		if (panelName != "GamePanel"){
-			return;
-		}
-		Piece[][] boardArray = Game.getInstance().getBoard().getArray();
-
-		for(int row = 0; row <= 7; row++){
-			for (int column = 0; column <=7; column++){
+            return;
+            }
+        frameSwitcher = frameSwitcher.getInstance();
+        frameSwitcher.updateGUI();
+        String[][] boardArray = frameSwitcher.stringBoard();
+        for(int row = 0; row <= 7; row++){
+            for (int column = 0; column <=7; column++){
 				
-				if(boardArray[column][row] == null){
-					continue;
-				} 
-				else if(boardArray[column][row].getColour() == Colour.BLACK) {
-					if(boardArray[column][row].isKing()) {
-						greenKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
-					} else {
-						greenFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
-					}
+                if(boardArray[column][row] == null){
+                    continue;
+                }
+                if(boardArray[column][row] == "Black King"){
+                    greenKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+                } else if(boardArray[column][row] == "Black") {
+                    greenFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+                }
 
-				} 
-				else {
-					if(boardArray[column][row].isKing()) {
-						blueKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
-					} else {
-						blueFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
-					}
+                else if(boardArray[column][row] == "Red King") {
+                    blueKing.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+                } else if (boardArray[column][row] == "Red")  {
+                    blueFrogs.paintIcon(this, g, row*44+leftBound, column*44+upperBound);
+                }
 
-				}
-			}
-		}
-		this.updateUI();
+            }
+        }
+        
 	}
-	
 
 }
 	

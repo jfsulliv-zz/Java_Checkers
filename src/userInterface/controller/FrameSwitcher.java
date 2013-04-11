@@ -8,6 +8,7 @@ import userInterface.view.MainFrame;
 import userInterface.view.MenuPanel;
 import userInterface.view.PanelListener;
 import userInterface.view.ScorePanel;
+import main.*;
 
 /**
  *	<ul>
@@ -25,6 +26,7 @@ public class FrameSwitcher implements PanelListener {
 	private int gameMode;
 	private MainFrame frame;
 	private static FrameSwitcher instance;
+    private String[][] stringBoard = new String[8][8];
 	
 	/**
 	 * <ul>
@@ -142,17 +144,83 @@ public class FrameSwitcher implements PanelListener {
 		}
 		return scorePanel;
 	}
+    /** 
+        *Takes a piece array from board and simplifies it to a String array
+        *to be held in the FrameSwitcher. Then updates the GamePanel with new 
+        *frogs.
+        *Pre-conditions: The Game, Board and GamePanel must all be initialized already.
+        *Post-conditions: The GUI will be redrawn with the new board configuration.
+        *@author Dylan Dobbyn
+        */
+    public void updateGUI(){
+        Piece[][] boardArray = Game.getInstance().getBoard().getArray();
+        if (boardArray == null){
+            Board firstBoard = new Board();
+            firstBoard.initializeBoard();
+            boardArray = firstBoard.getArray();
+            }
+        for(int row = 0; row <= 7; row++){
+			for (int column = 0; column <=7; column++){
+				
+				if(boardArray[column][row] == null){
+					stringBoard[column][row] = null;
+				} 
+				else if(boardArray[column][row].getColour() == Colour.BLACK) {
+					if(boardArray[column][row].isKing()) {
+						stringBoard[column][row] = "Black King";
+					} else {
+						stringBoard[column][row] = "Black";
+					}
+
+				} 
+				else {
+					if(boardArray[column][row].isKing()) {
+                        stringBoard[column][row] = "Red King";
+					} else {
+						stringBoard[column][row] = "Red";
+					}
+				}
+			}
+		}
+        gamePanel.updateUI();
+    }
 	public static FrameSwitcher getInstance(MainFrame frame){
 		if (instance == null){
 			instance = new FrameSwitcher(frame);
 		}
 		return instance;
 	}
+    public static FrameSwitcher getInstance(){
+        while(instance == null){
+            pause(1);
+            }
+        return instance;
+        }
+    public String[][] stringBoard(){
+        return stringBoard;
+        }
+
 
 	public void setCoordinates(IModel modelController) {
 		this.modelController = modelController;
 	}
-	
+    /**
+        *Used to pause the thread to allow the MainFrame to initialize the 
+        *FrameSwitcher before the ImagePanel needs it.
+        *Pre-conditions: none.
+        *Post-conditions: The thread has been paused for a number of seconds.
+        *@param timeToWaitInSeconds:int The number of seconds to pause the thread for.
+        *@author Daniel Contreras
+        */
+	private static void pause(int timeToWaitInSeconds) {
+		int timeToMilli = 1000 * timeToWaitInSeconds;
+		long t0, t1;
+        t0 =  System.currentTimeMillis();
+        do{
+            t1 = System.currentTimeMillis();
+        }
+        while (t1 - t0 < timeToMilli);
+	}
 	public IModel getModelController() { return modelController; }
 	
 }

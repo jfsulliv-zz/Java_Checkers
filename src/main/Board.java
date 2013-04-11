@@ -21,7 +21,7 @@ public class Board extends Observable{
 	 * 
 	 * @author Dylan Dobbyn
 	 */
-	void initializeBoard() {
+	public void initializeBoard() {
 		for (int row = 0; row <= BOARD_ROWS - 1; row++) {
 			for (int column = 0; column <= BOARD_COLUMNS - 1; column++) {
 				try{
