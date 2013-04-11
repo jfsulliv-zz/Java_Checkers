@@ -42,7 +42,6 @@ public class ModelController implements IModel {
 	 * 	</ul>
 	 */
 	public void gameInstance(int mode) {
-		System.out.println(SwingUtilities.isEventDispatchThread());
 		GameLauncher gameLauncher = new GameLauncher(mode);
 		gameLauncher.execute();
 	}

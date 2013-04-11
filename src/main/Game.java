@@ -1,7 +1,6 @@
 package main;
 
 import userInterface.controller.ScoreDataHandler;
-import javax.swing.SwingUtilities;
 
 public class Game {
 	private static Game instance;
@@ -74,7 +73,6 @@ public class Game {
 			
 			// The following loop will only end when the Observable Board's state has changed, ie a piece has been moved.
 			while(currentPlayer.isMyTurn() == true) {
-				System.out.println(SwingUtilities.isEventDispatchThread());
 				if(!currentPlayer.isHuman()){
 					currentPlayer.makeCurrentMove();
 				}
