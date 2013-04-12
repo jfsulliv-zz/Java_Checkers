@@ -191,6 +191,11 @@ public class FrameSwitcher implements PanelListener {
         highlight = true;
         gamePanel.updateUI();
         }
+        
+    public void updateGUI(Player player, int errorCode){
+    
+    
+    }       
     public void setHighlight(boolean set){
         highlight = set;
         }

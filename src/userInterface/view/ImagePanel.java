@@ -23,7 +23,21 @@ public class ImagePanel extends JPanel {
 	private int upperBound = 157;
 	private int leftBound = 291;
 	private String panelName;
-	private ImageIcon blueFrogs = new ImageIcon("GUIImages/Other/BlueFrog.png"); 
+    
+    private ImageIcon[] PlayerOneMsgs = new ImageIcon[4];
+    private ImageIcon[] PlayerTwoMsgs = new ImageIcon[4];
+    
+    PlayerOneMsgs[0] = new ImageIcon("GUIImages/PlayerOneMessage/win.png");
+    PlayerOneMsgs[1] = new ImageIcon("GUIImages/PlayerOneMessage/turn.png");
+    PlayerOneMsgs[2] = new ImageIcon("GUIImages/PlayerOneMessage/jumptwice.png");
+    PlayerOneMsgs[3] = new ImageIcon("GUIImages/PlayerOneMessage/illegalmove.png");
+    
+	PlayerTwoMsgs[0] = new ImageIcon("GUIImages/PlayerTwoMessage/win.png");
+    PlayerTwoMsgs[1] = new ImageIcon("GUIImages/PlayerTwoMessage/turn.png");
+    PlayerTwoMsgs[2] = new ImageIcon("GUIImages/PlayerTwoMessage/jumptwice.png");
+    PlayerTwoMsgs[3] = new ImageIcon("GUIImages/PlayerTwoMessage/illegalmove.png");
+    
+    private ImageIcon blueFrogs = new ImageIcon("GUIImages/Other/BlueFrog.png"); 
 	private ImageIcon greenFrogs = new ImageIcon("GUIImages/Other/GreenFrog.png"); 
 	private ImageIcon blueKing = new ImageIcon("GUIImages/Other/BlueFrogKing.png"); 
 	private ImageIcon greenKing = new ImageIcon("GUIImages/Other/GreenFrogKing.png"); 
