@@ -20,6 +20,7 @@ import main.OutOfBoundsException;
 public class MouseHandler implements MouseListener, MouseMotionListener {
 	private Component component;
 	private IModel modelController;
+    private FrameSwitcher frameSwitcher;
 	private Cursor cursorShape;
 	
 	private int squareLength, leftBound, rightBound, upperBound, lowerBound;
@@ -122,7 +123,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 		if(game.currentPlayer().isContinueMove() == true){
 			clickNumber = 1;
 		}
-		
+		this.frameSwitcher = FrameSwitcher.getInstance();
 		if (inBound) {
 			xBoardCoord = (int) Math.floor((e.getX() - leftBound)
 					/ squareLength);
@@ -142,15 +143,16 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 					clickNumber = 0;
 					start = null;
 					return;
-				}
-				
+                }
+                frameSwitcher.updateGUI(start);
 				
 			} catch (OutOfBoundsException e1) {
 				e1.printStackTrace();
 			}
 		} else if (clickNumber == 2) {
 			try {
-				
+                frameSwitcher.setHighlight(false);
+                frameSwitcher.updateGUI();
 				end = new Location(xBoardCoord, yBoardCoord);
 				modelController.setEndLocation(player, end);
 				
@@ -162,6 +164,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 				} else {
 					System.out.println(start.toString() + "    " + end.toString());
 					modelController.makeMove(player);
+                    if (game.currentPlayer().isContinueMove()==true){
+                        frameSwitcher.updateGUI(end);
+                        }
 				}
 				
 			} catch (OutOfBoundsException e1) {

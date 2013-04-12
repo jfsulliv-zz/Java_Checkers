@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import main.*;
+import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -19,8 +20,8 @@ import userInterface.controller.FrameSwitcher;
 public class ImagePanel extends JPanel {
 	
 	private Image image;
-	private int upperBound = 158;
-	private int leftBound = 292;
+	private int upperBound = 157;
+	private int leftBound = 291;
 	private String panelName;
 	private ImageIcon blueFrogs = new ImageIcon("GUIImages/Other/BlueFrog.png"); 
 	private ImageIcon greenFrogs = new ImageIcon("GUIImages/Other/GreenFrog.png"); 
@@ -74,6 +75,12 @@ public class ImagePanel extends JPanel {
             }
         frameSwitcher = frameSwitcher.getInstance();
         frameSwitcher.updateGUI();
+        if (frameSwitcher.highlight()){
+            Location square = frameSwitcher.highlightSquare();
+            g.setColor(Color.BLUE);
+            g.drawRect(square.getX()*44+leftBound, square.getY()*44+upperBound,
+        44,44);
+            }
         String[][] boardArray = frameSwitcher.stringBoard();
         for(int row = 0; row <= 7; row++){
             for (int column = 0; column <=7; column++){

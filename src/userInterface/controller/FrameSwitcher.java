@@ -26,6 +26,8 @@ public class FrameSwitcher implements PanelListener {
 	private int gameMode;
 	private MainFrame frame;
 	private static FrameSwitcher instance;
+    private boolean highlight;
+    private Location highlightSquare;
     private String[][] stringBoard = new String[8][8];
 	
 	/**
@@ -184,6 +186,20 @@ public class FrameSwitcher implements PanelListener {
 		}
         gamePanel.updateUI();
     }
+    public void updateGUI(Location square){
+        highlightSquare = square;
+        highlight = true;
+        gamePanel.updateUI();
+        }
+    public void setHighlight(boolean set){
+        highlight = set;
+        }
+    public Location highlightSquare(){
+        return highlightSquare;
+        }
+    public boolean highlight(){
+        return highlight;
+        }
 	public static FrameSwitcher getInstance(MainFrame frame){
 		if (instance == null){
 			instance = new FrameSwitcher(frame);
