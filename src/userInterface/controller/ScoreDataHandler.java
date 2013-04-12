@@ -17,7 +17,7 @@ import main.Score;
 public class ScoreDataHandler {
 
 	private ScoreDataHandler controller;
-	private static final String fileName = "score.dat";
+	private static final String fileName = "src/score.dat";
 	
 	/**
 	 * <!--Mutator method.-->
