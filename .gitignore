@@ -6,5 +6,6 @@
 /bin
 /documentation/JavaDoc
 /.settings
-
+/dist
+/build
 /classes
