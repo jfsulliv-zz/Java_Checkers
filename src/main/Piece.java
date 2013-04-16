@@ -152,9 +152,10 @@ public class Piece {
 	
 	
 	/**
-	 * Returns a list of all movemets for a given piece, with a given board state.
+	 * Returns a list of all movements for a given piece, with a given Board.
 	 * @param owner The owner of the Piece.
-	 * @param boardState A given state of the board.
+	 * @param aBoard a given Board.
+	 * @param jumpsOnly a boolean of whether only jumps will be searched.
 	 * @return A Move[] containing all of the legal moves the Piece could make.
 	 */
 	public Move[] getAllMoves(Player owner, Board aBoard, boolean jumpsOnly){

@@ -26,14 +26,23 @@ public class AIPlayer extends Player {
 		isHuman = false;
 	}
 	
+	/**
+	 * Sets the Player's Start to a given Location.
+	 */
 	public void setStart(Location start) {
 		currentStart = start;
 	}
 	
+	/**
+	 * Sets the Player's End to a given Location.
+	 */
 	public void setEnd(Location end) {
 		currentEnd = end;
 	}
 	
+	/**
+	 * Sets the AI's Start location to the one found in their best move.
+	 */
 	public void setStart(){
 		if(bestMove == null){
 			setBestMove();
@@ -41,6 +50,9 @@ public class AIPlayer extends Player {
 		currentStart = bestMove.getStart();
 	}
 	
+	/**
+	 * Sets the AI's End location to the one found in their best move.
+	 */
 	public void setEnd(){
 		// A null bestMove indicates that the player must continue to move in a given direction.
 		if(bestMove == null){
@@ -49,6 +61,8 @@ public class AIPlayer extends Player {
 		} else {
 			currentEnd = bestMove.getEnd();
 		}
+		
+		System.out.println(currentStart.toString() + "    " + currentEnd.toString());
 		
 		bestMove = null;
 		

@@ -1,3 +1,5 @@
+Note- this can all be easily handled using Apache Ant- see README.md for details
+
 HOW TO USE PACKAGING SYSTEM
 -----
 

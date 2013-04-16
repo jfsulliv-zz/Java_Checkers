@@ -36,5 +36,6 @@
 	failonerror="true">
   </java>
  </target>
+
 </project>
 

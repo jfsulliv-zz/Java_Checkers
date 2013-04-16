@@ -69,3 +69,14 @@ Pushing
         <li>Enter the command (git commit -m "YOUR MESSAGE HERE") to give the commit a brief description</li>
         <li>Enter the command (git push origin master) to push the local version to the global repository</li>
     </ol>
+
+-----
+HOW-TO: ANT
+-----
+
+First ensure that Apache Ant is installed and up to date. The following commands are entered from the command prompt in the directory of this README.
+<p>
+ant clean : will clean the directory of remnant builds.<p>
+ant compile : builds and compiles the files into the build/ directory. <p>
+ant dist : generates a distribution jar file with a datestamp. <p>
+ant run : runs the generated jar file to launch the game. <p>

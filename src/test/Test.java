@@ -86,22 +86,29 @@ public class Test {
         try{
             start = new Location(1,5);
             end = new Location(2,4);
+            playerOne.myTurn();
             playerOne.setStart(start);
             playerOne.setEnd(end);
             playerOne.makeCurrentMove();
             board.printArray();
+            
+            playerTwoHuman.myTurn();
             playerTwoHuman.setStart(new Location(4,2));
             playerTwoHuman.setEnd(new Location(3,3));
             playerTwoHuman.makeCurrentMove();
             board.printArray();
+            
+            playerOne.myTurn();
             playerOne.setStart(end);
             playerOne.setEnd(new Location(4,2));
             playerOne.makeCurrentMove();
             board.printArray();
-            if (playerTwoHuman.getPieces().length != 11){
+            
+            playerTwoHuman.updatePieces();
+            if (playerTwoHuman.getPieces().length == 12){
                 passed = false;
                 return "\nTestJumpMove FAILED, jumped piece was not removed from the board.";
-            }else if(board.getArray()[2][4] != null){
+            }else if(board.checkSquare(new Location(3,3)) != null){
                 passed = false;
                 return "\nTestJumpMove FAILED, the jump was not performed.";
             }

@@ -53,6 +53,10 @@ public class Location {
 		} return false;
 	}
 	
+	/**
+	 * @param otherLoc Location
+	 * @return true if the Locations have equal coordinates.
+	 */
 	public boolean isSameLocation(Location otherLoc){
 		if(xCoordinate == otherLoc.getX() && yCoordinate == otherLoc.getY()) {
 			return true;

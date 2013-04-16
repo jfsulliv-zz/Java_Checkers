@@ -14,7 +14,7 @@ public class Board extends Observable{
 	private Piece[][] boardArray = new Piece[8][8];
 	private int turnComplete = 0;
 	
-	/*
+	/**
 	 * Initializes the game board by creating a 2-D Piece array to store the
 	 * information of every square on the board. The arrays can hold either a Piece
 	 * instance or a Null object.
@@ -49,9 +49,13 @@ public class Board extends Observable{
 		}
 	}
 
+	/**
+	 * @return Piece[][] of the Board.
+	 */
 	public Piece[][] getArray(){
 		return this.boardArray;
 	}	
+	
 	/**
 	 * Resets the game board to its original state by wiping all the Squares, and then
 	 * calling the initializeBoard() method.
@@ -121,12 +125,15 @@ public class Board extends Observable{
 	}
 	
 	/**
-	 * Accessor method to return the state of turn completion
+	 * Accessor method to return the state of turn completion - New turn, continued turn, or ended turn.
 	 * @return An integer turnComplete denoting the status of the current turn (0-2)
 	 */
 	public int turnComplete(){ return turnComplete; }
 	
 	
+	/**
+	 * Resets the turnComplete parameter to its base state, and clears the observable changes on the Board.
+	 */
 	public void resetTurn(){ 
 		clearChanged();
 		turnComplete = 0; 
@@ -191,14 +198,20 @@ public class Board extends Observable{
 		}
 	}
 
-	/*
-	 * Accessor methods to determine the distance between two
-	 * X or Y Locations. This is used across other methods and classes, 
-	 * and is simply a timesaver.
+	/**
+	 * @param start Location
+	 * @param end Location
+	 * @return The absolute-value X-difference between the two locations.
 	 */
 	public int deltaX(Location start, Location end) {
 		return Math.abs((start.getX() - end.getX()));
 	}
+	
+	/**
+	 * @param start Location
+	 * @param end Location
+	 * @return The absolute-value Y-difference between the two locations.
+	 */
 	public int deltaY(Location start, Location end) {
 		return Math.abs((start.getY() - end.getY()));
 	}
@@ -245,15 +258,12 @@ public class Board extends Observable{
 		System.out.print("\n");
 	}
 
-/**
- * A singleton Board Class containing an 8x8 grid on which checkers is played.
- * <p>
- * Each 
- square is a member of a 2-dimensional Piece array that can hold a single
- * instance of a 'Piece' class.
- */
 
-	
+	/**
+	 * Method to create a deep clone of a past board for modeling purposes.
+	 * @param lastBoard The last given board.
+	 * @return A new Board, deep-cloned from the previous.
+	 */
 	public Board cloneBoard(Board lastBoard){
 		Board b = new Board();
 		for(int row = 0; row < Board.BOARD_ROWS; row++){

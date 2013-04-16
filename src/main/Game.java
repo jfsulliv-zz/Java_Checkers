@@ -13,6 +13,7 @@ public class Game {
 	private int gamesPlayed = file.loadScore().getGamesPlayed();
 	private Score score;
 	
+	// Empty constructor to prevent instantiation of the Game.
 	private Game(){	}
 	
 	/**
@@ -33,7 +34,7 @@ public class Game {
 	public void initialize(int mode) {
 		mainBoard = new Board();
 		mainBoard.initializeBoard();
-		mainBoard.printArray();
+		
 		switch(mode) {
 			case 1:
 				blackPlayer = new AIPlayer(Colour.BLACK,mainBoard);
@@ -44,6 +45,7 @@ public class Game {
 				redPlayer = new HumanPlayer(Colour.RED,mainBoard); 
 				break;
 		}
+		
 		currentPlayer = redPlayer;
 	}
 	
@@ -53,16 +55,13 @@ public class Game {
 	public void play() {
 		int turn = 1;
 		while(!gameOver()) {
-			mainBoard.printArray();
 			mainBoard.resetTurn();
 			
 			switch(turn) {
 				case 0: currentPlayer = blackPlayer;
-						System.out.println(currentPlayer.getPieces().length);
 						turn +=1;
 						break;
 				case 1: currentPlayer = redPlayer;
-						System.out.println(currentPlayer.getPieces().length);
 						turn -=1;
 						break;
 			}
@@ -80,7 +79,7 @@ public class Game {
 				}
 				
 				try{
-					Thread.sleep(30);
+					Thread.sleep(60);
 				}catch (InterruptedException ie){
 					ie.printStackTrace();
 				}
@@ -89,28 +88,37 @@ public class Game {
 	}
 	
 	/**
-	 * @return The Player whose turn it is.
+	 * @return The Player whose turn it is (This can be Red or Black).
 	 */
 	public Player currentPlayer() { 
 		return currentPlayer; 
 	}
 	
+	/**
+	 * @return Red Player
+	 */
 	public Player getRed() {
 		return redPlayer;
 	}
 	
+	/**
+	 * @return Black Player
+	 */
 	public Player getBlack() {
 		return blackPlayer;
 	}
 
+	/**
+	 * @return The game's Board object.
+	 */
 	public Board getBoard() {
 		return this.mainBoard;
 	}
+	
 	/**
 	 * @return True if the current Player can no longer move.
 	 */
 	public boolean gameOver(){
-		currentPlayer.updatePieces();
 		redPlayer.updatePieces();
 		blackPlayer.updatePieces();
 		
@@ -129,15 +137,12 @@ public class Game {
 	}
 	
 	private boolean isSinglePlayer() {
-		boolean isSinglePlayer = false;
-		
-		if(blackPlayer instanceof AIPlayer) {
-			isSinglePlayer = true;
-		}
-		
-		return isSinglePlayer;
+		return(!blackPlayer.isHuman());
 	}
 	
+	/*
+	 * Increment the Score file.
+	 */
 	private void appendScore() {
 		score = new Score(wins, losses, gamesPlayed);
 		

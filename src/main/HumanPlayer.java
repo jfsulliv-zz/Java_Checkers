@@ -20,14 +20,24 @@ public class HumanPlayer extends Player {
 		isHuman = true;
 	}
 	
+	/**
+	 * Empty method that will have no effect on call- this is to retain polymorphism with the AIPlayer.
+	 */
 	public void setStart(){
 		return;
 	}
 	
+	/**
+	 * Empty method that will have no effect on call- this is to retain polymorphism with the AIPlayer.
+	 */
 	public void setEnd(){
 		return;
 	}
 	
+	/**
+	 * Sets the Player's start location to a given location.
+	 * @param Start Location
+	 */
 	public void setStart(Location start){
 		if(start.inBounds() == false){
 			System.out.println("That is an invalid location.");
@@ -43,6 +53,10 @@ public class HumanPlayer extends Player {
 		currentStart = start;
 	}
 	
+	/**
+	 * Sets the Player's end location to a given location.
+	 * @param End Location
+	 */
 	public void setEnd(Location end){
 		if(end.inBounds() == false){
 			System.out.println("That is an invalid location.");
