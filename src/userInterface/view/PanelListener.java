@@ -43,34 +43,7 @@ public interface PanelListener {
 	 */
 	public JPanel gamePanel(int number);
 	
-	/**
-	 * <!--Accessor method.-->
-	 * 	<style>
-	 * 		#method {
-	 * 			text-indent: 10.0px;
-	 * 		}
-	 * 	</style>
-	 * 	<ul><li><b>PanelListener</b></li></ul>
-	 * 	<ul><div ID="method"><p>public JPanel mainMenu()</p></div></ul>
-	 * 	<ul> 
-	 * 		<p>
-	 * 			This is the main menu of the GUI. This is not yet implemented.
-	 * 		</p>
-	 * 	</ul>
-	 * 	<ul>
-	 * 		<p>
-	 * 			PreCondition: There must be a main menu to return.
-	 * 			<br>PostCondition: Will return the main menu.</br>
-	 * 		</p>
-	 * 	</ul>
-	 * 
-	 * 	<ul>
-	 *  	@return Return the instance of the menus view.
-	 *  </ul>
-	 * 
-	 * 
-	 */
-	public JPanel mainMenu();
+	
 	
 	/**
 	 * <!--Accessor method.-->

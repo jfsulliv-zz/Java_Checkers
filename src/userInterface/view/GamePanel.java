@@ -85,7 +85,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void setSelectedSquare(Location aLoc){
+	public void setSelectedSquare(Location aLoc) {
 		selectedSquare = aLoc;
 	}
 

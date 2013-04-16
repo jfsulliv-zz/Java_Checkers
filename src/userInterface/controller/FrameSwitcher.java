@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import userInterface.view.GamePanel;
 import userInterface.view.IModel;
 import userInterface.view.MainFrame;
-import userInterface.view.MenuPanel;
 import userInterface.view.PanelListener;
 import userInterface.view.ScorePanel;
 import main.*;
@@ -19,7 +18,6 @@ import main.*;
  */
 public class FrameSwitcher implements PanelListener {
 
-	private JPanel mainMenu = new MenuPanel(); // Create an instance of the MainMenu
 	private JPanel gamePanel = new GamePanel(); // Create an instance of the GamePanel
 	private JPanel scorePanel = new ScorePanel(); // Create an instance of the ScorePanel
 	private IModel modelController; // Create a handle on the ModelController
@@ -109,9 +107,6 @@ public class FrameSwitcher implements PanelListener {
 	 * 
 	 * 
 	 */
-	public JPanel mainMenu() {
-		return mainMenu;
-	}
 
 	/**
 	 * <!--Accessor method.-->
