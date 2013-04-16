@@ -82,38 +82,7 @@ public class Test {
             return "\nTestGameInitialization PASSED.";
             } 
     }   
-    public String testJumpMove(){
-        try{
-            start = new Location(1,5);
-            end = new Location(2,4);
-            playerOne.setStart(start);
-            playerOne.setEnd(end);
-            playerOne.makeCurrentMove();
-            board.printArray();
-            playerTwoHuman.setStart(new Location(4,2));
-            playerTwoHuman.setEnd(new Location(3,3));
-            playerTwoHuman.makeCurrentMove();
-            board.printArray();
-            playerOne.setStart(end);
-            playerOne.setEnd(new Location(4,2));
-            playerOne.makeCurrentMove();
-            board.printArray();
-            if (playerTwoHuman.getPieces().length != 11){
-                passed = false;
-                return "\nTestJumpMove FAILED, jumped piece was not removed from the board.";
-            }else if(board.getArray()[2][4] != null){
-                passed = false;
-                return "\nTestJumpMove FAILED, the jump was not performed.";
-            }
-            else{                
-            return "\nTestJumpMove PASSED.";
-            }
-        }    
-        catch(OutOfBoundsException oobe){
-            passed = false;
-            return "\nTestJumpMove FAILED, Locations improperly set.";
-            }
-    }
+
     public static void main(String[] args){
         Test test = new Test();
     }
